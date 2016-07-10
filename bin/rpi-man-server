@@ -1,4 +1,13 @@
 #!/bin/sh
+### BEGIN INIT INFO
+# Provides: rpi-man
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start rpi-man daemon at boot time
+# Description:       Enable service provided by rpi-man.
+### END INIT INFO
 
 name="rpi-man-server"
 pid_file=".pid"

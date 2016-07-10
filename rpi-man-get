@@ -3,6 +3,7 @@
 name="rpi-man-get"
 path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 bin_path="/usr/local/bin"
+init_d_path="/etc/init.d"
 
 install()
 {
@@ -10,6 +11,8 @@ install()
     install_dependencies
     echo "Make rpi-man-server as global command..."
     ln -s $path/bin/rpi-man-server $bin_path
+    echo "Make rpi-man-server run at startup..."
+    ln -s $path/bin/rpi-man-server $init_d_path
     echo "rpi-man is now installed on your Raspberry PI."
     echo "Type 'sudo rpi-man-server start' to start."
 }
@@ -26,8 +29,9 @@ uninstall()
         rpi-man-server stop
     fi
     echo "Uninstalling rpi-man..."
-    echo "Removing rpi-man-server from global commands..."
+    echo "Removing rpi-man-server from global commands and startup..."
     rm $bin_path/rpi-man-server
+    rm $init_d_path/rpi-man-server
     echo "Now it is safe to remove rpi-man by delete this folder."
     echo "See you next time ;)"
 }
