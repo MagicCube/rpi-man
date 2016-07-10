@@ -1,8 +1,6 @@
 #!/bin/sh
 
-set -e
-
-name=basename $0
+name="rpi-man-server"
 pid_file=".pid"
 
 start()

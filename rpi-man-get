@@ -1,6 +1,6 @@
 #!/bin/sh
 
-name=basename $0
+name="rpi-man-get"
 path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 bin_path="/usr/local/bin"
 
