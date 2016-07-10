@@ -1,12 +1,13 @@
 #!/bin/sh
 
-pid_file=".pid"
-
 set -e
+
+name=basename $0
+pid_file=".pid"
 
 start()
 {
-    echo "Starting rpi-man-server..."
+    echo "Starting $name..."
     ./bin/www &
     echo $! > $pid_file
     if is_running; then
@@ -19,11 +20,11 @@ start()
 
 stop()
 {
-    echo "Stopping rpi-man-server..."
+    echo "Stopping $name..."
     kill `get_pid`
     if ! is_running; then
         rm $pid_file
-        echo "rpi-man-server is now stopped."
+        echo "$name is now stopped."
         return 0
     else
         echo "ERROR: Unable to stop server."
@@ -48,7 +49,7 @@ case $1 in
         if ! is_running; then
             start
         else
-            echo "rpi-man-server is already started."
+            echo "$name is already started."
             exit 0
         fi
         ;;
@@ -56,7 +57,7 @@ case $1 in
         if is_running; then
             stop
         else
-            echo "rpi-man-server is already stopped."
+            echo "$name is already stopped."
             echo "Use killall node if you want to kill all node processes."
             exit 0
         fi
@@ -70,14 +71,14 @@ case $1 in
         ;;
     status)
         if is_running; then
-            echo "Running"
+            echo "$name is running."
         else
-            echo "Stopped"
+            echo "$name is stopped."
             exit 1
         fi
         ;;
     *)
-        echo "Usage: $0 {start|stop|restart|status}"
+        echo "Usage: $name {start|stop|restart|status}"
         exit 1
         ;;
 esac

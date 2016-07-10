@@ -1,5 +1,6 @@
 #!/bin/sh
 
+name=basename $0
 path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 bin_path="/usr/local/bin"
 
@@ -21,7 +22,9 @@ install_dependencies()
 
 uninstall()
 {
-    rpi-man-server stop
+    if rpi-man-server status; then
+        rpi-man-server stop
+    fi
     echo "Uninstalling rpi-man..."
     echo "Removing rpi-man-server from global commands..."
     rm $bin_path/rpi-man-server
@@ -31,11 +34,21 @@ uninstall()
 
 upgrade()
 {
-    rpi-man-server stop
+    is_running=0
+    if rpi-man-server status; then
+        echo "$name detects that rpi-man-server is now running."
+        is_running=1
+        rpi-man-server stop
+        echo "$name will restart rpi-man-server immediately after upgrade completes."
+    fi
     echo "Upgrading rpi-man..."
     echo "Pulling the latest rpi-man from Github..."
     git pull origin master
     install_dependencies
+    if [ $is_running = 1 ]; then
+        rpi-man-server start
+    fi
+    echo "rpi-man is now up-to-date."
 }
 
 
@@ -54,7 +67,7 @@ case $1 in
         upgrade
         ;;
     *)
-        echo "Usage: $0 {install|uninstall|upgrade}"
+        echo "Usage: $name {install|uninstall|upgrade}"
         ;;
 esac
 
