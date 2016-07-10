@@ -1,4 +1,4 @@
-# rpi-web-man
+# rpi-man
 A web-based management tool for Raspberry PI / Raspbian.
 
 YES, indeed it is powered by `Node.js v6` on `Raspberry PI 3`.
@@ -42,14 +42,14 @@ YES, indeed it is powered by `Node.js v6` on `Raspberry PI 3`.
 
 ```shell
 cd /opt
-sudo git clone https://github.com/MagicCube/rpi-web-man.git
+sudo git clone https://github.com/MagicCube/rpi-man.git
 ```
 
 ### 3.2 Install
 
 ```shell
-$ cd rpi-web-man
-$ sudo ./rpi-web-man-server install
+$ cd rpi-man
+$ sudo ./rpi-man-get install
 ```
 
 ### 3.3 Automatically Run at Startup
@@ -61,10 +61,10 @@ It's easy to make a node program run automatically as a service at startup. Give
 Don't like it any more?
 
 ```
-$ sudo ./rpi-web-man-server uninstall
+$ sudo ./rpi-man-get uninstall
 ```
 
-Then simply remove  `rpi-web-man` by delete the project folder.
+Then simply remove  `rpi-man` by delete the project folder.
 
 ###
 
@@ -73,15 +73,17 @@ Then simply remove  `rpi-web-man` by delete the project folder.
 After a new version comes out, you can simply use the following command to upgrade your `rbi-web-man`.
 
 ```shell
-$ sudo ./rpi-web-man-server upgrade
+$ sudo ./rpi-man-get upgrade
 ```
 
 ## 4. How to Run
 
+After installation, `rpi-man-server` will become a global command. You can execute it anywhere.
+
 ### Start service
 
 ```
-$ sudo ./rpi-web-man-server start
+$ sudo rpi-man-server start
 ```
 
 Open your browser, and open "[http://your-raspberry-pi:3000/](http://your-raspberry-pi:3000/)".
@@ -89,11 +91,11 @@ Open your browser, and open "[http://your-raspberry-pi:3000/](http://your-raspbe
 ### Stop service
 
 ```
-$ sudo ./rpi-web-man-server stop
+$ sudo rpi-man-server stop
 ```
 
 ### Restart service
 
 ```
-$ sudo ./rpi-web-man-server restart
+$ sudo rpi-man-server stop
 ```

@@ -1,0 +1,59 @@
+#!/bin/sh
+
+path="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+bin_path="/usr/local/bin"
+
+install()
+{
+    echo "Installing rpi-man..."
+    install_dependencies
+    echo "Make rpi-man-server as global command..."
+    ln -s $path/bin/rpi-man-server $bin_path
+    echo "rpi-man is now installed on your Raspberry PI."
+    echo "Type 'sudo rpi-man-server start' to start."
+}
+
+install_dependencies()
+{
+    echo "Installing dependencies..."
+    npm install
+}
+
+uninstall()
+{
+    echo "Uninstalling rpi-man..."
+    echo "Removing rpi-man-server from global commands..."
+    rm $bin_path/rpi-man-server
+    echo "Now it is safe to remove rpi-man by delete this folder."
+    echo "See you next time ;)"
+}
+
+upgrade()
+{
+    echo "Upgrading rpi-man..."
+    echo "Pulling the latest rpi-man from Github..."
+    git pull origin master
+    install_dependencies
+}
+
+
+
+
+
+
+case $1 in
+    install)
+        install
+        ;;
+    uninstall)
+        uninstall
+        ;;
+    upgrade)
+        upgrade
+        ;;
+    *)
+        echo "Usage: $0 {install|uninstall|upgrade}"
+        ;;
+esac
+
+exit 0

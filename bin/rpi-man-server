@@ -1,43 +1,10 @@
-#!/bin/sh
-
-
 pid_file=".pid"
 
-
-install()
-{
-    echo "Installing rpi-web-man..."
-    install_dependencies
-    echo "rpi-web-man is now installed on your Raspberry PI."
-    echo "Type 'sudo ./rpi-web-man start' to start."
-}
-
-install_dependencies()
-{
-    echo "Installing dependencies..."
-    npm install
-}
-
-uninstall()
-{
-    echo "Uninstalling rpi-web-man..."
-    echo "Now it is safe to remove rpi-web-man by delete this folder."
-    echo "See you next time ;)"
-}
-
-upgrade()
-{
-    echo "Upgrading rpi-web-man..."
-    echo "Pulling the latest rpi-web-man from Github..."
-    git pull origin master
-    install_dependencies
-}
-
-
+set -e
 
 start()
 {
-    echo "Starting rpi-web-man-server..."
+    echo "Starting rpi-man-server..."
     ./bin/www &
     echo $! > $pid_file
     if is_running; then
@@ -50,11 +17,11 @@ start()
 
 stop()
 {
-    echo "Stopping rpi-web-man-server..."
+    echo "Stopping rpi-man-server..."
     kill `get_pid`
     if ! is_running; then
         rm $pid_file
-        echo "rpi-web-man-server is now stopped."
+        echo "rpi-man-server is now stopped."
         return 0
     else
         echo "ERROR: Unable to stop server."
@@ -75,20 +42,11 @@ is_running()
 
 
 case $1 in
-    install)
-        install
-        ;;
-    uninstall)
-        uninstall
-        ;;
-    upgrade)
-        upgrade
-        ;;
     start)
         if ! is_running; then
             start
         else
-            echo "rpi-web-man-server is already started."
+            echo "rpi-man-server is already started."
             exit 0
         fi
         ;;
@@ -96,7 +54,7 @@ case $1 in
         if is_running; then
             stop
         else
-            echo "rpi-web-man-server is already stopped."
+            echo "rpi-man-server is already stopped."
             echo "Use killall node if you want to kill all node processes."
             exit 0
         fi
@@ -117,7 +75,7 @@ case $1 in
         fi
         ;;
     *)
-        echo "Usage: $0 {install|uninstall|upgrade|start|stop|restart|status}"
+        echo "Usage: $0 {start|stop|restart|status}"
         exit 1
         ;;
 esac
