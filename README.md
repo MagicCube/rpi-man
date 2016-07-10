@@ -40,7 +40,8 @@ YES, indeed it is powered by `Node.js v6` on `Raspberry PI 3`.
 ### 3.1 Clone to your Raspberry PI
 
 ```shell
-git clone https://github.com/MagicCube/rpi-web-man.git
+cd /opt
+sudo git clone https://github.com/MagicCube/rpi-web-man.git
 ```
 
 ### 3.2 Install
@@ -56,9 +57,9 @@ It's easy to make a node program run automatically as a service at startup. Give
 
 ### 3.4 Uninstall
 
-Don't like it any more? Simply remove  `rbi-web-man` by delete the project folder.
+Don't like it any more? Simply remove  `rpi-web-man` by delete the project folder.
 
-### 
+###
 
 ## 3. How to Upgrade
 
@@ -67,4 +68,11 @@ After a new version comes out, you can simply use the following command to upgra
 ```shell
 $ cd rpi-web-man
 $ ./upgrade.sh
+```
+
+## 4. How to Run
+
+```
+$ cd rpi-web-man
+$ ./run.sh
 ```
