@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Raspberry PI Manager</title>
+</head>
+<body>
+    <h1 id="rpi-man">rpi-man</h1>
+    <p>A web-based management tool for Raspberry PI / Raspbian.</p>
+    <p>YES, indeed it is powered by <code>Node.js v6</code> on <code>Raspberry PI 3</code>.</p>
+    <blockquote>
+    <p> This project is inspired by <a href="https://github.com/vaslabs">vaslabs&#39;s</a> <a href="https://github.com/vaslabs/pi-web-agent/wiki/A-web-application-agent-for-the-Raspberry-Pi">pi-web-agent</a> which is unfortunately not working for my Raspberry PI (I still don&#39;t know why...)</p>
+    </blockquote>
+    <h2 id="1-features">1. Features</h2>
+    <ul>
+    <li>A web-based management tool for Raspberry PI. You can treat it like the web interface to the routers.</li>
+    <li>Modern user interface.</li>
+    <li>You can easily use it to<ul>
+    <li>Monitor CPU &amp; memory usage / CPU temperature</li>
+    <li>Start / stop / restart services</li>
+    <li>Web-based terminal</li>
+    <li>Reboot</li>
+    </ul>
+    </li>
+    <li>It also provide RESTful APIs for the further integrations.</li>
+    </ul>
+    <h2 id="2-reuqirements">2. Reuqirements</h2>
+    <h3 id="2-1-equipment">2.1 Equipment</h3>
+    <ul>
+    <li><a href="https://www.raspberrypi.org/products/raspberry-pi-3-model-b/"><strong>Raspberry PI 3 Model B</strong></a> with the latest <strong>Raspbian OS</strong> installed</li>
+    <li><p><strong>Node.js v6.0</strong></p>
+    <ul>
+    <li><p>By default Node.js v0.x is installed in the Raspbian, you need to uninstall it first if you want to have a try of this project.</p>
+    <pre class="editor-colors lang-shell"><div class="line"><span class="source shell"><span>$&nbsp;sudo&nbsp;apt-get&nbsp;uninstall&nbsp;nodejs</span></span></div></pre>
+    </li>
+    </ul>
+    </li>
+    <li><p>One more thing, you need to run it as root user, or at least sudoer.</p>
+    <ul>
+    <li><p>Follow this <a href="https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions">instruction</a> to install Node.js v6.x on your Raspbian.</p>
+    <p>​</p>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    <h2 id="3-how-to-install">3. How to Install</h2>
+    <h3 id="3-1-clone-to-your-raspberry-pi">3.1 Clone to your Raspberry PI</h3>
+    <pre class="editor-colors lang-shell"><div class="line"><span class="source shell"><span class="support function builtin shell"><span>cd</span></span><span>&nbsp;/opt</span></span></div><div class="line"><span class="source shell"><span>sudo&nbsp;git&nbsp;clone&nbsp;https://github.com/MagicCube/rpi-man.git</span></span></div></pre>
+    <h3 id="3-2-install">3.2 Install</h3>
+    <pre class="editor-colors lang-shell"><div class="line"><span class="source shell"><span>$&nbsp;</span><span class="support function builtin shell"><span>cd</span></span><span>&nbsp;rpi-man</span></span></div><div class="line"><span class="source shell"><span>$&nbsp;sudo&nbsp;./rpi-man-get&nbsp;install</span></span></div></pre>
+    <h3 id="3-3-automatically-run-at-startup">3.3 Automatically Run at Startup</h3>
+    <p>It&#39;s easy to make a node program run automatically as a service at startup. Give me somtime, I&#39;ll let you know how, or you can just google it. It&#39;s on my <strong>TODOLIST</strong> already.</p>
+    <h3 id="3-4-uninstall">3.4 Uninstall</h3>
+    <p>Don&#39;t like it any more?</p>
+    <pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>$&nbsp;sudo&nbsp;./rpi-man-get&nbsp;uninstall</span></span></span></div></pre><p>Then simply remove  <code>rpi-man</code> by delete the project folder.</p>
+    <p>###</p>
+    <h2 id="3-how-to-upgrade">3. How to Upgrade</h2>
+    <p>After a new version comes out, you can simply use the following command to upgrade your <code>rbi-web-man</code>.</p>
+    <pre class="editor-colors lang-shell"><div class="line"><span class="source shell"><span>$&nbsp;sudo&nbsp;./rpi-man-get&nbsp;upgrade</span></span></div></pre>
+    <h2 id="4-how-to-run">4. How to Run</h2>
+    <p>After installation, <code>rpi-man-server</code> will become a global command. You can execute it anywhere.</p>
+    <h3 id="start-service">Start service</h3>
+    <pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>$&nbsp;sudo&nbsp;rpi-man-server&nbsp;start</span></span></span></div></pre><p>Open your browser, and open &quot;<a href="http://your-raspberry-pi:3000/">http://your-raspberry-pi:3000/</a>&quot;.</p>
+    <h3 id="stop-service">Stop service</h3>
+    <pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>$&nbsp;sudo&nbsp;rpi-man-server&nbsp;stop</span></span></span></div></pre><h3 id="restart-service">Restart service</h3>
+    <pre class="editor-colors lang-text"><div class="line"><span class="text plain"><span class="meta paragraph text"><span>$&nbsp;sudo&nbsp;rpi-man-server&nbsp;stop</span></span></span></div></pre>
+</body>
+</html>
