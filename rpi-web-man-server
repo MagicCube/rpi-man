@@ -1,0 +1,125 @@
+#!/bin/sh
+
+
+pid_file=".pid"
+
+
+install()
+{
+    echo "Installing rpi-web-man..."
+    install_dependencies
+    echo "rpi-web-man is now installed on your Raspberry PI."
+    echo "Type 'sudo ./rpi-web-man start' to start."
+}
+
+install_dependencies()
+{
+    echo "Installing dependencies..."
+    npm install
+}
+
+uninstall()
+{
+    echo "Uninstalling rpi-web-man..."
+    echo "Now it is safe to remove rpi-web-man by delete this folder."
+    echo "See you next time ;)"
+}
+
+upgrade()
+{
+    echo "Upgrading rpi-web-man..."
+    echo "Pulling the latest rpi-web-man from Github..."
+    git pull origin master
+    install_dependencies
+}
+
+
+
+start()
+{
+    echo "Starting rpi-web-man-server..."
+    ./bin/www &
+    echo $! > $pid_file
+    if is_running; then
+        return 0
+    else
+        echo "ERROR: Unable to start server."
+        return 1
+    fi
+}
+
+stop()
+{
+    echo "Stopping rpi-web-man-server..."
+    kill `get_pid`
+    if ! is_running; then
+        rm $pid_file
+        echo "rpi-web-man-server is now stopped."
+        return 0
+    else
+        echo "ERROR: Unable to stop server."
+        return 1
+    fi
+}
+
+
+get_pid()
+{
+    cat $pid_file
+}
+
+is_running()
+{
+    [ -f "$pid_file" ] && ps `get_pid` > /dev/null 2>&1
+}
+
+
+case $1 in
+    install)
+        install
+        ;;
+    uninstall)
+        uninstall
+        ;;
+    upgrade)
+        upgrade
+        ;;
+    start)
+        if ! is_running; then
+            start
+        else
+            echo "rpi-web-man-server is already started."
+            exit 0
+        fi
+        ;;
+    stop)
+        if is_running; then
+            stop
+        else
+            echo "rpi-web-man-server is already stopped."
+            echo "Use killall node if you want to kill all node processes."
+            exit 0
+        fi
+        ;;
+    restart)
+        if is_running; then
+            stop
+        fi
+        sleep 1
+        start
+        ;;
+    status)
+        if is_running; then
+            echo "Running"
+        else
+            echo "Stopped"
+            exit 1
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {install|uninstall|upgrade|start|stop|restart|status}"
+        exit 1
+        ;;
+esac
+
+exit 0

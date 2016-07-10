@@ -1,1 +1,0 @@
-./bin/rpi-web-man

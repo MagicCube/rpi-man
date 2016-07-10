@@ -49,7 +49,7 @@ sudo git clone https://github.com/MagicCube/rpi-web-man.git
 
 ```shell
 $ cd rpi-web-man
-$ sudo ./install.sh
+$ sudo ./rpi-web-man-server install
 ```
 
 ### 3.3 Automatically Run at Startup
@@ -58,7 +58,13 @@ It's easy to make a node program run automatically as a service at startup. Give
 
 ### 3.4 Uninstall
 
-Don't like it any more? Simply remove  `rpi-web-man` by delete the project folder.
+Don't like it any more?
+
+```
+$ sudo ./rpi-web-man-server uninstall
+```
+
+Then simply remove  `rpi-web-man` by delete the project folder.
 
 ###
 
@@ -67,13 +73,27 @@ Don't like it any more? Simply remove  `rpi-web-man` by delete the project folde
 After a new version comes out, you can simply use the following command to upgrade your `rbi-web-man`.
 
 ```shell
-$ cd rpi-web-man
-$ sudo ./upgrade.sh
+$ sudo ./rpi-web-man-server upgrade
 ```
 
 ## 4. How to Run
 
+### Start service
+
 ```
-$ cd rpi-web-man
-$ sudo ./run.sh
+$ sudo ./rpi-web-man-server start
+```
+
+Open your browser, and open "[http://your-raspberry-pi:3000/](http://your-raspberry-pi:3000/)".
+
+### Stop service
+
+```
+$ sudo ./rpi-web-man-server stop
+```
+
+### Restart service
+
+```
+$ sudo ./rpi-web-man-server restart
 ```
