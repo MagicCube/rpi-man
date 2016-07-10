@@ -1,0 +1,24 @@
+{
+  "name": "rpi-web-man",
+  "version": "1.0.0",
+  "description": "A web-based management tool for Raspberry PI / Raspbian.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MagicCube/rpi-web-man.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MagicCube/rpi-web-man/issues"
+  },
+  "homepage": "https://github.com/MagicCube/rpi-web-man#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0"
+  }
+}
