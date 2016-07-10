@@ -6,7 +6,7 @@ pid_file=".pid"
 start()
 {
     echo "Starting $name..."
-    ./bin/www &
+    PORT=80 ./bin/www &
     echo $! > $pid_file
     if is_running; then
         return 0
