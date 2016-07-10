@@ -29,6 +29,7 @@ YES, indeed it is powered by `Node.js v6` on `Raspberry PI 3`.
     ```shell
     $ sudo apt-get uninstall nodejs
     ```
+* One more thing, you need to run it as root user, or at least sudoer.
 
   + Follow this [instruction](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions) to install Node.js v6.x on your Raspbian.
 
@@ -48,7 +49,7 @@ sudo git clone https://github.com/MagicCube/rpi-web-man.git
 
 ```shell
 $ cd rpi-web-man
-$ ./install.sh
+$ sudo ./install.sh
 ```
 
 ### 3.3 Automatically Run at Startup
@@ -67,12 +68,12 @@ After a new version comes out, you can simply use the following command to upgra
 
 ```shell
 $ cd rpi-web-man
-$ ./upgrade.sh
+$ sudo ./upgrade.sh
 ```
 
 ## 4. How to Run
 
 ```
 $ cd rpi-web-man
-$ ./run.sh
+$ sudo ./run.sh
 ```
