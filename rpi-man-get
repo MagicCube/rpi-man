@@ -21,6 +21,7 @@ install_dependencies()
 
 uninstall()
 {
+    rpi-man-server stop
     echo "Uninstalling rpi-man..."
     echo "Removing rpi-man-server from global commands..."
     rm $bin_path/rpi-man-server
@@ -30,6 +31,7 @@ uninstall()
 
 upgrade()
 {
+    rpi-man-server stop
     echo "Upgrading rpi-man..."
     echo "Pulling the latest rpi-man from Github..."
     git pull origin master
