@@ -6,13 +6,12 @@
     <script src="/socket.io/socket.io.js" charset="utf-8"></script>
 </head>
 <body>
+    <h1>Welcome</h1>
+    <p>Raspberry PI Manager(AKA rpi-man) is a web-based management tool for Raspberry PI / Raspbian.</p>
+    <h2>Menu</h2>
+    <ul>
+        <li><a href="/api/sys/info">System information</a></li>
+        <li><a href="/terminal">Terminal</a></li>
+    </ul>
 </body>
-<script>
-var socket = io();
-socket.on("message", function(data) {
-    document.write(`<div class="message">
-        Server: [${data.status}] ${data.content.text}
-    </div>`);
-});
-</script>
 </html>
