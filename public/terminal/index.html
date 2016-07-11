@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Terminal - Raspberry PI Manager</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="assets/term/bundle.js"></script>
+</head>
+<body style="background: black;">
+</body>
+<script>
+window.onload = function() {
+    const socket = io.connect();
+    socket.on("connect", () => {
+        const term = new Terminal({
+            cols: 80,
+            rows: 24,
+            useStyle: true,
+            screenKeys: true,
+            cursorBlink: false
+        });
+        term.on("data", clientData => {
+            socket.emit("rpiman.terminal.client.data", clientData);
+        });
+        term.open(document.body);
+        term.write('\x1b[31mWelcome to term.js!\x1b[m\r\n');
+        socket.on("rpiman.terminal.server.data", serverData => {
+            term.write(serverData);
+        });
+        socket.on("disconnect", function() {
+            term.destroy();
+        });
+    });
+};
+</script>
+</html>
