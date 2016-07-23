@@ -45,10 +45,8 @@ export default class ManagedObject
 
     trigger(type, parameters = {})
     {
-        const event = {
-            type,
-            parameters
-        };
-        this.eventEmitter.trigger(type, [ event ]);
+        parameters.type = type;
+        parameters.target = this;
+        this.eventEmitter.trigger(type, [ parameters ]);
     }
 }

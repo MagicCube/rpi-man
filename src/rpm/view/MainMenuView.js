@@ -43,9 +43,9 @@ export default class MainMenuView extends View
     _initInfoGroup()
     {
         this._$group(
-            "Machine Info",
+            "System info",
             [
-                this._$cell("Hostname", $(`<div id="hostname"></div>`))
+                this._$cell("Host name", $(`<div id="hostname"></div>`))
             ]
         );
     }
@@ -61,6 +61,17 @@ export default class MainMenuView extends View
                 this._$checkBoxCell("Xware", "xware")
             ]
         ).addClass("weui_cells_form");
+        this.$serviceGroup.on("change", ".weui_switch", e => {
+            const active = e.currentTarget.checked
+            this.trigger("serviceStatusChanging", {
+                service: {
+                    name: e.currentTarget.id,
+                    status: {
+                        active: e.currentTarget.checked
+                    }
+                }
+            });
+        });
     }
 
     _renderServices()
@@ -69,7 +80,7 @@ export default class MainMenuView extends View
         {
             for (let name in this._services)
             {
-                this.$("input#" + name).attr("checked", this._services[name].active);
+                this.$("input.weui_switch#" + name).attr("checked", this._services[name].active);
             }
         }
     }

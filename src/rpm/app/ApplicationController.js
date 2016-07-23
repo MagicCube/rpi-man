@@ -38,6 +38,7 @@ export default class ApplicationController extends NJUApplicationController
     initView()
     {
         this.mainMenuView = this.view.mainMenuView;
+        this.mainMenuView.on("serviceStatusChanging", this._serviceStatusChanging.bind(this));
     }
 
     async run()
@@ -47,6 +48,16 @@ export default class ApplicationController extends NJUApplicationController
         });
         this.services = await $.ajax({
             url: "/api/service"
+        });
+    }
+
+
+
+    async _serviceStatusChanging(e)
+    {
+        await $.ajax({
+            method: "post",
+            url: `/api/service/${e.service.name}/${e.service.status.active ? "start" : "stop"}`
         });
     }
 }
