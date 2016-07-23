@@ -9,6 +9,8 @@
 # Description:       Enable service provided by rpi-man.
 ### END INIT INFO
 
+cd /opt/rpi-man
+
 name="rpi-man-server"
 pid_file=".pid"
 
