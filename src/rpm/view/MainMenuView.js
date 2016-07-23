@@ -56,7 +56,6 @@ export default class MainMenuView extends View
             "Services",
             [
                 this._$checkBoxCell("Bluetooth", "bluetooth"),
-                this._$checkBoxCell("SSH", "ssh"),
                 this._$checkBoxCell("VNC", "vnc"),
                 this._$checkBoxCell("Xware", "xware")
             ]
