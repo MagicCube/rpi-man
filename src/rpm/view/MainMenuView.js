@@ -35,7 +35,7 @@ export default class MainMenuView extends View
     set services(value)
     {
         this._services = value;
-        console.log(this.services);
+        this._renderServices();
     }
 
 
@@ -52,7 +52,7 @@ export default class MainMenuView extends View
 
     _initServiceGroup()
     {
-        this._$group(
+        this.$serviceGroup = this._$group(
             "Services",
             [
                 this._$checkBoxCell("Bluetooth", "bluetooth"),
@@ -62,6 +62,19 @@ export default class MainMenuView extends View
             ]
         ).addClass("weui_cells_form");
     }
+
+    _renderServices()
+    {
+        if (this._services)
+        {
+            for (let name in this._services)
+            {
+                this.$("input#" + name).attr("checked", this._services[name].active);
+            }
+        }
+    }
+
+
 
     _$group(title, $childCells)
     {

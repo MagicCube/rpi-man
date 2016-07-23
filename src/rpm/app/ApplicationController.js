@@ -16,6 +16,7 @@ export default class ApplicationController extends NJUApplicationController
     set sysInfo(value)
     {
         this._sysInfo = value;
+        document.title = this.sysInfo.hostname + " - Raspberry PI Manager";
         this.mainMenuView.sysInfo = this.sysInfo;
     }
 
