@@ -20,7 +20,7 @@ install()
 install_dependencies()
 {
     echo "Installing dependencies..."
-    npm install
+    npm install --production
 }
 
 uninstall()
