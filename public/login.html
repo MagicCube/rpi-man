@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>Login - Raspberry PI Manager</title>
+    <link rel="stylesheet" href="assets/rpm/resource/bundle.css" charset="utf-8">
+</head>
+<body>
+
+<form method="post" action="/login">
+    <div class="nju-app rpm-app">
+        <header><h1>Raspberry PI</h1></header>
+        <main>
+            <div class="rpm-main-menu-view">
+                <div class="group">
+                    <div class="weui_cells">
+
+                        <div class="weui_cell">
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <p>User name</p>
+                            </div>
+                            <div class="weui_cell_ft">
+                                <input type="text" name="username" class="weui_input" placeholder="Input name here" />
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <p>Password</p>
+                            </div>
+                            <div class="weui_cell_ft">
+                                <input type="password" name="password" class="weui_input" placeholder="Input password here" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui_btn_area">
+                    <a class="weui_btn weui_btn_primary" href="javascript:document.forms[0].submit()" id="showTooltips">Login</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</form>
+
+</body>
+</html>

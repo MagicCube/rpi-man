@@ -20,9 +20,11 @@
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
+    "express-session": "^1.14.0",
     "os-utils": "0.0.14",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0",
     "pty.js": "^0.3.1",
     "socket.io": "^1.4.8"
   },
