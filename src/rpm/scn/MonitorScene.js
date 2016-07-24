@@ -79,14 +79,13 @@ export default class MonitorScene extends Scene
             yMinFormatter: y => parseInt(y) + "%",
             yMaxFormatter: y => parseInt(y) + "%",
             yRangeFunction: range => {
-                if (range.max > 100)
+                if (range.max > 50)
                 {
                     range.max = 100;
                 }
-                range.max = parseInt(range.max / 10) * 10;
-                if (range.max <= 10)
+                else
                 {
-                    range.max = 10;
+                    range.max = 50;
                 }
                 return range;
             },

@@ -5629,12 +5629,10 @@ webpackJsonp([0],[
 	                    return parseInt(y) + "%";
 	                },
 	                yRangeFunction: function yRangeFunction(range) {
-	                    if (range.max > 100) {
+	                    if (range.max > 50) {
 	                        range.max = 100;
-	                    }
-	                    range.max = parseInt(range.max / 10) * 10;
-	                    if (range.max <= 10) {
-	                        range.max = 10;
+	                    } else {
+	                        range.max = 50;
 	                    }
 	                    return range;
 	                },
