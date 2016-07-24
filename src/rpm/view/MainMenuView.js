@@ -35,7 +35,7 @@ export default class MainMenuView extends View
     set services(value)
     {
         this._services = value;
-        this._renderServices();
+        this.renderServices();
     }
 
 
@@ -73,13 +73,13 @@ export default class MainMenuView extends View
         });
     }
 
-    _renderServices()
+    renderServices()
     {
-        if (this._services)
+        if (this.services)
         {
-            for (let name in this._services)
+            for (let name in this.services)
             {
-                this.$("input.weui_switch#" + name).attr("checked", this._services[name].active);
+                this.$("input.weui_switch#" + name)[0].checked = this.services[name].active;
             }
         }
     }

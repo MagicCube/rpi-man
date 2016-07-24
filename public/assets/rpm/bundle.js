@@ -114,18 +114,21 @@ webpackJsonp([0],[
 	                    while (1) {
 	                        switch (_context.prev = _context.next) {
 	                            case 0:
-	                                _context.next = 2;
+	                                this.view.showLoading();
+	                                _context.next = 3;
 	                                return _api2.default.sys.info();
 
-	                            case 2:
+	                            case 3:
 	                                this.sysInfo = _context.sent;
-	                                _context.next = 5;
+	                                _context.next = 6;
 	                                return _api2.default.service.all();
 
-	                            case 5:
+	                            case 6:
 	                                this.services = _context.sent;
 
-	                            case 6:
+	                                this.view.hideLoading();
+
+	                            case 8:
 	                            case "end":
 	                                return _context.stop();
 	                        }
@@ -148,29 +151,34 @@ webpackJsonp([0],[
 	                    while (1) {
 	                        switch (_context2.prev = _context2.next) {
 	                            case 0:
-	                                _context2.prev = 0;
-	                                _context2.next = 3;
+	                                this.view.showMask();
+	                                _context2.prev = 1;
+	                                _context2.next = 4;
 	                                return _api2.default.service.toggle(e.service.name, e.service.status.active);
 
-	                            case 3:
+	                            case 4:
 	                                result = _context2.sent;
 
-	                                console.log(result);
-	                                _context2.next = 10;
+	                                this.view.showToast("Service " + (e.service.status.active ? "started" : "stopped"));
+	                                _context2.next = 15;
 	                                break;
 
-	                            case 7:
-	                                _context2.prev = 7;
-	                                _context2.t0 = _context2["catch"](0);
+	                            case 8:
+	                                _context2.prev = 8;
+	                                _context2.t0 = _context2["catch"](1);
 
 	                                console.error(_context2.t0);
+	                                alert("Sorry, can not " + (e.service.status.active ? "start" : "stop") + " service.");
+	                                this.services[e.service.name].active = !e.service.status.active;
+	                                this.mainMenuView.renderServices();
+	                                this.view.hideMask();
 
-	                            case 10:
+	                            case 15:
 	                            case "end":
 	                                return _context2.stop();
 	                        }
 	                    }
-	                }, _callee2, this, [[0, 7]]);
+	                }, _callee2, this, [[1, 8]]);
 	            }));
 
 	            function _serviceStatusChanging(_x) {
@@ -4351,7 +4359,7 @@ webpackJsonp([0],[
 /* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	/* WEBPACK VAR INJECTION */(function($) {"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -4414,11 +4422,59 @@ webpackJsonp([0],[
 	            this.mainMenuView = new _MainMenuView2.default("main-menu");
 	            this.addSubview(this.mainMenuView, this.$element.children("main"));
 	        }
+	    }, {
+	        key: "showMask",
+	        value: function showMask() {
+	            if (!this.$mask) {
+	                this.$mask = $("<div class=\"weui_mask_transparent\">");
+	            }
+	            this.$element.append(this.$mask);
+	            this.$mask.show();
+	        }
+	    }, {
+	        key: "hideMask",
+	        value: function hideMask() {
+	            this.$mask.hide();
+	            this.$mask.remove();
+	        }
+	    }, {
+	        key: "showLoading",
+	        value: function showLoading() {
+	            var text = arguments.length <= 0 || arguments[0] === undefined ? "Loading" : arguments[0];
+
+	            this.showMask();
+	            this.$mask.addClass("weui_loading_toast");
+	            this.$mask.html("\n            <div class=\"weui_toast\">\n                <div class=\"weui_loading\">\n                    <div class=\"weui_loading_leaf weui_loading_leaf_0\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_1\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_2\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_3\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_4\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_5\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_6\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_7\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_8\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_9\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_10\"></div>\n                    <div class=\"weui_loading_leaf weui_loading_leaf_11\"></div>\n                </div>\n                <p class=\"weui_toast_content\">" + text + "</p>\n            </div>");
+	        }
+	    }, {
+	        key: "hideLoading",
+	        value: function hideLoading() {
+	            this.$mask.removeClass("weui_loading_toast");
+	            this.$mask.children().remove();
+	            this.hideMask();
+	        }
+	    }, {
+	        key: "showToast",
+	        value: function showToast() {
+	            var _this2 = this;
+
+	            var text = arguments.length <= 0 || arguments[0] === undefined ? "Success" : arguments[0];
+	            var duration = arguments.length <= 1 || arguments[1] === undefined ? 1000 : arguments[1];
+
+	            this.showMask();
+	            this.$mask.html("\n            <div class=\"weui_toast\">\n                <i class=\"weui_icon_toast\"></i>\n                <p class=\"weui_toast_content\">" + text + "</p>\n            </div>");
+
+	            setTimeout(function () {
+	                _this2.$mask.children().remove();
+	                _this2.hideMask();
+	            }, duration);
+	        }
 	    }]);
 	    return Application;
 	}(_Application2.default);
 
 	exports.default = Application;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
 /* 123 */
@@ -4496,11 +4552,11 @@ webpackJsonp([0],[
 	            });
 	        }
 	    }, {
-	        key: "_renderServices",
-	        value: function _renderServices() {
-	            if (this._services) {
-	                for (var name in this._services) {
-	                    this.$("input.weui_switch#" + name).attr("checked", this._services[name].active);
+	        key: "renderServices",
+	        value: function renderServices() {
+	            if (this.services) {
+	                for (var name in this.services) {
+	                    this.$("input.weui_switch#" + name)[0].checked = this.services[name].active;
 	                }
 	            }
 	        }
@@ -4563,7 +4619,7 @@ webpackJsonp([0],[
 	        },
 	        set: function set(value) {
 	            this._services = value;
-	            this._renderServices();
+	            this.renderServices();
 	        }
 	    }]);
 	    return MainMenuView;

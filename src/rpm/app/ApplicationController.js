@@ -45,20 +45,27 @@ export default class ApplicationController extends NJUApplicationController
 
     async run()
     {
+        this.view.showLoading();
         this.sysInfo = await api.sys.info();
         this.services = await api.service.all();
+        this.view.hideLoading();
     }
 
     async _serviceStatusChanging(e)
     {
+        this.view.showMask();
         try
         {
             const result = await api.service.toggle(e.service.name, e.service.status.active);
-            console.log(result);
+            this.view.showToast(`Service ${e.service.status.active ? "started" : "stopped"}`);
         }
         catch (err)
         {
             console.error(err);
+            alert(`Sorry, can not ${e.service.status.active ? "start" : "stop"} service.`);
+            this.services[e.service.name].active = !e.service.status.active;
+            this.mainMenuView.renderServices();
+            this.view.hideMask();
         }
     }
 }
