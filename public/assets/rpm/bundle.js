@@ -3,7 +3,7 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(2);
-	module.exports = __webpack_require__(125);
+	module.exports = __webpack_require__(131);
 
 
 /***/ },
@@ -76,9 +76,21 @@ webpackJsonp([0],[
 
 	var _Application2 = _interopRequireDefault(_Application);
 
-	var _api = __webpack_require__(124);
+	var _HomeSceneController = __webpack_require__(123);
+
+	var _HomeSceneController2 = _interopRequireDefault(_HomeSceneController);
+
+	var _MonitorSceneController = __webpack_require__(129);
+
+	var _MonitorSceneController2 = _interopRequireDefault(_MonitorSceneController);
+
+	var _api = __webpack_require__(127);
 
 	var _api2 = _interopRequireDefault(_api);
+
+	var _model = __webpack_require__(128);
+
+	var _model2 = _interopRequireDefault(_model);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -94,18 +106,16 @@ webpackJsonp([0],[
 	        key: "init",
 	        value: function init() {
 	            (0, _get3.default)(Object.getPrototypeOf(ApplicationController.prototype), "init", this).call(this);
+
+	            this._homeSceneController = new _HomeSceneController2.default();
+	            this._monitorSceneController = new _MonitorSceneController2.default();
+
+	            this._initHash();
 	        }
 	    }, {
 	        key: "createView",
 	        value: function createView(options) {
 	            return new _Application2.default();
-	        }
-	    }, {
-	        key: "initView",
-	        value: function initView() {
-	            this.mainMenuView = this.view.mainMenuView;
-	            this.view.on("powerAction", this._onPowerAction.bind(this));
-	            this.mainMenuView.on("serviceStatusChanging", this._onServiceStatusChanging.bind(this));
 	        }
 	    }, {
 	        key: "run",
@@ -116,20 +126,11 @@ webpackJsonp([0],[
 	                        switch (_context.prev = _context.next) {
 	                            case 0:
 	                                this.view.showLoading();
-	                                _context.next = 3;
-	                                return _api2.default.sys.info();
-
-	                            case 3:
-	                                this.sysInfo = _context.sent;
-	                                _context.next = 6;
-	                                return _api2.default.service.all();
-
-	                            case 6:
-	                                this.services = _context.sent;
-
+	                                _model2.default.load();
+	                                this.pushSceneController(this.homeSceneController, "/");
 	                                this.view.hideLoading();
 
-	                            case 8:
+	                            case 4:
 	                            case "end":
 	                                return _context.stop();
 	                        }
@@ -144,118 +145,86 @@ webpackJsonp([0],[
 	            return run;
 	        }()
 	    }, {
-	        key: "_onServiceStatusChanging",
-	        value: function () {
-	            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(e) {
-	                var result;
-	                return _regenerator2.default.wrap(function _callee2$(_context2) {
-	                    while (1) {
-	                        switch (_context2.prev = _context2.next) {
-	                            case 0:
-	                                this.view.showMask();
-	                                _context2.prev = 1;
-	                                _context2.next = 4;
-	                                return _api2.default.service.toggle(e.service.id, e.service.status.active);
-
-	                            case 4:
-	                                result = _context2.sent;
-
-	                                this.view.showToast(e.service.name + " " + (e.service.status.active ? "started" : "stopped"));
-	                                _context2.next = 15;
-	                                break;
-
-	                            case 8:
-	                                _context2.prev = 8;
-	                                _context2.t0 = _context2["catch"](1);
-
-	                                console.error(_context2.t0);
-	                                alert("Sorry, can not " + (e.service.status.active ? "start" : "stop") + " " + e.service.name + " service right now.");
-	                                this.services[e.service.id].active = !e.service.status.active;
-	                                this.mainMenuView.renderServices();
-	                                this.view.hideMask();
-
-	                            case 15:
-	                            case "end":
-	                                return _context2.stop();
-	                        }
-	                    }
-	                }, _callee2, this, [[1, 8]]);
-	            }));
-
-	            function _onServiceStatusChanging(_x) {
-	                return _ref2.apply(this, arguments);
+	        key: "pushSceneController",
+	        value: function pushSceneController(sceneController, path) {
+	            if (this.getHashPath() === path && path === "/") {} else {
+	                this.setHashPath(path);
 	            }
-
-	            return _onServiceStatusChanging;
-	        }()
-	    }, {
-	        key: "_onPowerAction",
-	        value: function () {
-	            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(e) {
-	                return _regenerator2.default.wrap(function _callee3$(_context3) {
-	                    while (1) {
-	                        switch (_context3.prev = _context3.next) {
-	                            case 0:
-	                                if (!(e.action === "shutdown")) {
-	                                    _context3.next = 6;
-	                                    break;
-	                                }
-
-	                                _context3.next = 3;
-	                                return _api2.default.sys.shutdown();
-
-	                            case 3:
-	                                this.view.showToast("Bye", -1);
-	                                _context3.next = 11;
-	                                break;
-
-	                            case 6:
-	                                if (!(e.action === "reboot")) {
-	                                    _context3.next = 11;
-	                                    break;
-	                                }
-
-	                                _context3.next = 9;
-	                                return _api2.default.sys.reboot();
-
-	                            case 9:
-	                                this.view.showLoading("Rebooting");
-	                                setTimeout(function () {
-	                                    window.location.reload(true);
-	                                }, 30 * 1000);
-
-	                            case 11:
-	                            case "end":
-	                                return _context3.stop();
-	                        }
-	                    }
-	                }, _callee3, this);
-	            }));
-
-	            function _onPowerAction(_x2) {
-	                return _ref3.apply(this, arguments);
-	            }
-
-	            return _onPowerAction;
-	        }()
-	    }, {
-	        key: "sysInfo",
-	        get: function get() {
-	            return this._sysInfo;
-	        },
-	        set: function set(value) {
-	            this._sysInfo = value;
-	            document.title = this.sysInfo.hostname + " - Raspberry PI Manager";
-	            this.mainMenuView.sysInfo = this.sysInfo;
+	            this.mapScene(path, sceneController);
+	            this.activateSceneController(sceneController);
 	        }
 	    }, {
-	        key: "services",
+	        key: "activateSceneController",
+	        value: function activateSceneController(sceneController) {
+	            if (this.activeSceneController === sceneController) {
+	                return;
+	            }
+	            if (this.activeSceneController) {
+	                this.activeSceneController.trigger("deactivating");
+	                this.view.removeSubview(this.activeSceneController.view);
+	                this.activeSceneController.trigger("deactivated");
+	                this._activeSceneController = null;
+	            }
+	            this._activeSceneController = sceneController;
+	            sceneController.parent = this;
+	            this.view.title = sceneController.title;
+	            this.activeSceneController.trigger("activating");
+	            this.view.addSubview(sceneController.view);
+	            this.activeSceneController.trigger("activated");
+	        }
+	    }, {
+	        key: "_initHash",
+	        value: function _initHash() {
+	            var _this2 = this;
+
+	            window.addEventListener("hashchange", function () {
+	                var path = _this2.getHashPath();
+	                if (_this2.sceneControllers[path]) {
+	                    _this2.activateSceneController(_this2.sceneControllers[path]);
+	                }
+	            });
+	        }
+	    }, {
+	        key: "getHashPath",
+	        value: function getHashPath() {
+	            if (location.hash === "" || location.hash === "#") {
+	                return "/";
+	            } else {
+	                return location.hash.substr(1);
+	            }
+	        }
+	    }, {
+	        key: "setHashPath",
+	        value: function setHashPath(path) {
+	            location.hash = path;
+	        }
+	    }, {
+	        key: "mapScene",
+	        value: function mapScene(path, sceneController) {
+	            this.sceneControllers[path] = sceneController;
+	        }
+	    }, {
+	        key: "sceneControllers",
 	        get: function get() {
-	            return this._services;
-	        },
-	        set: function set(value) {
-	            this._services = value;
-	            this.mainMenuView.services = this.services;
+	            if (!this._sceneControllers) {
+	                this._sceneControllers = {};
+	            }
+	            return this._sceneControllers;
+	        }
+	    }, {
+	        key: "activeSceneController",
+	        get: function get() {
+	            return this._activeSceneController;
+	        }
+	    }, {
+	        key: "homeSceneController",
+	        get: function get() {
+	            return this._homeSceneController;
+	        }
+	    }, {
+	        key: "monitorSceneController",
+	        get: function get() {
+	            return this._monitorSceneController;
 	        }
 	    }]);
 	    return ApplicationController;
@@ -3822,6 +3791,9 @@ webpackJsonp([0],[
 	        key: "parent",
 	        get: function get() {
 	            return this._parent;
+	        },
+	        set: function set(value) {
+	            this._parent = value;
 	        }
 	    }, {
 	        key: "eventEmitter",
@@ -4440,10 +4412,6 @@ webpackJsonp([0],[
 
 	var _Application2 = _interopRequireDefault(_Application);
 
-	var _MainMenuView = __webpack_require__(123);
-
-	var _MainMenuView2 = _interopRequireDefault(_MainMenuView);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Application = function (_NJUApplication) {
@@ -4460,23 +4428,12 @@ webpackJsonp([0],[
 	            (0, _get3.default)(Object.getPrototypeOf(Application.prototype), "init", this).call(this);
 	            this.addStyleClass("rpm-app");
 	            this._initLayout();
-	            this._initMainMenuView();
 	        }
 	    }, {
 	        key: "_initLayout",
 	        value: function _initLayout() {
 	            this.$element.append("\n            <header><h1>Raspberry PI</h1></header>\n            <main></main>");
-	        }
-	    }, {
-	        key: "_initMainMenuView",
-	        value: function _initMainMenuView() {
-	            var _this2 = this;
-
-	            this.mainMenuView = new _MainMenuView2.default("main-menu");
-	            this.mainMenuView.on("powerButtonClick", function () {
-	                _this2.showPowerActionSheet();
-	            });
-	            this.addSubview(this.mainMenuView, this.$element.children("main"));
+	            this.$container = this.$element.children("main");
 	        }
 	    }, {
 	        key: "showMask",
@@ -4512,7 +4469,7 @@ webpackJsonp([0],[
 	    }, {
 	        key: "showToast",
 	        value: function showToast() {
-	            var _this3 = this;
+	            var _this2 = this;
 
 	            var text = arguments.length <= 0 || arguments[0] === undefined ? "Success" : arguments[0];
 	            var duration = arguments.length <= 1 || arguments[1] === undefined ? 1000 : arguments[1];
@@ -4521,42 +4478,18 @@ webpackJsonp([0],[
 	            this.$mask.html("\n            <div class=\"weui_toast\">\n                <i class=\"weui_icon_toast\"></i>\n                <p class=\"weui_toast_content\">" + text + "</p>\n            </div>");
 	            if (duration !== -1) {
 	                setTimeout(function () {
-	                    _this3.$mask.children().remove();
-	                    _this3.hideMask();
+	                    _this2.$mask.children().remove();
+	                    _this2.hideMask();
 	                }, duration);
 	            }
 	        }
 	    }, {
-	        key: "showPowerActionSheet",
-	        value: function showPowerActionSheet() {
-	            var _this4 = this;
-
-	            if (!this.$actionSheet) {
-	                this.$actionSheet = $("\n                <div class=\"power_action_sheet action_sheet\">\n                    <div class=\"weui_mask_transition\" id=\"mask\" style=\"display:block;\"></div>\n                    <div class=\"weui_actionsheet\" id=\"actionsheet\">\n                        <div class=\"weui_actionsheet_menu\">\n                            <div id=\"reboot\" class=\"weui_actionsheet_cell\">Reboot</div>\n                            <div id=\"shutdown\" class=\"weui_actionsheet_cell\">Shutdown</div>\n                        </div>\n                        <div class=\"weui_actionsheet_action\">\n                            <div class=\"weui_actionsheet_cell\" id=\"cancel\">Cancel</div>\n                        </div>\n                    </div>\n                </div>\n            ");
-	                this.$element.append(this.$actionSheet);
-	                this.$actionSheet.on("click", "#mask", function (e) {
-	                    _this4.hidePowerActionSheet();
-	                });
-	                this.$actionSheet.on("click", ".weui_actionsheet_cell", function (e) {
-	                    var action = e.currentTarget.id;
-	                    if (action !== "cancel") {
-	                        _this4.trigger("powerAction", { action: action });
-	                    }
-	                    _this4.hidePowerActionSheet();
-	                });
-	            }
-	            setTimeout(function () {
-	                _this4.$actionSheet.find("#mask").show().addClass("weui_fade_toggle");
-	                _this4.$actionSheet.find("#actionsheet").addClass("weui_actionsheet_toggle");
-	            });
-	        }
-	    }, {
-	        key: "hidePowerActionSheet",
-	        value: function hidePowerActionSheet() {
-	            if (this.$actionSheet) {
-	                this.$actionSheet.find("#mask").hide().removeClass("weui_fade_toggle");
-	                this.$actionSheet.find("#actionsheet").removeClass("weui_actionsheet_toggle");
-	            }
+	        key: "title",
+	        get: function get() {
+	            return this.$("> header > h1").text();
+	        },
+	        set: function set(value) {
+	            this.$("> header > h1").text(value);
 	        }
 	    }]);
 	    return Application;
@@ -4567,6 +4500,359 @@ webpackJsonp([0],[
 
 /***/ },
 /* 123 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _regenerator = __webpack_require__(5);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _asyncToGenerator2 = __webpack_require__(9);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var _classCallCheck2 = __webpack_require__(75);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(76);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(80);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(108);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _HomeScene = __webpack_require__(124);
+
+	var _HomeScene2 = _interopRequireDefault(_HomeScene);
+
+	var _SceneController2 = __webpack_require__(126);
+
+	var _SceneController3 = _interopRequireDefault(_SceneController2);
+
+	var _api = __webpack_require__(127);
+
+	var _api2 = _interopRequireDefault(_api);
+
+	var _model = __webpack_require__(128);
+
+	var _model2 = _interopRequireDefault(_model);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var HomeSceneController = function (_SceneController) {
+	    (0, _inherits3.default)(HomeSceneController, _SceneController);
+
+	    function HomeSceneController() {
+	        (0, _classCallCheck3.default)(this, HomeSceneController);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(HomeSceneController).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(HomeSceneController, [{
+	        key: "createView",
+	        value: function createView() {
+	            return new _HomeScene2.default();
+	        }
+	    }, {
+	        key: "initView",
+	        value: function initView() {
+	            var _this2 = this;
+
+	            this.view.on("monitorClick", this._onMonitorClick.bind(this));
+	            this.view.on("serviceStatusChanging", this._onServiceStatusChanging.bind(this));
+	            this.view.on("powerActionClick", this._onPowerActionClick.bind(this));
+
+	            _model2.default.on("sysInfoChanged", function () {
+	                _this2.view.sysInfo = _model2.default.sysInfo;
+	            });
+
+	            _model2.default.on("servicesChanged", function () {
+	                _this2.view.services = _model2.default.services;
+	            });
+	        }
+	    }, {
+	        key: "_onServiceStatusChanging",
+	        value: function () {
+	            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(e) {
+	                var result;
+	                return _regenerator2.default.wrap(function _callee$(_context) {
+	                    while (1) {
+	                        switch (_context.prev = _context.next) {
+	                            case 0:
+	                                this.showMask();
+	                                _context.prev = 1;
+	                                _context.next = 4;
+	                                return _api2.default.service.toggle(e.service.id, e.service.status.active);
+
+	                            case 4:
+	                                result = _context.sent;
+
+	                                this.showToast(e.service.name + " " + (e.service.status.active ? "started" : "stopped"));
+	                                _context.next = 15;
+	                                break;
+
+	                            case 8:
+	                                _context.prev = 8;
+	                                _context.t0 = _context["catch"](1);
+
+	                                console.error(_context.t0);
+	                                alert("Sorry, can not " + (e.service.status.active ? "start" : "stop") + " " + e.service.name + " service right now.");
+	                                _model2.default.services[e.service.id].active = !e.service.status.active;
+	                                this.view.renderServices();
+	                                this.hideMask();
+
+	                            case 15:
+	                            case "end":
+	                                return _context.stop();
+	                        }
+	                    }
+	                }, _callee, this, [[1, 8]]);
+	            }));
+
+	            function _onServiceStatusChanging(_x) {
+	                return _ref.apply(this, arguments);
+	            }
+
+	            return _onServiceStatusChanging;
+	        }()
+	    }, {
+	        key: "_onPowerActionClick",
+	        value: function () {
+	            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(e) {
+	                return _regenerator2.default.wrap(function _callee2$(_context2) {
+	                    while (1) {
+	                        switch (_context2.prev = _context2.next) {
+	                            case 0:
+	                                if (!(e.action === "shutdown")) {
+	                                    _context2.next = 6;
+	                                    break;
+	                                }
+
+	                                _context2.next = 3;
+	                                return _api2.default.sys.shutdown();
+
+	                            case 3:
+	                                this.showToast("Bye", -1);
+	                                _context2.next = 11;
+	                                break;
+
+	                            case 6:
+	                                if (!(e.action === "reboot")) {
+	                                    _context2.next = 11;
+	                                    break;
+	                                }
+
+	                                _context2.next = 9;
+	                                return _api2.default.sys.reboot();
+
+	                            case 9:
+	                                this.showLoading("Rebooting");
+	                                setTimeout(function () {
+	                                    window.location.reload(true);
+	                                }, 30 * 1000);
+
+	                            case 11:
+	                            case "end":
+	                                return _context2.stop();
+	                        }
+	                    }
+	                }, _callee2, this);
+	            }));
+
+	            function _onPowerActionClick(_x2) {
+	                return _ref2.apply(this, arguments);
+	            }
+
+	            return _onPowerActionClick;
+	        }()
+	    }, {
+	        key: "_onMonitorClick",
+	        value: function _onMonitorClick() {
+	            this.parent.pushSceneController(this.parent.monitorSceneController, "/monitor");
+	        }
+	    }, {
+	        key: "title",
+	        get: function get() {
+	            return "Home";
+	        }
+	    }]);
+	    return HomeSceneController;
+	}(_SceneController3.default);
+
+	exports.default = HomeSceneController;
+
+/***/ },
+/* 124 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(75);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(76);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(80);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(100);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(108);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Scene2 = __webpack_require__(125);
+
+	var _Scene3 = _interopRequireDefault(_Scene2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var HomeScene = function (_Scene) {
+	    (0, _inherits3.default)(HomeScene, _Scene);
+
+	    function HomeScene() {
+	        (0, _classCallCheck3.default)(this, HomeScene);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(HomeScene).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(HomeScene, [{
+	        key: "init",
+	        value: function init() {
+	            (0, _get3.default)(Object.getPrototypeOf(HomeScene.prototype), "init", this).call(this);
+	            this.addStyleClass("rpm-home-scene");
+	            this._initInfoGroup();
+	            this._initServiceGroup();
+	            this._initPowerButton();
+	        }
+	    }, {
+	        key: "_initInfoGroup",
+	        value: function _initInfoGroup() {
+	            var _this2 = this;
+
+	            this.$group("System info", [this.$cell("Machine", $("<span id=\"hostname\" style=\"font-size:12px;\"></span>")), this.$cell("Monitor", $("<span id=\"hostname\" style=\"font-size:12px;\"></span>")).on("click", function () {
+	                _this2.trigger("monitorClick");
+	            })]).addClass("weui_cells_access");
+	        }
+	    }, {
+	        key: "_initServiceGroup",
+	        value: function _initServiceGroup() {
+	            var _this3 = this;
+
+	            this.$serviceGroup = this.$group("Services", [this.$checkBoxCell("Bluetooth", "bluetooth"), this.$checkBoxCell("VNC", "vnc"), this.$checkBoxCell("Xware", "xware")]).addClass("weui_cells_form");
+	            this.$serviceGroup.on("change", ".weui_switch", function (e) {
+	                var active = e.currentTarget.checked;
+	                _this3.trigger("serviceStatusChanging", {
+	                    service: {
+	                        id: e.currentTarget.id,
+	                        name: e.currentTarget.title,
+	                        status: {
+	                            active: e.currentTarget.checked
+	                        }
+	                    }
+	                });
+	            });
+	        }
+	    }, {
+	        key: "_initPowerButton",
+	        value: function _initPowerButton() {
+	            var _this4 = this;
+
+	            this.$button("Power off", "warn").on("click", function () {
+	                _this4.showPowerActionSheet();
+	            });
+	        }
+	    }, {
+	        key: "renderServices",
+	        value: function renderServices() {
+	            if (this.services) {
+	                for (var name in this.services) {
+	                    this.$("input.weui_switch#" + name)[0].checked = this.services[name].active;
+	                }
+	            }
+	        }
+	    }, {
+	        key: "showPowerActionSheet",
+	        value: function showPowerActionSheet() {
+	            var _this5 = this;
+
+	            if (!this.$actionSheet) {
+	                this.$actionSheet = $("\n                <div class=\"power_action_sheet action_sheet\">\n                    <div class=\"weui_mask_transition\" id=\"mask\" style=\"display:block;\"></div>\n                    <div class=\"weui_actionsheet\" id=\"actionsheet\">\n                        <div class=\"weui_actionsheet_menu\">\n                            <div id=\"reboot\" class=\"weui_actionsheet_cell\">Reboot</div>\n                            <div id=\"shutdown\" class=\"weui_actionsheet_cell\">Shutdown</div>\n                        </div>\n                        <div class=\"weui_actionsheet_action\">\n                            <div class=\"weui_actionsheet_cell\" id=\"cancel\">Cancel</div>\n                        </div>\n                    </div>\n                </div>\n            ");
+	                this.$element.append(this.$actionSheet);
+	                this.$actionSheet.on("click", "#mask", function (e) {
+	                    _this5.hidePowerActionSheet();
+	                });
+	                this.$actionSheet.on("click", ".weui_actionsheet_cell", function (e) {
+	                    var action = e.currentTarget.id;
+	                    if (action !== "cancel") {
+	                        _this5.trigger("powerActionClick", { action: action });
+	                    }
+	                    _this5.hidePowerActionSheet();
+	                });
+	            }
+	            setTimeout(function () {
+	                _this5.$actionSheet.find("#mask").show().addClass("weui_fade_toggle");
+	                _this5.$actionSheet.find("#actionsheet").addClass("weui_actionsheet_toggle");
+	            });
+	        }
+	    }, {
+	        key: "hidePowerActionSheet",
+	        value: function hidePowerActionSheet() {
+	            if (this.$actionSheet) {
+	                this.$actionSheet.find("#mask").hide().removeClass("weui_fade_toggle");
+	                this.$actionSheet.find("#actionsheet").removeClass("weui_actionsheet_toggle");
+	            }
+	        }
+	    }, {
+	        key: "sysInfo",
+	        get: function get() {
+	            return this._sysInfo;
+	        },
+	        set: function set(value) {
+	            this._sysInfo = value;
+	            if (this.sysInfo) {
+	                this.$("#hostname").text(this.sysInfo.hostname);
+	            } else {
+	                this.$("#hostname").text("");
+	            }
+	        }
+	    }, {
+	        key: "services",
+	        get: function get() {
+	            return this._services;
+	        },
+	        set: function set(value) {
+	            this._services = value;
+	            this.renderServices();
+	        }
+	    }]);
+	    return HomeScene;
+	}(_Scene3.default);
+
+	exports.default = HomeScene;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {"use strict";
@@ -4601,69 +4887,24 @@ webpackJsonp([0],[
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var MainMenuView = function (_View) {
-	    (0, _inherits3.default)(MainMenuView, _View);
+	var Scene = function (_View) {
+	    (0, _inherits3.default)(Scene, _View);
 
-	    function MainMenuView() {
-	        (0, _classCallCheck3.default)(this, MainMenuView);
-	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(MainMenuView).apply(this, arguments));
+	    function Scene() {
+	        (0, _classCallCheck3.default)(this, Scene);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(Scene).apply(this, arguments));
 	    }
 
-	    (0, _createClass3.default)(MainMenuView, [{
+	    (0, _createClass3.default)(Scene, [{
 	        key: "init",
 	        value: function init() {
-	            (0, _get3.default)(Object.getPrototypeOf(MainMenuView.prototype), "init", this).call(this);
-	            this.addStyleClass("rpm-main-menu-view");
-	            this._initInfoGroup();
-	            this._initServiceGroup();
-	            this._initPowerButton();
+	            (0, _get3.default)(Object.getPrototypeOf(Scene.prototype), "init", this).call(this);
+	            this.addStyleClass("rpm-scene");
 	        }
 	    }, {
-	        key: "_initInfoGroup",
-	        value: function _initInfoGroup() {
-	            this._$group("System info", [this._$cell("Host name", $("<div id=\"hostname\"></div>"))]);
-	        }
-	    }, {
-	        key: "_initServiceGroup",
-	        value: function _initServiceGroup() {
-	            var _this2 = this;
-
-	            this.$serviceGroup = this._$group("Services", [this._$checkBoxCell("Bluetooth", "bluetooth"), this._$checkBoxCell("VNC", "vnc"), this._$checkBoxCell("Xware", "xware")]).addClass("weui_cells_form");
-	            this.$serviceGroup.on("change", ".weui_switch", function (e) {
-	                var active = e.currentTarget.checked;
-	                _this2.trigger("serviceStatusChanging", {
-	                    service: {
-	                        id: e.currentTarget.id,
-	                        name: e.currentTarget.title,
-	                        status: {
-	                            active: e.currentTarget.checked
-	                        }
-	                    }
-	                });
-	            });
-	        }
-	    }, {
-	        key: "_initPowerButton",
-	        value: function _initPowerButton() {
-	            var _this3 = this;
-
-	            this._$button("Power").on("click", function () {
-	                _this3.trigger("powerButtonClick");
-	            });
-	        }
-	    }, {
-	        key: "renderServices",
-	        value: function renderServices() {
-	            if (this.services) {
-	                for (var name in this.services) {
-	                    this.$("input.weui_switch#" + name)[0].checked = this.services[name].active;
-	                }
-	            }
-	        }
-	    }, {
-	        key: "_$group",
-	        value: function _$group(title, $childCells) {
-	            var $group = $("<div class=\"group\"/>");
+	        key: "$group",
+	        value: function $group(title, $childCells) {
+	            var $group = $("<div class=\"rpm-scene-group\"/>");
 	            this.$element.append($group);
 
 	            var $title = $("<div class=\"weui_cells_title\">" + title + "</div>");
@@ -4683,8 +4924,8 @@ webpackJsonp([0],[
 	            return $group;
 	        }
 	    }, {
-	        key: "_$cell",
-	        value: function _$cell(title, $content) {
+	        key: "$cell",
+	        value: function $cell(title, $content) {
 	            var $cell = $("<div class=\"weui_cell\">\n            <div class=\"weui_cell_bd weui_cell_primary\">\n                <p>" + title + "</p>\n            </div>\n            <div class=\"weui_cell_ft\"></div>\n        </div>");
 	            if ($content) {
 	                var $ft = $cell.children(".weui_cell_ft");
@@ -4693,52 +4934,128 @@ webpackJsonp([0],[
 	            return $cell;
 	        }
 	    }, {
-	        key: "_$checkBoxCell",
-	        value: function _$checkBoxCell(title, id) {
+	        key: "$checkBoxCell",
+	        value: function $checkBoxCell(title, id) {
 	            var $checkBox = $("<input id=\"" + id + "\" class=\"weui_switch\" type=\"checkbox\" title=\"" + title + "\" />");
-	            var $cell = this._$cell(title, $checkBox);
+	            var $cell = this.$cell(title, $checkBox);
 	            return $cell;
 	        }
 	    }, {
-	        key: "_$button",
-	        value: function _$button(title) {
-	            var $button = $("<a class=\"weui_btn weui_btn_primary\" href=\"javascript:\">" + title + "</a>");
+	        key: "$button",
+	        value: function $button(title) {
+	            var type = arguments.length <= 1 || arguments[1] === undefined ? "primary" : arguments[1];
+
+	            var $button = $("<a class=\"weui_btn weui_btn_" + type + "\" href=\"javascript:\">" + title + "</a>");
 	            var $area = $("<div class=\"weui_btn_area\"></div>");
 	            $area.append($button);
 	            this.$element.append($area);
 	            return $button;
 	        }
-	    }, {
-	        key: "sysInfo",
-	        get: function get() {
-	            return this._sysInfo;
-	        },
-	        set: function set(value) {
-	            this._sysInfo = value;
-	            if (this._sysInfo) {
-	                this.$("#hostname").text(this._sysInfo.hostname);
-	            } else {
-	                this.$("#hostname").text("");
-	            }
-	        }
-	    }, {
-	        key: "services",
-	        get: function get() {
-	            return this._services;
-	        },
-	        set: function set(value) {
-	            this._services = value;
-	            this.renderServices();
-	        }
 	    }]);
-	    return MainMenuView;
+	    return Scene;
 	}(_View3.default);
 
-	exports.default = MainMenuView;
+	exports.default = Scene;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 124 */
+/* 126 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(75);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(76);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(80);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(108);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewController2 = __webpack_require__(121);
+
+	var _ViewController3 = _interopRequireDefault(_ViewController2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SceneController = function (_ViewController) {
+	    (0, _inherits3.default)(SceneController, _ViewController);
+
+	    function SceneController() {
+	        (0, _classCallCheck3.default)(this, SceneController);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(SceneController).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(SceneController, [{
+	        key: "showMask",
+	        value: function showMask() {
+	            if (this.view && this.view.parent) {
+	                var _view$parent;
+
+	                (_view$parent = this.view.parent).showMask.apply(_view$parent, arguments);
+	            }
+	        }
+	    }, {
+	        key: "hideMask",
+	        value: function hideMask() {
+	            if (this.view && this.view.parent) {
+	                var _view$parent2;
+
+	                (_view$parent2 = this.view.parent).hideMask.apply(_view$parent2, arguments);
+	            }
+	        }
+	    }, {
+	        key: "showLoading",
+	        value: function showLoading() {
+	            if (this.view && this.view.parent) {
+	                var _view$parent3;
+
+	                (_view$parent3 = this.view.parent).showLoading.apply(_view$parent3, arguments);
+	            }
+	        }
+	    }, {
+	        key: "hideLoading",
+	        value: function hideLoading() {
+	            if (this.view && this.view.parent) {
+	                var _view$parent4;
+
+	                (_view$parent4 = this.view.parent).hideLoading.apply(_view$parent4, arguments);
+	            }
+	        }
+	    }, {
+	        key: "showToast",
+	        value: function showToast() {
+	            if (this.view && this.view.parent) {
+	                var _view$parent5;
+
+	                (_view$parent5 = this.view.parent).showToast.apply(_view$parent5, arguments);
+	            }
+	        }
+	    }, {
+	        key: "title",
+	        get: function get() {
+	            throw new Error("'title' property must be implemented in derived class.");
+	        }
+	    }]);
+	    return SceneController;
+	}(_ViewController3.default);
+
+	exports.default = SceneController;
+
+/***/ },
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {"use strict";
@@ -4785,7 +5102,7 @@ webpackJsonp([0],[
 	                }, _callee, _this);
 	            }))();
 	        },
-	        shutdown: function shutdown() {
+	        status: function status() {
 	            var _this2 = this;
 
 	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
@@ -4795,8 +5112,7 @@ webpackJsonp([0],[
 	                            case 0:
 	                                _context2.next = 2;
 	                                return $.ajax({
-	                                    method: "post",
-	                                    url: API_PATH + "/sys/shutdown"
+	                                    url: API_PATH + "/sys/status"
 	                                });
 
 	                            case 2:
@@ -4810,7 +5126,7 @@ webpackJsonp([0],[
 	                }, _callee2, _this2);
 	            }))();
 	        },
-	        reboot: function reboot() {
+	        shutdown: function shutdown() {
 	            var _this3 = this;
 
 	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
@@ -4821,7 +5137,7 @@ webpackJsonp([0],[
 	                                _context3.next = 2;
 	                                return $.ajax({
 	                                    method: "post",
-	                                    url: API_PATH + "/sys/reboot"
+	                                    url: API_PATH + "/sys/shutdown"
 	                                });
 
 	                            case 2:
@@ -4834,11 +5150,8 @@ webpackJsonp([0],[
 	                    }
 	                }, _callee3, _this3);
 	            }))();
-	        }
-	    },
-
-	    service: {
-	        all: function all() {
+	        },
+	        reboot: function reboot() {
 	            var _this4 = this;
 
 	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
@@ -4848,7 +5161,8 @@ webpackJsonp([0],[
 	                            case 0:
 	                                _context4.next = 2;
 	                                return $.ajax({
-	                                    url: API_PATH + "/service"
+	                                    method: "post",
+	                                    url: API_PATH + "/sys/reboot"
 	                                });
 
 	                            case 2:
@@ -4861,8 +5175,11 @@ webpackJsonp([0],[
 	                    }
 	                }, _callee4, _this4);
 	            }))();
-	        },
-	        toggle: function toggle(name, active) {
+	        }
+	    },
+
+	    service: {
+	        all: function all() {
 	            var _this5 = this;
 
 	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
@@ -4872,8 +5189,7 @@ webpackJsonp([0],[
 	                            case 0:
 	                                _context5.next = 2;
 	                                return $.ajax({
-	                                    method: "post",
-	                                    url: API_PATH + "/service/" + name + "/" + (active ? "start" : "stop")
+	                                    url: API_PATH + "/service"
 	                                });
 
 	                            case 2:
@@ -4887,7 +5203,7 @@ webpackJsonp([0],[
 	                }, _callee5, _this5);
 	            }))();
 	        },
-	        start: function start(name) {
+	        toggle: function toggle(name, active) {
 	            var _this6 = this;
 
 	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
@@ -4895,9 +5211,16 @@ webpackJsonp([0],[
 	                    while (1) {
 	                        switch (_context6.prev = _context6.next) {
 	                            case 0:
-	                                return _context6.abrupt("return", _this6.toggle(name, false));
+	                                _context6.next = 2;
+	                                return $.ajax({
+	                                    method: "post",
+	                                    url: API_PATH + "/service/" + name + "/" + (active ? "start" : "stop")
+	                                });
 
-	                            case 1:
+	                            case 2:
+	                                return _context6.abrupt("return", _context6.sent);
+
+	                            case 3:
 	                            case "end":
 	                                return _context6.stop();
 	                        }
@@ -4905,7 +5228,7 @@ webpackJsonp([0],[
 	                }, _callee6, _this6);
 	            }))();
 	        },
-	        stop: function stop(name) {
+	        start: function start(name) {
 	            var _this7 = this;
 
 	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
@@ -4922,13 +5245,422 @@ webpackJsonp([0],[
 	                    }
 	                }, _callee7, _this7);
 	            }))();
+	        },
+	        stop: function stop(name) {
+	            var _this8 = this;
+
+	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+	                return _regenerator2.default.wrap(function _callee8$(_context8) {
+	                    while (1) {
+	                        switch (_context8.prev = _context8.next) {
+	                            case 0:
+	                                return _context8.abrupt("return", _this8.toggle(name, false));
+
+	                            case 1:
+	                            case "end":
+	                                return _context8.stop();
+	                        }
+	                    }
+	                }, _callee8, _this8);
+	            }))();
 	        }
 	    }
 	};
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 125 */
+/* 128 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _regenerator = __webpack_require__(5);
+
+	var _regenerator2 = _interopRequireDefault(_regenerator);
+
+	var _asyncToGenerator2 = __webpack_require__(9);
+
+	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+	var _classCallCheck2 = __webpack_require__(75);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(76);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(80);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(108);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ManagedObject2 = __webpack_require__(119);
+
+	var _ManagedObject3 = _interopRequireDefault(_ManagedObject2);
+
+	var _api = __webpack_require__(127);
+
+	var _api2 = _interopRequireDefault(_api);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Model = function (_ManagedObject) {
+	    (0, _inherits3.default)(Model, _ManagedObject);
+
+	    function Model() {
+	        (0, _classCallCheck3.default)(this, Model);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(Model).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(Model, [{
+	        key: "load",
+	        value: function () {
+	            var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+	                return _regenerator2.default.wrap(function _callee$(_context) {
+	                    while (1) {
+	                        switch (_context.prev = _context.next) {
+	                            case 0:
+	                                _context.next = 2;
+	                                return _api2.default.sys.info();
+
+	                            case 2:
+	                                this.sysInfo = _context.sent;
+	                                _context.next = 5;
+	                                return _api2.default.service.all();
+
+	                            case 5:
+	                                this.services = _context.sent;
+
+	                            case 6:
+	                            case "end":
+	                                return _context.stop();
+	                        }
+	                    }
+	                }, _callee, this);
+	            }));
+
+	            function load() {
+	                return _ref.apply(this, arguments);
+	            }
+
+	            return load;
+	        }()
+	    }, {
+	        key: "startMonitorStatus",
+	        value: function startMonitorStatus() {
+	            this._statusMonitoring = true;
+	            this._monitorStatusLoop();
+	        }
+	    }, {
+	        key: "stopMonitorStatus",
+	        value: function stopMonitorStatus() {
+	            this._statusMonitoring = false;
+	        }
+	    }, {
+	        key: "_monitorStatusLoop",
+	        value: function () {
+	            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+	                var _this2 = this;
+
+	                return _regenerator2.default.wrap(function _callee2$(_context2) {
+	                    while (1) {
+	                        switch (_context2.prev = _context2.next) {
+	                            case 0:
+	                                if (this._statusMonitoring) {
+	                                    _context2.next = 2;
+	                                    break;
+	                                }
+
+	                                return _context2.abrupt("return");
+
+	                            case 2:
+	                                _context2.next = 4;
+	                                return _api2.default.sys.status();
+
+	                            case 4:
+	                                this.sysStatus = _context2.sent;
+
+	                                if (this._statusMonitoring) {
+	                                    window.setTimeout(function () {
+	                                        if (_this2._statusMonitoring) {
+	                                            _this2._monitorStatusLoop();
+	                                        }
+	                                    }, 1000);
+	                                }
+
+	                            case 6:
+	                            case "end":
+	                                return _context2.stop();
+	                        }
+	                    }
+	                }, _callee2, this);
+	            }));
+
+	            function _monitorStatusLoop() {
+	                return _ref2.apply(this, arguments);
+	            }
+
+	            return _monitorStatusLoop;
+	        }()
+	    }, {
+	        key: "sysInfo",
+	        get: function get() {
+	            return this._sysInfo;
+	        },
+	        set: function set(value) {
+	            this._sysInfo = value;
+	            document.title = this.sysInfo.hostname + " - Raspberry PI Manager";
+	            this.trigger("sysInfoChanged");
+	        }
+	    }, {
+	        key: "sysStatus",
+	        get: function get() {
+	            return this._sysStatus;
+	        },
+	        set: function set(value) {
+	            this._sysStatus = value;
+	            this.trigger("sysStatusChanged");
+	        }
+	    }, {
+	        key: "services",
+	        get: function get() {
+	            return this._services;
+	        },
+	        set: function set(value) {
+	            this._services = value;
+	            this.trigger("servicesChanged");
+	        }
+	    }]);
+	    return Model;
+	}(_ManagedObject3.default);
+
+	var model = new Model();
+	exports.default = model;
+
+/***/ },
+/* 129 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(75);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(76);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(80);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(108);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _MonitorScene = __webpack_require__(130);
+
+	var _MonitorScene2 = _interopRequireDefault(_MonitorScene);
+
+	var _SceneController2 = __webpack_require__(126);
+
+	var _SceneController3 = _interopRequireDefault(_SceneController2);
+
+	var _api = __webpack_require__(127);
+
+	var _api2 = _interopRequireDefault(_api);
+
+	var _model = __webpack_require__(128);
+
+	var _model2 = _interopRequireDefault(_model);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var MonitorSceneController = function (_SceneController) {
+	    (0, _inherits3.default)(MonitorSceneController, _SceneController);
+
+	    function MonitorSceneController() {
+	        (0, _classCallCheck3.default)(this, MonitorSceneController);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(MonitorSceneController).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(MonitorSceneController, [{
+	        key: "createView",
+	        value: function createView() {
+	            return new _MonitorScene2.default();
+	        }
+	    }, {
+	        key: "initView",
+	        value: function initView() {
+	            var _this2 = this;
+
+	            this.on("activated", this._onActivated.bind(this));
+	            this.on("deactivated", this._onDeactivated.bind(this));
+	            _model2.default.on("sysInfoChanged", function () {
+	                _this2.view.sysInfo = _model2.default.sysInfo;
+	            });
+	            _model2.default.on("sysStatusChanged", function () {
+	                _this2.view.sysStatus = _model2.default.sysStatus;
+	            });
+	        }
+	    }, {
+	        key: "_onActivated",
+	        value: function _onActivated() {
+	            _model2.default.startMonitorStatus();
+	        }
+	    }, {
+	        key: "_onDeactivated",
+	        value: function _onDeactivated() {
+	            _model2.default.stopMonitorStatus();
+	        }
+	    }, {
+	        key: "title",
+	        get: function get() {
+	            return "Monitor";
+	        }
+	    }]);
+	    return MonitorSceneController;
+	}(_SceneController3.default);
+
+	exports.default = MonitorSceneController;
+
+/***/ },
+/* 130 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(75);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(76);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(80);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(100);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(108);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Scene2 = __webpack_require__(125);
+
+	var _Scene3 = _interopRequireDefault(_Scene2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var MonitorScene = function (_Scene) {
+	    (0, _inherits3.default)(MonitorScene, _Scene);
+
+	    function MonitorScene() {
+	        (0, _classCallCheck3.default)(this, MonitorScene);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(MonitorScene).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(MonitorScene, [{
+	        key: "init",
+	        value: function init() {
+	            (0, _get3.default)(Object.getPrototypeOf(MonitorScene.prototype), "init", this).call(this);
+	            this.addStyleClass("rpm-monitor-scene");
+
+	            this._initGroups();
+	        }
+	    }, {
+	        key: "_initGroups",
+	        value: function _initGroups() {
+	            this.$group("CPU", [this.$cell("Usage", $("<span id=\"cpu-usage\"></span>")), this.$cell("Speed", $("<span id=\"cpu-speed\"></span>")), this.$cell("Temperature", $("<span id=\"cpu-temperature\"></span>"))]);
+
+	            this.$group("Memory", [this.$cell("Usage", $("<span id=\"mem-usage\"></span>")), this.$cell("Free", $("<span id=\"mem-free\"></span>")), this.$cell("Total", $("<span id=\"mem-total\"></span>"))]);
+	        }
+	    }, {
+	        key: "active",
+	        value: function active() {}
+	    }, {
+	        key: "renderStatus",
+	        value: function renderStatus() {
+	            this.$("#cpu-usage").text(this._formatPercentage(this.sysStatus.cpu.usage));
+	            this.$("#cpu-speed").text(this._formatMHz(this.sysStatus.cpu.speed));
+	            this.$("#cpu-temperature").text(this._formatTemperature(this.sysStatus.cpu.temperature));
+
+	            this.$("#mem-free").text(this._formatByte(this.sysStatus.mem.free));
+	            this.$("#mem-usage").text(this._formatPercentage((this.sysInfo.machine.mem.total - this.sysStatus.mem.free) / this.sysInfo.machine.mem.total));
+	        }
+	    }, {
+	        key: "_formatPercentage",
+	        value: function _formatPercentage(percentage) {
+	            return Math.round(percentage * 1000) / 10 + "%";
+	        }
+	    }, {
+	        key: "_formatTemperature",
+	        value: function _formatTemperature(temp) {
+	            return (temp ? Math.round(temp * 100) / 100 : 0) + "°C";
+	        }
+	    }, {
+	        key: "_formatByte",
+	        value: function _formatByte(b) {
+	            var mb = Math.round(b / 1024 / 1024);
+	            return mb >= 1024 ? parseInt(mb / 1024 * 100) / 100 + " GB" : mb + " MB";
+	        }
+	    }, {
+	        key: "_formatMHz",
+	        value: function _formatMHz(mhz) {
+	            return mhz >= 1000 ? parseInt(mhz / 1000 * 100) / 100 + " GHz" : mhz + " MHz";
+	        }
+	    }, {
+	        key: "sysInfo",
+	        get: function get() {
+	            return this._sysInfo;
+	        },
+	        set: function set(value) {
+	            this._sysInfo = value;
+	            if (this.sysInfo) {
+	                this.$("#mem-total").text(this._formatByte(this.sysInfo.machine.mem.total));
+	            } else {
+	                this.$("#mem-total").text("");
+	            }
+	        }
+	    }, {
+	        key: "sysStatus",
+	        get: function get() {
+	            return this._sysStatus;
+	        },
+	        set: function set(value) {
+	            this._sysStatus = value;
+	            this.renderStatus();
+	        }
+	    }]);
+	    return MonitorScene;
+	}(_Scene3.default);
+
+	exports.default = MonitorScene;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 131 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

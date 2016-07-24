@@ -24,6 +24,10 @@ export default class ManagedObject
     {
         return this._parent;
     }
+    set parent(value)
+    {
+        this._parent = value;
+    }
 
     get eventEmitter()
     {

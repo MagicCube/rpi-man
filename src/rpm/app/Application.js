@@ -1,5 +1,4 @@
 import NJUApplication from "../../nju/app/Application";
-import MainMenuView from "../view/MainMenuView";
 
 export default class Application extends NJUApplication
 {
@@ -8,7 +7,6 @@ export default class Application extends NJUApplication
         super.init();
         this.addStyleClass("rpm-app");
         this._initLayout();
-        this._initMainMenuView();
     }
 
     _initLayout()
@@ -16,17 +14,17 @@ export default class Application extends NJUApplication
         this.$element.append(`
             <header><h1>Raspberry PI</h1></header>
             <main></main>`);
+        this.$container = this.$element.children("main");
     }
 
-    _initMainMenuView()
+    get title()
     {
-        this.mainMenuView = new MainMenuView("main-menu");
-        this.mainMenuView.on("powerButtonClick", () => {
-            this.showPowerActionSheet();
-        });
-        this.addSubview(this.mainMenuView, this.$element.children("main"));
+        return this.$("> header > h1").text();
     }
-
+    set title(value)
+    {
+        this.$("> header > h1").text(value);
+    }
 
     showMask()
     {
@@ -89,52 +87,6 @@ export default class Application extends NJUApplication
                 this.$mask.children().remove();
                 this.hideMask();
             }, duration);
-        }
-    }
-
-    showPowerActionSheet()
-    {
-        if (!this.$actionSheet)
-        {
-            this.$actionSheet = $(`
-                <div class="power_action_sheet action_sheet">
-                    <div class="weui_mask_transition" id="mask" style="display:block;"></div>
-                    <div class="weui_actionsheet" id="actionsheet">
-                        <div class="weui_actionsheet_menu">
-                            <div id="reboot" class="weui_actionsheet_cell">Reboot</div>
-                            <div id="shutdown" class="weui_actionsheet_cell">Shutdown</div>
-                        </div>
-                        <div class="weui_actionsheet_action">
-                            <div class="weui_actionsheet_cell" id="cancel">Cancel</div>
-                        </div>
-                    </div>
-                </div>
-            `);
-            this.$element.append(this.$actionSheet);
-            this.$actionSheet.on("click", "#mask", e => {
-                this.hidePowerActionSheet();
-            });
-            this.$actionSheet.on("click", ".weui_actionsheet_cell", e => {
-                const action = e.currentTarget.id;
-                if (action !== "cancel")
-                {
-                    this.trigger("powerAction", { action });
-                }
-                this.hidePowerActionSheet();
-            });
-        }
-        setTimeout(() => {
-            this.$actionSheet.find("#mask").show().addClass("weui_fade_toggle");
-            this.$actionSheet.find("#actionsheet").addClass("weui_actionsheet_toggle");
-        });
-    }
-
-    hidePowerActionSheet()
-    {
-        if (this.$actionSheet)
-        {
-            this.$actionSheet.find("#mask").hide().removeClass("weui_fade_toggle");
-            this.$actionSheet.find("#actionsheet").removeClass("weui_actionsheet_toggle");
         }
     }
 }

@@ -1,35 +1,46 @@
 import NJUApplicationController from "../../nju/app/ApplicationController";
 
 import Application from "./Application";
+import HomeSceneController from "../scn/HomeSceneController";
+import MonitorSceneController from "../scn/MonitorSceneController";
 
 import api from "../api";
+import model from "../model";
 
 export default class ApplicationController extends NJUApplicationController
 {
     init()
     {
         super.init();
+
+        this._homeSceneController = new HomeSceneController();
+        this._monitorSceneController = new MonitorSceneController();
+
+        this._initHash();
     }
 
-    get sysInfo()
+    get sceneControllers()
     {
-        return this._sysInfo;
-    }
-    set sysInfo(value)
-    {
-        this._sysInfo = value;
-        document.title = this.sysInfo.hostname + " - Raspberry PI Manager";
-        this.mainMenuView.sysInfo = this.sysInfo;
+        if (!this._sceneControllers)
+        {
+            this._sceneControllers = {};
+        }
+        return this._sceneControllers;
     }
 
-    get services()
+    get activeSceneController()
     {
-        return this._services;
+        return this._activeSceneController;
     }
-    set services(value)
+
+    get homeSceneController()
     {
-        this._services = value;
-        this.mainMenuView.services = this.services;
+        return this._homeSceneController;
+    }
+
+    get monitorSceneController()
+    {
+        return this._monitorSceneController;
     }
 
     createView(options)
@@ -37,53 +48,81 @@ export default class ApplicationController extends NJUApplicationController
         return new Application();
     }
 
-    initView()
-    {
-        this.mainMenuView = this.view.mainMenuView;
-        this.view.on("powerAction", this._onPowerAction.bind(this));
-        this.mainMenuView.on("serviceStatusChanging", this._onServiceStatusChanging.bind(this));
-    }
-
     async run()
     {
         this.view.showLoading();
-        this.sysInfo = await api.sys.info();
-        this.services = await api.service.all();
+        model.load();
+        this.pushSceneController(this.homeSceneController, "/");
         this.view.hideLoading();
     }
 
-    async _onServiceStatusChanging(e)
+    pushSceneController(sceneController, path)
     {
-        this.view.showMask();
-        try
+        if (this.getHashPath() === path && path === "/")
         {
-            const result = await api.service.toggle(e.service.id, e.service.status.active);
-            this.view.showToast(`${e.service.name} ${e.service.status.active ? "started" : "stopped"}`);
+
         }
-        catch (err)
+        else
         {
-            console.error(err);
-            alert(`Sorry, can not ${e.service.status.active ? "start" : "stop"} ${e.service.name} service right now.`);
-            this.services[e.service.id].active = !e.service.status.active;
-            this.mainMenuView.renderServices();
-            this.view.hideMask();
+            this.setHashPath(path);
         }
+        this.mapScene(path, sceneController);
+        this.activateSceneController(sceneController);
     }
 
-    async _onPowerAction(e)
+    activateSceneController(sceneController)
     {
-        if (e.action === "shutdown")
+        if (this.activeSceneController === sceneController)
         {
-            await api.sys.shutdown();
-            this.view.showToast("Bye", -1);
+            return;
         }
-        else if (e.action === "reboot")
+        if (this.activeSceneController)
         {
-            await api.sys.reboot();
-            this.view.showLoading("Rebooting");
-            setTimeout(() => {
-                window.location.reload(true);
-            }, 30 * 1000);
+            this.activeSceneController.trigger("deactivating");
+            this.view.removeSubview(this.activeSceneController.view);
+            this.activeSceneController.trigger("deactivated");
+            this._activeSceneController = null;
         }
+        this._activeSceneController = sceneController;
+        sceneController.parent = this;
+        this.view.title = sceneController.title;
+        this.activeSceneController.trigger("activating");
+        this.view.addSubview(sceneController.view);
+        this.activeSceneController.trigger("activated");
+    }
+
+
+
+
+    _initHash()
+    {
+        window.addEventListener("hashchange", () => {
+            const path = this.getHashPath();
+            if (this.sceneControllers[path])
+            {
+                this.activateSceneController(this.sceneControllers[path]);
+            }
+        });
+    }
+
+    getHashPath()
+    {
+        if (location.hash === "" || location.hash === "#")
+        {
+            return "/";
+        }
+        else
+        {
+            return location.hash.substr(1);
+        }
+    }
+    setHashPath(path)
+    {
+        location.hash = path;
+    }
+
+    mapScene(path, sceneController)
+    {
+        this.sceneControllers[path] = sceneController;
     }
 }

@@ -9,6 +9,13 @@ export default {
             });
         },
 
+        async status()
+        {
+            return await $.ajax({
+                url: `${API_PATH}/sys/status`
+            });
+        },
+
         async shutdown()
         {
             return await $.ajax({
