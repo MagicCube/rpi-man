@@ -69,21 +69,33 @@ export default class MonitorScene extends Scene
     {
         let $canvas = $(`<canvas width="345" height="85" />`);
         this.$("#cpu-chart-container").append($canvas);
-        let chart = new SmoothieChart({
+        const grid = {
+            fillStyle: 'transparent',
+            strokeStyle: 'rgba(128,128,128,0.2)'
+        };
+        const style = {
             minValue: 0,
-            maxValue: 100
-        });
+            maxValueScale: 1.4,
+            yRangeFunction: range => {
+                if (range.max > 100)
+                {
+                    range.max = 100;
+                }
+                range.max = parseInt(range.max / 10) * 10;
+                return range;
+            },
+            grid,
+            labels: { fillStyle: "rgba(0, 0, 0, 0.5)" }
+        };
+        let chart = new SmoothieChart(style);
         chart.streamTo($canvas[0]);
         this._cpuTimeSeries = new TimeSeries();
-        chart.addTimeSeries(this._cpuTimeSeries, {lineWidth:2,strokeStyle:'#ff0000',fillStyle:'rgba(150,230,92,0.30)'});
+        chart.addTimeSeries(this._cpuTimeSeries, {lineWidth:2,strokeStyle:'#ff0000',fillStyle:'rgba(240,150,92,0.30)'});
         this._cpuChart = chart;
 
         $canvas = $(`<canvas width="345" height="85" />`);
         this.$("#mem-chart-container").append($canvas);
-        chart = new SmoothieChart({
-            minValue: 0,
-            maxValue: 100
-        });
+        chart = new SmoothieChart(style);
         chart.streamTo($canvas[0]);
         this._memTimeSeries = new TimeSeries();
         chart.addTimeSeries(this._memTimeSeries, {lineWidth:2,strokeStyle:'#00ff00',fillStyle:'rgba(150,230,92,0.30)'});
