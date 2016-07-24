@@ -8,36 +8,8 @@ export default class MainMenuView extends View
         this.addStyleClass("rpm-main-menu-view");
         this._initInfoGroup();
         this._initServiceGroup();
+        this._initPowerButton();
     }
-
-
-    get sysInfo()
-    {
-        return this._sysInfo;
-    }
-    set sysInfo(value)
-    {
-        this._sysInfo = value;
-        if (this._sysInfo)
-        {
-            this.$("#hostname").text(this._sysInfo.hostname);
-        }
-        else
-        {
-            this.$("#hostname").text("");
-        }
-    }
-
-    get services()
-    {
-        return this._services;
-    }
-    set services(value)
-    {
-        this._services = value;
-        this.renderServices();
-    }
-
 
 
     _initInfoGroup()
@@ -72,6 +44,43 @@ export default class MainMenuView extends View
             });
         });
     }
+
+    _initPowerButton()
+    {
+        this._$button("Power").on("click", () => {
+            this.trigger("powerButtonClick");
+        });
+    }
+
+
+    get sysInfo()
+    {
+        return this._sysInfo;
+    }
+    set sysInfo(value)
+    {
+        this._sysInfo = value;
+        if (this._sysInfo)
+        {
+            this.$("#hostname").text(this._sysInfo.hostname);
+        }
+        else
+        {
+            this.$("#hostname").text("");
+        }
+    }
+
+    get services()
+    {
+        return this._services;
+    }
+    set services(value)
+    {
+        this._services = value;
+        this.renderServices();
+    }
+
+
 
     renderServices()
     {
@@ -128,8 +137,17 @@ export default class MainMenuView extends View
 
     _$checkBoxCell(title, id)
     {
-        const $checkBox = `<input id="${id}" class="weui_switch" type="checkbox" />`;
+        const $checkBox = $(`<input id="${id}" class="weui_switch" type="checkbox" />`);
         const $cell = this._$cell(title, $checkBox);
         return $cell;
+    }
+
+    _$button(title)
+    {
+        const $button = $(`<a class="weui_btn weui_btn_primary" href="javascript:">${title}</a>`);
+        const $area = $(`<div class="weui_btn_area"></div>`);
+        $area.append($button);
+        this.$element.append($area);
+        return $button;
     }
 }

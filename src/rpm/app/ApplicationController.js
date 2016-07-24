@@ -40,7 +40,8 @@ export default class ApplicationController extends NJUApplicationController
     initView()
     {
         this.mainMenuView = this.view.mainMenuView;
-        this.mainMenuView.on("serviceStatusChanging", this._serviceStatusChanging.bind(this));
+        this.view.on("powerAction", this._onPowerAction.bind(this));
+        this.mainMenuView.on("serviceStatusChanging", this._onServiceStatusChanging.bind(this));
     }
 
     async run()
@@ -51,7 +52,7 @@ export default class ApplicationController extends NJUApplicationController
         this.view.hideLoading();
     }
 
-    async _serviceStatusChanging(e)
+    async _onServiceStatusChanging(e)
     {
         this.view.showMask();
         try
@@ -66,6 +67,23 @@ export default class ApplicationController extends NJUApplicationController
             this.services[e.service.name].active = !e.service.status.active;
             this.mainMenuView.renderServices();
             this.view.hideMask();
+        }
+    }
+
+    async _onPowerAction(e)
+    {
+        if (e.action === "shutdown")
+        {
+            await api.sys.shutdown();
+            this.view.showToast("Bye", -1);
+        }
+        else if (e.action === "reboot")
+        {
+            await api.sys.reboot();
+            this.view.showLoading("Rebooting");
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 30 * 1000);
         }
     }
 }

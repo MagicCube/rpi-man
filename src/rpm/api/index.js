@@ -7,6 +7,22 @@ export default {
             return await $.ajax({
                 url: `${API_PATH}/sys/info`
             });
+        },
+
+        async shutdown()
+        {
+            return await $.ajax({
+                method: "post",
+                url: `${API_PATH}/sys/shutdown`
+            });
+        },
+
+        async reboot()
+        {
+            return await $.ajax({
+                method: "post",
+                url: `${API_PATH}/sys/reboot`
+            });
         }
     },
 

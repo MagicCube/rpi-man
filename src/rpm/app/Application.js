@@ -21,6 +21,9 @@ export default class Application extends NJUApplication
     _initMainMenuView()
     {
         this.mainMenuView = new MainMenuView("main-menu");
+        this.mainMenuView.on("powerButtonClick", () => {
+            this.showPowerActionSheet();
+        });
         this.addSubview(this.mainMenuView, this.$element.children("main"));
     }
 
@@ -80,10 +83,58 @@ export default class Application extends NJUApplication
                 <i class="weui_icon_toast"></i>
                 <p class="weui_toast_content">${text}</p>
             </div>`);
+        if (duration !== -1)
+        {
+            setTimeout(() => {
+                this.$mask.children().remove();
+                this.hideMask();
+            }, duration);
+        }
+    }
 
+    showPowerActionSheet()
+    {
+        if (!this.$actionSheet)
+        {
+            this.$actionSheet = $(`
+                <div class="power_action_sheet action_sheet">
+                    <div class="weui_mask_transition" id="mask" style="display:block;"></div>
+                    <div class="weui_actionsheet" id="actionsheet">
+                        <div class="weui_actionsheet_menu">
+                            <div id="reboot" class="weui_actionsheet_cell">Reboot</div>
+                            <div id="shutdown" class="weui_actionsheet_cell">Shutdown</div>
+                        </div>
+                        <div class="weui_actionsheet_action">
+                            <div class="weui_actionsheet_cell" id="cancel">Cancel</div>
+                        </div>
+                    </div>
+                </div>
+            `);
+            this.$element.append(this.$actionSheet);
+            this.$actionSheet.on("click", "#mask", e => {
+                this.hidePowerActionSheet();
+            });
+            this.$actionSheet.on("click", ".weui_actionsheet_cell", e => {
+                const action = e.currentTarget.id;
+                if (action !== "cancel")
+                {
+                    this.trigger("powerAction", { action });
+                }
+                this.hidePowerActionSheet();
+            });
+        }
         setTimeout(() => {
-            this.$mask.children().remove();
-            this.hideMask();
-        }, duration);
+            this.$actionSheet.find("#mask").show().addClass("weui_fade_toggle");
+            this.$actionSheet.find("#actionsheet").addClass("weui_actionsheet_toggle");
+        });
+    }
+
+    hidePowerActionSheet()
+    {
+        if (this.$actionSheet)
+        {
+            this.$actionSheet.find("#mask").hide().removeClass("weui_fade_toggle");
+            this.$actionSheet.find("#actionsheet").removeClass("weui_actionsheet_toggle");
+        }
     }
 }

@@ -104,7 +104,8 @@ webpackJsonp([0],[
 	        key: "initView",
 	        value: function initView() {
 	            this.mainMenuView = this.view.mainMenuView;
-	            this.mainMenuView.on("serviceStatusChanging", this._serviceStatusChanging.bind(this));
+	            this.view.on("powerAction", this._onPowerAction.bind(this));
+	            this.mainMenuView.on("serviceStatusChanging", this._onServiceStatusChanging.bind(this));
 	        }
 	    }, {
 	        key: "run",
@@ -143,7 +144,7 @@ webpackJsonp([0],[
 	            return run;
 	        }()
 	    }, {
-	        key: "_serviceStatusChanging",
+	        key: "_onServiceStatusChanging",
 	        value: function () {
 	            var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(e) {
 	                var result;
@@ -181,11 +182,61 @@ webpackJsonp([0],[
 	                }, _callee2, this, [[1, 8]]);
 	            }));
 
-	            function _serviceStatusChanging(_x) {
+	            function _onServiceStatusChanging(_x) {
 	                return _ref2.apply(this, arguments);
 	            }
 
-	            return _serviceStatusChanging;
+	            return _onServiceStatusChanging;
+	        }()
+	    }, {
+	        key: "_onPowerAction",
+	        value: function () {
+	            var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(e) {
+	                return _regenerator2.default.wrap(function _callee3$(_context3) {
+	                    while (1) {
+	                        switch (_context3.prev = _context3.next) {
+	                            case 0:
+	                                if (!(e.action === "shutdown")) {
+	                                    _context3.next = 6;
+	                                    break;
+	                                }
+
+	                                _context3.next = 3;
+	                                return _api2.default.sys.shutdown();
+
+	                            case 3:
+	                                this.view.showToast("Bye", -1);
+	                                _context3.next = 11;
+	                                break;
+
+	                            case 6:
+	                                if (!(e.action === "reboot")) {
+	                                    _context3.next = 11;
+	                                    break;
+	                                }
+
+	                                _context3.next = 9;
+	                                return _api2.default.sys.reboot();
+
+	                            case 9:
+	                                this.view.showLoading("Rebooting");
+	                                setTimeout(function () {
+	                                    window.location.reload(true);
+	                                }, 30 * 1000);
+
+	                            case 11:
+	                            case "end":
+	                                return _context3.stop();
+	                        }
+	                    }
+	                }, _callee3, this);
+	            }));
+
+	            function _onPowerAction(_x2) {
+	                return _ref3.apply(this, arguments);
+	            }
+
+	            return _onPowerAction;
 	        }()
 	    }, {
 	        key: "sysInfo",
@@ -4419,7 +4470,12 @@ webpackJsonp([0],[
 	    }, {
 	        key: "_initMainMenuView",
 	        value: function _initMainMenuView() {
+	            var _this2 = this;
+
 	            this.mainMenuView = new _MainMenuView2.default("main-menu");
+	            this.mainMenuView.on("powerButtonClick", function () {
+	                _this2.showPowerActionSheet();
+	            });
 	            this.addSubview(this.mainMenuView, this.$element.children("main"));
 	        }
 	    }, {
@@ -4456,18 +4512,51 @@ webpackJsonp([0],[
 	    }, {
 	        key: "showToast",
 	        value: function showToast() {
-	            var _this2 = this;
+	            var _this3 = this;
 
 	            var text = arguments.length <= 0 || arguments[0] === undefined ? "Success" : arguments[0];
 	            var duration = arguments.length <= 1 || arguments[1] === undefined ? 1000 : arguments[1];
 
 	            this.showMask();
 	            this.$mask.html("\n            <div class=\"weui_toast\">\n                <i class=\"weui_icon_toast\"></i>\n                <p class=\"weui_toast_content\">" + text + "</p>\n            </div>");
+	            if (duration !== -1) {
+	                setTimeout(function () {
+	                    _this3.$mask.children().remove();
+	                    _this3.hideMask();
+	                }, duration);
+	            }
+	        }
+	    }, {
+	        key: "showPowerActionSheet",
+	        value: function showPowerActionSheet() {
+	            var _this4 = this;
 
+	            if (!this.$actionSheet) {
+	                this.$actionSheet = $("\n                <div class=\"power_action_sheet action_sheet\">\n                    <div class=\"weui_mask_transition\" id=\"mask\" style=\"display:block;\"></div>\n                    <div class=\"weui_actionsheet\" id=\"actionsheet\">\n                        <div class=\"weui_actionsheet_menu\">\n                            <div id=\"reboot\" class=\"weui_actionsheet_cell\">Reboot</div>\n                            <div id=\"shutdown\" class=\"weui_actionsheet_cell\">Shutdown</div>\n                        </div>\n                        <div class=\"weui_actionsheet_action\">\n                            <div class=\"weui_actionsheet_cell\" id=\"cancel\">Cancel</div>\n                        </div>\n                    </div>\n                </div>\n            ");
+	                this.$element.append(this.$actionSheet);
+	                this.$actionSheet.on("click", "#mask", function (e) {
+	                    _this4.hidePowerActionSheet();
+	                });
+	                this.$actionSheet.on("click", ".weui_actionsheet_cell", function (e) {
+	                    var action = e.currentTarget.id;
+	                    if (action !== "cancel") {
+	                        _this4.trigger("powerAction", { action: action });
+	                    }
+	                    _this4.hidePowerActionSheet();
+	                });
+	            }
 	            setTimeout(function () {
-	                _this2.$mask.children().remove();
-	                _this2.hideMask();
-	            }, duration);
+	                _this4.$actionSheet.find("#mask").show().addClass("weui_fade_toggle");
+	                _this4.$actionSheet.find("#actionsheet").addClass("weui_actionsheet_toggle");
+	            });
+	        }
+	    }, {
+	        key: "hidePowerActionSheet",
+	        value: function hidePowerActionSheet() {
+	            if (this.$actionSheet) {
+	                this.$actionSheet.find("#mask").hide().removeClass("weui_fade_toggle");
+	                this.$actionSheet.find("#actionsheet").removeClass("weui_actionsheet_toggle");
+	            }
 	        }
 	    }]);
 	    return Application;
@@ -4527,6 +4616,7 @@ webpackJsonp([0],[
 	            this.addStyleClass("rpm-main-menu-view");
 	            this._initInfoGroup();
 	            this._initServiceGroup();
+	            this._initPowerButton();
 	        }
 	    }, {
 	        key: "_initInfoGroup",
@@ -4549,6 +4639,15 @@ webpackJsonp([0],[
 	                        }
 	                    }
 	                });
+	            });
+	        }
+	    }, {
+	        key: "_initPowerButton",
+	        value: function _initPowerButton() {
+	            var _this3 = this;
+
+	            this._$button("Power").on("click", function () {
+	                _this3.trigger("powerButtonClick");
 	            });
 	        }
 	    }, {
@@ -4595,9 +4694,18 @@ webpackJsonp([0],[
 	    }, {
 	        key: "_$checkBoxCell",
 	        value: function _$checkBoxCell(title, id) {
-	            var $checkBox = "<input id=\"" + id + "\" class=\"weui_switch\" type=\"checkbox\" />";
+	            var $checkBox = $("<input id=\"" + id + "\" class=\"weui_switch\" type=\"checkbox\" />");
 	            var $cell = this._$cell(title, $checkBox);
 	            return $cell;
+	        }
+	    }, {
+	        key: "_$button",
+	        value: function _$button(title) {
+	            var $button = $("<a class=\"weui_btn weui_btn_primary\" href=\"javascript:\">" + title + "</a>");
+	            var $area = $("<div class=\"weui_btn_area\"></div>");
+	            $area.append($button);
+	            this.$element.append($area);
+	            return $button;
 	        }
 	    }, {
 	        key: "sysInfo",
@@ -4687,11 +4795,8 @@ webpackJsonp([0],[
 	                    }
 	                }, _callee, _this);
 	            }))();
-	        }
-	    },
-
-	    service: {
-	        all: function all() {
+	        },
+	        shutdown: function shutdown() {
 	            var _this2 = this;
 
 	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
@@ -4701,7 +4806,8 @@ webpackJsonp([0],[
 	                            case 0:
 	                                _context2.next = 2;
 	                                return $.ajax({
-	                                    url: API_PATH + "/service"
+	                                    method: "post",
+	                                    url: API_PATH + "/sys/shutdown"
 	                                });
 
 	                            case 2:
@@ -4715,7 +4821,7 @@ webpackJsonp([0],[
 	                }, _callee2, _this2);
 	            }))();
 	        },
-	        toggle: function toggle(name, active) {
+	        reboot: function reboot() {
 	            var _this3 = this;
 
 	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
@@ -4726,7 +4832,7 @@ webpackJsonp([0],[
 	                                _context3.next = 2;
 	                                return $.ajax({
 	                                    method: "post",
-	                                    url: API_PATH + "/service/" + name + "/" + (active ? "start" : "stop")
+	                                    url: API_PATH + "/sys/reboot"
 	                                });
 
 	                            case 2:
@@ -4739,8 +4845,11 @@ webpackJsonp([0],[
 	                    }
 	                }, _callee3, _this3);
 	            }))();
-	        },
-	        start: function start(name) {
+	        }
+	    },
+
+	    service: {
+	        all: function all() {
 	            var _this4 = this;
 
 	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
@@ -4748,9 +4857,15 @@ webpackJsonp([0],[
 	                    while (1) {
 	                        switch (_context4.prev = _context4.next) {
 	                            case 0:
-	                                return _context4.abrupt("return", _this4.toggle(name, false));
+	                                _context4.next = 2;
+	                                return $.ajax({
+	                                    url: API_PATH + "/service"
+	                                });
 
-	                            case 1:
+	                            case 2:
+	                                return _context4.abrupt("return", _context4.sent);
+
+	                            case 3:
 	                            case "end":
 	                                return _context4.stop();
 	                        }
@@ -4758,7 +4873,7 @@ webpackJsonp([0],[
 	                }, _callee4, _this4);
 	            }))();
 	        },
-	        stop: function stop(name) {
+	        toggle: function toggle(name, active) {
 	            var _this5 = this;
 
 	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
@@ -4766,14 +4881,57 @@ webpackJsonp([0],[
 	                    while (1) {
 	                        switch (_context5.prev = _context5.next) {
 	                            case 0:
-	                                return _context5.abrupt("return", _this5.toggle(name, false));
+	                                _context5.next = 2;
+	                                return $.ajax({
+	                                    method: "post",
+	                                    url: API_PATH + "/service/" + name + "/" + (active ? "start" : "stop")
+	                                });
 
-	                            case 1:
+	                            case 2:
+	                                return _context5.abrupt("return", _context5.sent);
+
+	                            case 3:
 	                            case "end":
 	                                return _context5.stop();
 	                        }
 	                    }
 	                }, _callee5, _this5);
+	            }))();
+	        },
+	        start: function start(name) {
+	            var _this6 = this;
+
+	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+	                return _regenerator2.default.wrap(function _callee6$(_context6) {
+	                    while (1) {
+	                        switch (_context6.prev = _context6.next) {
+	                            case 0:
+	                                return _context6.abrupt("return", _this6.toggle(name, false));
+
+	                            case 1:
+	                            case "end":
+	                                return _context6.stop();
+	                        }
+	                    }
+	                }, _callee6, _this6);
+	            }))();
+	        },
+	        stop: function stop(name) {
+	            var _this7 = this;
+
+	            return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+	                return _regenerator2.default.wrap(function _callee7$(_context7) {
+	                    while (1) {
+	                        switch (_context7.prev = _context7.next) {
+	                            case 0:
+	                                return _context7.abrupt("return", _this7.toggle(name, false));
+
+	                            case 1:
+	                            case "end":
+	                                return _context7.stop();
+	                        }
+	                    }
+	                }, _callee7, _this7);
 	            }))();
 	        }
 	    }
