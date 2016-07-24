@@ -159,7 +159,7 @@ webpackJsonp([0],[
 	                            case 4:
 	                                result = _context2.sent;
 
-	                                this.view.showToast("Service " + (e.service.status.active ? "started" : "stopped"));
+	                                this.view.showToast(e.service.name + " " + (e.service.status.active ? "started" : "stopped"));
 	                                _context2.next = 15;
 	                                break;
 

@@ -57,7 +57,7 @@ export default class ApplicationController extends NJUApplicationController
         try
         {
             const result = await api.service.toggle(e.service.name, e.service.status.active);
-            this.view.showToast(`Service ${e.service.status.active ? "started" : "stopped"}`);
+            this.view.showToast(`${e.service.name} ${e.service.status.active ? "started" : "stopped"}`);
         }
         catch (err)
         {
