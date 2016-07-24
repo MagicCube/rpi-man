@@ -5622,6 +5622,12 @@ webpackJsonp([0],[
 	            var style = {
 	                minValue: 0,
 	                maxValueScale: 1.4,
+	                yMinFormatter: function yMinFormatter(y) {
+	                    return parseInt(y) + "%";
+	                },
+	                yMaxFormatter: function yMaxFormatter(y) {
+	                    return parseInt(y) + "%";
+	                },
 	                yRangeFunction: function yRangeFunction(range) {
 	                    if (range.max > 100) {
 	                        range.max = 100;

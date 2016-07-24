@@ -76,6 +76,8 @@ export default class MonitorScene extends Scene
         const style = {
             minValue: 0,
             maxValueScale: 1.4,
+            yMinFormatter: y => parseInt(y) + "%",
+            yMaxFormatter: y => parseInt(y) + "%",
             yRangeFunction: range => {
                 if (range.max > 100)
                 {
