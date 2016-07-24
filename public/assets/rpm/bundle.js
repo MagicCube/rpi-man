@@ -5617,7 +5617,7 @@ webpackJsonp([0],[
 	    }, {
 	        key: "_formatTemperature",
 	        value: function _formatTemperature(temp) {
-	            return (temp ? Math.round(temp * 100) / 100 : 0) + "°C";
+	            return (temp ? Math.round(temp / 1000 * 100) / 100 : 0) + "°C";
 	        }
 	    }, {
 	        key: "_formatByte",
