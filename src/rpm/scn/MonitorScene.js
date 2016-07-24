@@ -165,7 +165,7 @@ export default class MonitorScene extends Scene
     _formatByte(b)
     {
         const mb = Math.round(b / 1024 / 1024);
-        return mb >= (1024 * 0.6) ? (parseInt(mb / 1024 * 100) / 100) + " GB" : mb + " MB";
+        return mb >= (1024 * 0.5) ? (parseInt(mb / 1024 * 100) / 100) + " GB" : mb + " MB";
     }
 
     _formatMB(b)

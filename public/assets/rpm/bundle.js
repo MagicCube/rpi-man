@@ -5709,7 +5709,7 @@ webpackJsonp([0],[
 	        key: "_formatByte",
 	        value: function _formatByte(b) {
 	            var mb = Math.round(b / 1024 / 1024);
-	            return mb >= 1024 * 0.6 ? parseInt(mb / 1024 * 100) / 100 + " GB" : mb + " MB";
+	            return mb >= 1024 * 0.5 ? parseInt(mb / 1024 * 100) / 100 + " GB" : mb + " MB";
 	        }
 	    }, {
 	        key: "_formatMB",
