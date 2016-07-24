@@ -1,4 +1,17 @@
-.rpi-monitor-scene
+.rpm-monitor-scene
 {
-    
+    #mem-usage, #cpu-usage
+    {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .chart-container.weui_cell
+    {
+        padding-top: 0;
+        &:before
+        {
+            border-top: none;
+        }
+    }
 }

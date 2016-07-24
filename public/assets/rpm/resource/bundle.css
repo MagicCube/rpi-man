@@ -1987,3 +1987,14 @@ body {
   color: #225fba;
   text-align: center;
 }
+.rpm-monitor-scene #mem-usage,
+.rpm-monitor-scene #cpu-usage {
+  font-size: 18px;
+  font-weight: bold;
+}
+.rpm-monitor-scene .chart-container.weui_cell {
+  padding-top: 0;
+}
+.rpm-monitor-scene .chart-container.weui_cell:before {
+  border-top: none;
+}

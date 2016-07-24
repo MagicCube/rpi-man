@@ -47,8 +47,8 @@ export default class MonitorScene extends Scene
         this.$group(
             "CPU",
             [
-                this.$cell().attr("id", "cpu-chart-container").addClass("chart-container"),
                 this.$cell("Usage", $(`<span id="cpu-usage"></span>`)),
+                this.$cell().attr("id", "cpu-chart-container").addClass("chart-container"),
                 this.$cell("Speed", $(`<span id="cpu-speed"></span>`)),
                 this.$cell("Temperature", $(`<span id="cpu-temperature"></span>`))
             ]
@@ -57,8 +57,8 @@ export default class MonitorScene extends Scene
         this.$group(
             "Memory",
             [
-                this.$cell().attr("id", "mem-chart-container").addClass("chart-container"),
                 this.$cell("Usage", $(`<span id="mem-usage"></span>`)),
+                this.$cell().attr("id", "mem-chart-container").addClass("chart-container"),
                 this.$cell("Free", $(`<span id="mem-free"></span>`)),
                 this.$cell("Total", $(`<span id="mem-total"></span>`))
             ]
@@ -154,7 +154,7 @@ export default class MonitorScene extends Scene
 
     _formatPercentage(percentage)
     {
-        return Math.round(percentage * 1000) / 10 + "%";
+        return Math.round(percentage * 1000) / 10 + " %";
     }
 
     _formatTemperature(temp)
