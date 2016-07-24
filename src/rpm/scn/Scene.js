@@ -13,8 +13,11 @@ export default class Scene extends View
         const $group = $(`<div class="rpm-scene-group"/>`);
         this.$element.append($group);
 
-        const $title = $(`<div class="weui_cells_title">${title}</div>`);
-        $group.append($title);
+        if (title)
+        {
+            const $title = $(`<div class="weui_cells_title">${title}</div>`);
+            $group.append($title);
+        }
 
         const $cells = $(`<div class="weui_cells"></div>`);
         $group.append($cells);
@@ -36,13 +39,13 @@ export default class Scene extends View
     {
         const $cell = $(`<div class="weui_cell">
             <div class="weui_cell_bd weui_cell_primary">
-                <p>${title}</p>
+                ${title ? "<p>" + title + "</p>" : ""}
             </div>
-            <div class="weui_cell_ft"></div>
         </div>`);
-        if ($content)
+        if ($content !== undefined)
         {
-            const $ft = $cell.children(".weui_cell_ft");
+            const $ft = $(`<div class="weui_cell_ft"></div>`);
+            $cell.append($ft);
             $ft.append($($content));
         }
         return $cell;

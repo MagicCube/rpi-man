@@ -16,8 +16,8 @@ export default class HomeScene extends Scene
         this.$group(
             "System info",
             [
-                this.$cell("Machine", $(`<span id="hostname" style="font-size:12px;"></span>`)),
-                this.$cell("Monitor", $(`<span id="hostname" style="font-size:12px;"></span>`)).on("click", () => {
+                this.$cell("Machine", $(`<span id="hostname" style="font-size:14px;"></span>`)),
+                this.$cell("Monitor", "").on("click", () => {
                     this.trigger("monitorClick");
                 })
             ]

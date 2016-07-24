@@ -31,10 +31,12 @@ export default class MonitorSceneController extends SceneController
     _onActivated()
     {
         model.startMonitorStatus();
+        this.view.startChart();
     }
 
     _onDeactivated()
     {
         model.stopMonitorStatus();
+        this.view.stopChart();
     }
 }
