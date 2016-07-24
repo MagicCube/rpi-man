@@ -57,14 +57,14 @@ export default class ApplicationController extends NJUApplicationController
         this.view.showMask();
         try
         {
-            const result = await api.service.toggle(e.service.name, e.service.status.active);
+            const result = await api.service.toggle(e.service.id, e.service.status.active);
             this.view.showToast(`${e.service.name} ${e.service.status.active ? "started" : "stopped"}`);
         }
         catch (err)
         {
             console.error(err);
-            alert(`Sorry, can not ${e.service.status.active ? "start" : "stop"} service.`);
-            this.services[e.service.name].active = !e.service.status.active;
+            alert(`Sorry, can not ${e.service.status.active ? "start" : "stop"} ${e.service.name} service right now.`);
+            this.services[e.service.id].active = !e.service.status.active;
             this.mainMenuView.renderServices();
             this.view.hideMask();
         }

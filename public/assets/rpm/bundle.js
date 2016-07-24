@@ -155,7 +155,7 @@ webpackJsonp([0],[
 	                                this.view.showMask();
 	                                _context2.prev = 1;
 	                                _context2.next = 4;
-	                                return _api2.default.service.toggle(e.service.name, e.service.status.active);
+	                                return _api2.default.service.toggle(e.service.id, e.service.status.active);
 
 	                            case 4:
 	                                result = _context2.sent;
@@ -169,8 +169,8 @@ webpackJsonp([0],[
 	                                _context2.t0 = _context2["catch"](1);
 
 	                                console.error(_context2.t0);
-	                                alert("Sorry, can not " + (e.service.status.active ? "start" : "stop") + " service.");
-	                                this.services[e.service.name].active = !e.service.status.active;
+	                                alert("Sorry, can not " + (e.service.status.active ? "start" : "stop") + " " + e.service.name + " service right now.");
+	                                this.services[e.service.id].active = !e.service.status.active;
 	                                this.mainMenuView.renderServices();
 	                                this.view.hideMask();
 
@@ -4633,7 +4633,8 @@ webpackJsonp([0],[
 	                var active = e.currentTarget.checked;
 	                _this2.trigger("serviceStatusChanging", {
 	                    service: {
-	                        name: e.currentTarget.id,
+	                        id: e.currentTarget.id,
+	                        name: e.currentTarget.title,
 	                        status: {
 	                            active: e.currentTarget.checked
 	                        }
@@ -4694,7 +4695,7 @@ webpackJsonp([0],[
 	    }, {
 	        key: "_$checkBoxCell",
 	        value: function _$checkBoxCell(title, id) {
-	            var $checkBox = $("<input id=\"" + id + "\" class=\"weui_switch\" type=\"checkbox\" />");
+	            var $checkBox = $("<input id=\"" + id + "\" class=\"weui_switch\" type=\"checkbox\" title=\"" + title + "\" />");
 	            var $cell = this._$cell(title, $checkBox);
 	            return $cell;
 	        }

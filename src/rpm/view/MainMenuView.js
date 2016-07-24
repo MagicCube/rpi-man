@@ -36,7 +36,8 @@ export default class MainMenuView extends View
             const active = e.currentTarget.checked
             this.trigger("serviceStatusChanging", {
                 service: {
-                    name: e.currentTarget.id,
+                    id: e.currentTarget.id,
+                    name: e.currentTarget.title,
                     status: {
                         active: e.currentTarget.checked
                     }
@@ -137,7 +138,7 @@ export default class MainMenuView extends View
 
     _$checkBoxCell(title, id)
     {
-        const $checkBox = $(`<input id="${id}" class="weui_switch" type="checkbox" />`);
+        const $checkBox = $(`<input id="${id}" class="weui_switch" type="checkbox" title="${title}" />`);
         const $cell = this._$cell(title, $checkBox);
         return $cell;
     }
