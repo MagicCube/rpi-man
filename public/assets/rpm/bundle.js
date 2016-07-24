@@ -5627,6 +5627,9 @@ webpackJsonp([0],[
 	                        range.max = 100;
 	                    }
 	                    range.max = parseInt(range.max / 10) * 10;
+	                    if (range.max <= 10) {
+	                        range.max = 10;
+	                    }
 	                    return range;
 	                },
 	                grid: grid,
