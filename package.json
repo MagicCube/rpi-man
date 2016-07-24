@@ -21,9 +21,9 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-session": "^1.14.0",
+    "md5": "^2.1.0",
     "os-utils": "0.0.14",
     "passport": "^0.3.2",
-    "passport-http": "^0.3.0",
     "passport-local": "^1.0.0",
     "pty.js": "^0.3.1",
     "socket.io": "^1.4.8"
@@ -43,7 +43,6 @@
     "rimraf": "^2.5.4",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1",
     "weui": "^0.4.3",
     "wolfy87-eventemitter": "^5.1.0"
   }

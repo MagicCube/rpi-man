@@ -2,6 +2,8 @@ import NJUApplicationController from "../../nju/app/ApplicationController";
 
 import Application from "./Application";
 
+import api from "../api";
+
 export default class ApplicationController extends NJUApplicationController
 {
     init()
@@ -43,21 +45,20 @@ export default class ApplicationController extends NJUApplicationController
 
     async run()
     {
-        this.sysInfo = await $.ajax({
-            url: "/api/sys/info"
-        });
-        this.services = await $.ajax({
-            url: "/api/service"
-        });
+        this.sysInfo = await api.sys.info();
+        this.services = await api.service.all();
     }
-
-
 
     async _serviceStatusChanging(e)
     {
-        await $.ajax({
-            method: "post",
-            url: `/api/service/${e.service.name}/${e.service.status.active ? "start" : "stop"}`
-        });
+        try
+        {
+            const result = await api.service.toggle(e.service.name, e.service.status.active);
+            console.log(result);
+        }
+        catch (err)
+        {
+            console.error(err);
+        }
     }
 }

@@ -46,17 +46,5 @@ module.exports = {
             minChunks: Infinity
         }),
         new ExtractTextPlugin("./[name]/resource/bundle.css")
-    ],
-
-    devServer:
-    {
-        proxy: {
-            "/api/*": {
-                target: "http://localhost:3000/",
-                host: "localhost",
-                port: "3000",
-                secure: false
-            }
-        }
-    }
+    ]
 };

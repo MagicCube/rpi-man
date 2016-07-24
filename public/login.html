@@ -14,28 +14,28 @@
         <main>
             <div class="rpm-main-menu-view">
                 <div class="group">
-                    <div class="weui_cells">
+                    <div class="weui_cells weui_cells_form">
 
                         <div class="weui_cell">
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <p>User name</p>
+                            <div class="weui_cell_hd">
+                                <label class="weui_label">User name</label>
                             </div>
-                            <div class="weui_cell_ft">
-                                <input type="text" name="username" class="weui_input" placeholder="Input name here" />
+                            <div class="weui_cell_bd">
+                                <input type="text" name="username" class="weui_input" placeholder="Input name here" tabindex="1" autofocus="autofocus" />
                             </div>
                         </div>
                         <div class="weui_cell">
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <p>Password</p>
+                            <div class="weui_cell_hd">
+                                <label class="weui_label">Password</label>
                             </div>
-                            <div class="weui_cell_ft">
-                                <input type="password" name="password" class="weui_input" placeholder="Input password here" />
+                            <div class="weui_cell_bd">
+                                <input type="password" name="password" class="weui_input" placeholder="Input password here" tabindex="2" />
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="weui_btn_area">
-                    <a class="weui_btn weui_btn_primary" href="javascript:document.forms[0].submit()" id="showTooltips">Login</a>
+                    <a class="weui_btn weui_btn_primary" href="javascript:document.forms[0].submit()" id="showTooltips" tabindex="3">Sign in</a>
                 </div>
             </div>
         </main>
