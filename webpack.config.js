@@ -50,8 +50,10 @@ module.exports = {
 
 
     resolve: {
+        root: path.resolve("./src/"),
         alias: {
-            "nju": path.resolve("./src/nju")
+            nju: path.resolve("./src/nju"),
+            rpm: path.resolve("./src/rpm")
         }
     }
 };
