@@ -10,35 +10,39 @@
 
 <form method="post" action="/login">
     <div class="nju-app rpm-app">
-        <header><h1>Raspberry PI</h1></header>
-        <main>
-            <div class="rpm-main-menu-view">
-                <div class="group">
-                    <div class="weui_cells weui_cells_form">
+        <div class="scene-container">
+            <div class="rpm-scene">
+                <header><h1>Raspberry PI</h1></header>
+                <main>
+                    <div class="rpm-main-menu-view">
+                        <div class="group">
+                            <div class="weui_cells weui_cells_form">
 
-                        <div class="weui_cell">
-                            <div class="weui_cell_hd">
-                                <label class="weui_label">User name</label>
-                            </div>
-                            <div class="weui_cell_bd">
-                                <input type="text" name="username" class="weui_input" placeholder="Input name here" tabindex="1" autofocus="autofocus" />
+                                <div class="weui_cell">
+                                    <div class="weui_cell_hd">
+                                        <label class="weui_label">User name</label>
+                                    </div>
+                                    <div class="weui_cell_bd">
+                                        <input type="text" name="username" class="weui_input" placeholder="Input name here" tabindex="1" autofocus="autofocus" />
+                                    </div>
+                                </div>
+                                <div class="weui_cell">
+                                    <div class="weui_cell_hd">
+                                        <label class="weui_label">Password</label>
+                                    </div>
+                                    <div class="weui_cell_bd">
+                                        <input type="password" name="password" class="weui_input" placeholder="Input password here" tabindex="2" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="weui_cell">
-                            <div class="weui_cell_hd">
-                                <label class="weui_label">Password</label>
-                            </div>
-                            <div class="weui_cell_bd">
-                                <input type="password" name="password" class="weui_input" placeholder="Input password here" tabindex="2" />
-                            </div>
+                        <div class="weui_btn_area">
+                            <a class="weui_btn weui_btn_primary" href="javascript:document.forms[0].submit()" id="showTooltips" tabindex="3">Sign in</a>
                         </div>
                     </div>
-                </div>
-                <div class="weui_btn_area">
-                    <a class="weui_btn weui_btn_primary" href="javascript:document.forms[0].submit()" id="showTooltips" tabindex="3">Sign in</a>
-                </div>
+                </main>
             </div>
-        </main>
+        </div>
     </div>
 </form>
 
