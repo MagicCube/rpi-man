@@ -1,4 +1,4 @@
-import ViewController from "../../nju/view/ViewController";
+import ViewController from "nju/view/ViewController";
 
 export default class SceneController extends ViewController
 {

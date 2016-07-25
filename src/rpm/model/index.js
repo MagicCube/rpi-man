@@ -1,4 +1,4 @@
-import ManagedObject from "../../nju/base/ManagedObject";
+import ManagedObject from "nju/base/ManagedObject";
 
 import api from "../api";
 

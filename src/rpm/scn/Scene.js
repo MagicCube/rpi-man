@@ -1,4 +1,4 @@
-import View from "../../nju/view/View";
+import View from "nju/view/View";
 
 export default class Scene extends View
 {

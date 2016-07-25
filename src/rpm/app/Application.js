@@ -1,4 +1,4 @@
-import NJUApplication from "../../nju/app/Application";
+import NJUApplication from "nju/app/Application";
 
 export default class Application extends NJUApplication
 {

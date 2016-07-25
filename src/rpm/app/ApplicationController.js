@@ -1,4 +1,4 @@
-import NJUApplicationController from "../../nju/app/ApplicationController";
+import NJUApplicationController from "nju/app/ApplicationController";
 
 import Application from "./Application";
 import HomeSceneController from "../scn/HomeSceneController";

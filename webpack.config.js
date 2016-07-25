@@ -46,5 +46,12 @@ module.exports = {
             minChunks: Infinity
         }),
         new ExtractTextPlugin("./[name]/resource/bundle.css")
-    ]
+    ],
+
+
+    resolve: {
+        alias: {
+            "nju": path.resolve("./src/nju")
+        }
+    }
 };
