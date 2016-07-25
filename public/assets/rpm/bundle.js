@@ -179,11 +179,13 @@ webpackJsonp([0],[
 	                if (animation === "push") {
 	                    sceneController.view.css({
 	                        x: window.innerWidth,
-	                        y: 0
+	                        y: 0,
+	                        opacity: 0
 	                    });
 	                    this.view.addSubview(sceneController.view);
 	                    sceneController.view.$element.transition({
-	                        x: 0
+	                        x: 0,
+	                        opacity: 1
 	                    }, 300, function () {
 	                        if (viewToBeRemoved) {
 	                            viewToBeRemoved.removeFromParent();

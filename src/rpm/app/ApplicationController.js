@@ -93,11 +93,13 @@ export default class ApplicationController extends NJUApplicationController
             {
                 sceneController.view.css({
                     x: window.innerWidth,
-                    y: 0
+                    y: 0,
+                    opacity: 0
                 });
                 this.view.addSubview(sceneController.view);
                 sceneController.view.$element.transition({
-                    x: 0
+                    x: 0,
+                    opacity: 1
                 }, 300, () => {
                     if (viewToBeRemoved)
                     {
