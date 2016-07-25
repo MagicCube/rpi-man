@@ -15,32 +15,6 @@ export default class MonitorScene extends Scene
         this._initCharts();
     }
 
-    get sysInfo()
-    {
-        return this._sysInfo;
-    }
-    set sysInfo(value)
-    {
-        this._sysInfo = value;
-        if (this.sysInfo)
-        {
-            this.$("#mem-total").text(this._formatByte(this.sysInfo.machine.mem.total));
-        }
-        else
-        {
-            this.$("#mem-total").text("");
-        }
-    }
-
-    get sysStatus()
-    {
-        return this._sysStatus;
-    }
-    set sysStatus(value)
-    {
-        this._sysStatus = value;
-        this.renderStatus();
-    }
 
     _initGroups()
     {
@@ -67,7 +41,7 @@ export default class MonitorScene extends Scene
 
     _initCharts()
     {
-        let $canvas = $(`<canvas width="345" height="85" />`);
+        let $canvas = $(`<canvas width="${window.innerWidth - 30}" height="85" />`);
         this.$("#cpu-chart-container").append($canvas);
         const grid = {
             fillStyle: 'transparent',
@@ -98,7 +72,7 @@ export default class MonitorScene extends Scene
         chart.addTimeSeries(this._cpuTimeSeries, {lineWidth:2,strokeStyle:'#ff0000',fillStyle:'rgba(240,150,92,0.30)'});
         this._cpuChart = chart;
 
-        $canvas = $(`<canvas width="345" height="85" />`);
+        $canvas = $(`<canvas width="${window.innerWidth - 30}" height="85" />`);
         this.$("#mem-chart-container").append($canvas);
         chart = new SmoothieChart(style);
         chart.streamTo($canvas[0]);
@@ -108,6 +82,41 @@ export default class MonitorScene extends Scene
 
         this.stopChart();
     }
+
+
+    get title()
+    {
+        return "Monitor";
+    }
+
+    get sysInfo()
+    {
+        return this._sysInfo;
+    }
+    set sysInfo(value)
+    {
+        this._sysInfo = value;
+        if (this.sysInfo)
+        {
+            this.$("#mem-total").text(this._formatByte(this.sysInfo.machine.mem.total));
+        }
+        else
+        {
+            this.$("#mem-total").text("");
+        }
+    }
+
+    get sysStatus()
+    {
+        return this._sysStatus;
+    }
+    set sysStatus(value)
+    {
+        this._sysStatus = value;
+        this.renderStatus();
+    }
+
+
 
     renderStatus()
     {

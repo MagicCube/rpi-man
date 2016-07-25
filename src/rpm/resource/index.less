@@ -1,6 +1,14 @@
 @import "../../../node_modules/weui/dist/style/weui.css";
 @import "variables.less";
 
+html, body
+{
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
 body
 {
     background: @body-bg;
@@ -8,12 +16,54 @@ body
 
 .rpm-app
 {
-    > header
+    width: 100%;
+    height: 100%;
+
+    > .scene-container
     {
-        h1
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        > .rpm-scene
         {
-            color: #225fba;
-            text-align: center;
+            background: @body-bg;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            > header
+            {
+                height: 50px;
+                overflow: hidden;
+
+                h1
+                {
+                    color: #225fba;
+                    text-align: center;
+                }
+            }
+
+            > main
+            {
+                position: absolute;
+                top: 50px;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                > .rpm-scene
+                {
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                }
+            }
         }
     }
 }

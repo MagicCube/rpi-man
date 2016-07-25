@@ -6,11 +6,6 @@ import model from "../model";
 
 export default class HomeSceneController extends SceneController
 {
-    get title()
-    {
-        return "Home";
-    }
-
     createView()
     {
         return new HomeScene();

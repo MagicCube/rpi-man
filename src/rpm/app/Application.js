@@ -6,24 +6,9 @@ export default class Application extends NJUApplication
     {
         super.init();
         this.addStyleClass("rpm-app");
-        this._initLayout();
-    }
 
-    _initLayout()
-    {
-        this.$element.append(`
-            <header><h1>Raspberry PI</h1></header>
-            <main></main>`);
-        this.$container = this.$element.children("main");
-    }
-
-    get title()
-    {
-        return this.$("> header > h1").text();
-    }
-    set title(value)
-    {
-        this.$("> header > h1").text(value);
+        this.$container = $(`<div class="scene-container">`);
+        this.$element.append(this.$container);
     }
 
     showMask()

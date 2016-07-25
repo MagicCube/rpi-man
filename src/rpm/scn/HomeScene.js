@@ -14,7 +14,7 @@ export default class HomeScene extends Scene
     _initInfoGroup()
     {
         this.$group(
-            "System info",
+            "System",
             [
                 this.$cell("Machine", $(`<span id="hostname" style="font-size:14px;"></span>`)),
                 this.$cell("Monitor", "").on("click", () => {
@@ -53,6 +53,12 @@ export default class HomeScene extends Scene
         this.$button("Power off", "warn").on("click", () => {
             this.showPowerActionSheet();
         });
+    }
+
+
+    get title()
+    {
+        return "Home";
     }
 
 

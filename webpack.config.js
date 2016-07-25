@@ -11,7 +11,7 @@ module.exports = {
     context: path.resolve(CLIENT_SRC),
 
     entry: {
-        vendor: [ "jquery" ],
+        vendor: [ "jquery", "jquery.transit" ],
         rpm: [ "./rpm/index.js", "./rpm/resource/index.less" ]
     },
 

@@ -152,25 +152,57 @@ webpackJsonp([0],[
 	                this.setHashPath(path);
 	            }
 	            this.mapScene(path, sceneController);
-	            this.activateSceneController(sceneController);
+	            this.activateSceneController(sceneController, { animation: this.activeSceneController ? "push" : false });
 	        }
 	    }, {
 	        key: "activateSceneController",
 	        value: function activateSceneController(sceneController) {
+	            var _ref2 = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+	            var _ref2$animation = _ref2.animation;
+	            var animation = _ref2$animation === undefined ? false : _ref2$animation;
+
 	            if (this.activeSceneController === sceneController) {
 	                return;
 	            }
+	            var viewToBeRemoved = null;
 	            if (this.activeSceneController) {
 	                this.activeSceneController.trigger("deactivating");
-	                this.view.removeSubview(this.activeSceneController.view);
+	                viewToBeRemoved = this.activeSceneController.view;
 	                this.activeSceneController.trigger("deactivated");
 	                this._activeSceneController = null;
 	            }
 	            this._activeSceneController = sceneController;
 	            sceneController.parent = this;
-	            this.view.title = sceneController.title;
 	            this.activeSceneController.trigger("activating");
-	            this.view.addSubview(sceneController.view);
+	            if (animation) {
+	                if (animation === "push") {
+	                    sceneController.view.css({
+	                        x: window.innerWidth,
+	                        y: 0
+	                    });
+	                    this.view.addSubview(sceneController.view);
+	                    sceneController.view.$element.transition({
+	                        x: 0
+	                    }, 300, function () {
+	                        if (viewToBeRemoved) {
+	                            viewToBeRemoved.removeFromParent();
+	                        }
+	                    });
+	                } else {
+	                    animation = false;
+	                }
+	            }
+	            if (!animation) {
+	                if (viewToBeRemoved) {
+	                    this.view.removeSubview(viewToBeRemoved);
+	                }
+	                sceneController.view.css({
+	                    x: 0,
+	                    y: 0
+	                });
+	                this.view.addSubview(sceneController.view);
+	            }
 	            this.activeSceneController.trigger("activated");
 	        }
 	    }, {
@@ -3641,6 +3673,20 @@ webpackJsonp([0],[
 	            (_$element3 = this.$element).toggleClass.apply(_$element3, arguments);
 	        }
 	    }, {
+	        key: "css",
+	        value: function css() {
+	            var _$element4;
+
+	            (_$element4 = this.$element).css.apply(_$element4, arguments);
+	        }
+	    }, {
+	        key: "transit",
+	        value: function transit() {
+	            var _$element5;
+
+	            (_$element5 = this.$element).transition.apply(_$element5, arguments);
+	        }
+	    }, {
 	        key: "addSubview",
 	        value: function addSubview(view) {
 	            var $container = arguments.length <= 1 || arguments[1] === undefined ? this.$container : arguments[1];
@@ -3708,9 +3754,9 @@ webpackJsonp([0],[
 	    }, {
 	        key: "$",
 	        value: function $() {
-	            var _$element4;
+	            var _$element6;
 
-	            return (_$element4 = this.$element).find.apply(_$element4, arguments);
+	            return (_$element6 = this.$element).find.apply(_$element6, arguments);
 	        }
 	    }, {
 	        key: "subviews",
@@ -4428,13 +4474,9 @@ webpackJsonp([0],[
 	        value: function init() {
 	            (0, _get3.default)(Object.getPrototypeOf(Application.prototype), "init", this).call(this);
 	            this.addStyleClass("rpm-app");
-	            this._initLayout();
-	        }
-	    }, {
-	        key: "_initLayout",
-	        value: function _initLayout() {
-	            this.$element.append("\n            <header><h1>Raspberry PI</h1></header>\n            <main></main>");
-	            this.$container = this.$element.children("main");
+
+	            this.$container = $("<div class=\"scene-container\">");
+	            this.$element.append(this.$container);
 	        }
 	    }, {
 	        key: "showMask",
@@ -4483,14 +4525,6 @@ webpackJsonp([0],[
 	                    _this2.hideMask();
 	                }, duration);
 	            }
-	        }
-	    }, {
-	        key: "title",
-	        get: function get() {
-	            return this.$("> header > h1").text();
-	        },
-	        set: function set(value) {
-	            this.$("> header > h1").text(value);
 	        }
 	    }]);
 	    return Application;
@@ -4681,11 +4715,6 @@ webpackJsonp([0],[
 	        value: function _onMonitorClick() {
 	            this.parent.pushSceneController(this.parent.monitorSceneController, "/monitor");
 	        }
-	    }, {
-	        key: "title",
-	        get: function get() {
-	            return "Home";
-	        }
 	    }]);
 	    return HomeSceneController;
 	}(_SceneController3.default);
@@ -4750,7 +4779,7 @@ webpackJsonp([0],[
 	        value: function _initInfoGroup() {
 	            var _this2 = this;
 
-	            this.$group("System info", [this.$cell("Machine", $("<span id=\"hostname\" style=\"font-size:14px;\"></span>")), this.$cell("Monitor", "").on("click", function () {
+	            this.$group("System", [this.$cell("Machine", $("<span id=\"hostname\" style=\"font-size:14px;\"></span>")), this.$cell("Monitor", "").on("click", function () {
 	                _this2.trigger("monitorClick");
 	            })]).addClass("weui_cells_access");
 	        }
@@ -4822,6 +4851,11 @@ webpackJsonp([0],[
 	                this.$actionSheet.find("#mask").hide().removeClass("weui_fade_toggle");
 	                this.$actionSheet.find("#actionsheet").removeClass("weui_actionsheet_toggle");
 	            }
+	        }
+	    }, {
+	        key: "title",
+	        get: function get() {
+	            return "Home";
 	        }
 	    }, {
 	        key: "sysInfo",
@@ -4901,6 +4935,13 @@ webpackJsonp([0],[
 	        value: function init() {
 	            (0, _get3.default)(Object.getPrototypeOf(Scene.prototype), "init", this).call(this);
 	            this.addStyleClass("rpm-scene");
+	            this.initLayout();
+	        }
+	    }, {
+	        key: "initLayout",
+	        value: function initLayout() {
+	            this.$element.append("\n            <header><h1>" + this.title + "</h1></header>\n            <main></main>");
+	            this.$container = this.$element.children("main");
 	        }
 	    }, {
 	        key: "$group",
@@ -4954,6 +4995,11 @@ webpackJsonp([0],[
 	            $area.append($button);
 	            this.$element.append($area);
 	            return $button;
+	        }
+	    }, {
+	        key: "title",
+	        get: function get() {
+	            return "";
 	        }
 	    }]);
 	    return Scene;
@@ -5613,7 +5659,7 @@ webpackJsonp([0],[
 	    }, {
 	        key: "_initCharts",
 	        value: function _initCharts() {
-	            var $canvas = $("<canvas width=\"345\" height=\"85\" />");
+	            var $canvas = $("<canvas width=\"" + (window.innerWidth - 30) + "\" height=\"85\" />");
 	            this.$("#cpu-chart-container").append($canvas);
 	            var grid = {
 	                fillStyle: 'transparent',
@@ -5645,7 +5691,7 @@ webpackJsonp([0],[
 	            chart.addTimeSeries(this._cpuTimeSeries, { lineWidth: 2, strokeStyle: '#ff0000', fillStyle: 'rgba(240,150,92,0.30)' });
 	            this._cpuChart = chart;
 
-	            $canvas = $("<canvas width=\"345\" height=\"85\" />");
+	            $canvas = $("<canvas width=\"" + (window.innerWidth - 30) + "\" height=\"85\" />");
 	            this.$("#mem-chart-container").append($canvas);
 	            chart = new SmoothieChart(style);
 	            chart.streamTo($canvas[0]);
@@ -5719,6 +5765,11 @@ webpackJsonp([0],[
 	        key: "_formatMHz",
 	        value: function _formatMHz(mhz) {
 	            return mhz >= 1000 ? parseInt(mhz / 1000 * 100) / 100 + " GHz" : mhz + " MHz";
+	        }
+	    }, {
+	        key: "title",
+	        get: function get() {
+	            return "Monitor";
 	        }
 	    }, {
 	        key: "sysInfo",

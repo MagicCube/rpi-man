@@ -67,27 +67,61 @@ export default class ApplicationController extends NJUApplicationController
             this.setHashPath(path);
         }
         this.mapScene(path, sceneController);
-        this.activateSceneController(sceneController);
+        this.activateSceneController(sceneController, { animation: (this.activeSceneController ? "push" : false) });
     }
 
-    activateSceneController(sceneController)
+    activateSceneController(sceneController, { animation = false } = {})
     {
         if (this.activeSceneController === sceneController)
         {
             return;
         }
+        let viewToBeRemoved = null;
         if (this.activeSceneController)
         {
             this.activeSceneController.trigger("deactivating");
-            this.view.removeSubview(this.activeSceneController.view);
+            viewToBeRemoved = this.activeSceneController.view;
             this.activeSceneController.trigger("deactivated");
             this._activeSceneController = null;
         }
         this._activeSceneController = sceneController;
         sceneController.parent = this;
-        this.view.title = sceneController.title;
         this.activeSceneController.trigger("activating");
-        this.view.addSubview(sceneController.view);
+        if (animation)
+        {
+            if (animation === "push")
+            {
+                sceneController.view.css({
+                    x: window.innerWidth,
+                    y: 0
+                });
+                this.view.addSubview(sceneController.view);
+                sceneController.view.$element.transition({
+                    x: 0
+                }, 300, () => {
+                    if (viewToBeRemoved)
+                    {
+                        viewToBeRemoved.removeFromParent();
+                    }
+                });
+            }
+            else
+            {
+                animation = false;
+            }
+        }
+        if (!animation)
+        {
+            if (viewToBeRemoved)
+            {
+                this.view.removeSubview(viewToBeRemoved);
+            }
+            sceneController.view.css({
+                x: 0,
+                y: 0
+            });
+            this.view.addSubview(sceneController.view);
+        }
         this.activeSceneController.trigger("activated");
     }
 

@@ -6,7 +6,24 @@ export default class Scene extends View
     {
         super.init();
         this.addStyleClass("rpm-scene");
+        this.initLayout();
     }
+
+    initLayout()
+    {
+        this.$element.append(`
+            <header><h1>${this.title}</h1></header>
+            <main></main>`);
+        this.$container = this.$element.children("main");
+    }
+
+
+
+    get title()
+    {
+        return "";
+    }
+
 
     $group(title, $childCells)
     {

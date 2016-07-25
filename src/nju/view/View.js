@@ -41,6 +41,16 @@ export default class View extends ManagedObject
         this.$element.toggleClass(...args);
     }
 
+    css(...args)
+    {
+        this.$element.css(...args);
+    }
+
+    transit(...args)
+    {
+        this.$element.transition(...args);
+    }
+
 
 
 
