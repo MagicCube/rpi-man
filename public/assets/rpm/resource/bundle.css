@@ -1,0 +1,62 @@
+@import url(/weui/dist/style/weui.css);html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+body {
+  background: #fbf9fe;
+}
+.rpm-app {
+  width: 100%;
+  height: 100%;
+}
+.rpm-app > .scene-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.rpm-app > .scene-container > .rpm-scene {
+  background: #fbf9fe;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.rpm-app > .scene-container > .rpm-scene > header {
+  height: 50px;
+  overflow: hidden;
+}
+.rpm-app > .scene-container > .rpm-scene > header h1 {
+  color: #225fba;
+  text-align: center;
+}
+.rpm-app > .scene-container > .rpm-scene > main {
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.rpm-app > .scene-container > .rpm-scene > main > .rpm-scene {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.rpm-monitor-scene #mem-usage,
+.rpm-monitor-scene #cpu-usage {
+  font-size: 16px;
+  font-weight: bold;
+}
+.rpm-monitor-scene .chart-container.weui_cell {
+  padding-top: 0;
+}
+.rpm-monitor-scene .chart-container.weui_cell:before {
+  border-top: none;
+}
