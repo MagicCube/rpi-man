@@ -1,6 +1,6 @@
-import NJUApplication from "nju/app/Application";
+import SuperApplication from "nju/app/Application";
 
-export default class Application extends NJUApplication
+export default class Application extends SuperApplication
 {
     init()
     {

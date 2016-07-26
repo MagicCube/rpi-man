@@ -1,4 +1,4 @@
-import NJUApplicationController from "nju/app/ApplicationController";
+import SuperApplicationController from "nju/app/ApplicationController";
 
 import Application from "./Application";
 import HomeSceneController from "../scn/HomeSceneController";
@@ -8,7 +8,7 @@ import SysInfoSceneController from "../scn/SysInfoSceneController";
 import api from "../api";
 import model from "../model";
 
-export default class ApplicationController extends NJUApplicationController
+export default class ApplicationController extends SuperApplicationController
 {
     init()
     {

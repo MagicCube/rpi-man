@@ -3,7 +3,7 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(3);
-	module.exports = __webpack_require__(135);
+	module.exports = __webpack_require__(137);
 
 
 /***/ },
@@ -81,26 +81,26 @@ webpackJsonp([0],[
 
 	var _HomeSceneController2 = _interopRequireDefault(_HomeSceneController);
 
-	var _MonitorSceneController = __webpack_require__(130);
+	var _MonitorSceneController = __webpack_require__(132);
 
 	var _MonitorSceneController2 = _interopRequireDefault(_MonitorSceneController);
 
-	var _SysInfoSceneController = __webpack_require__(133);
+	var _SysInfoSceneController = __webpack_require__(135);
 
 	var _SysInfoSceneController2 = _interopRequireDefault(_SysInfoSceneController);
 
-	var _api = __webpack_require__(128);
+	var _api = __webpack_require__(130);
 
 	var _api2 = _interopRequireDefault(_api);
 
-	var _model = __webpack_require__(129);
+	var _model = __webpack_require__(131);
 
 	var _model2 = _interopRequireDefault(_model);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ApplicationController = function (_NJUApplicationContro) {
-	    (0, _inherits3.default)(ApplicationController, _NJUApplicationContro);
+	var ApplicationController = function (_SuperApplicationCont) {
+	    (0, _inherits3.default)(ApplicationController, _SuperApplicationCont);
 
 	    function ApplicationController() {
 	        (0, _classCallCheck3.default)(this, ApplicationController);
@@ -4472,8 +4472,8 @@ webpackJsonp([0],[
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Application = function (_NJUApplication) {
-	    (0, _inherits3.default)(Application, _NJUApplication);
+	var Application = function (_SuperApplication) {
+	    (0, _inherits3.default)(Application, _SuperApplication);
 
 	    function Application() {
 	        (0, _classCallCheck3.default)(this, Application);
@@ -4582,15 +4582,15 @@ webpackJsonp([0],[
 
 	var _HomeScene2 = _interopRequireDefault(_HomeScene);
 
-	var _SceneController2 = __webpack_require__(127);
+	var _SceneController2 = __webpack_require__(128);
 
 	var _SceneController3 = _interopRequireDefault(_SceneController2);
 
-	var _api = __webpack_require__(128);
+	var _api = __webpack_require__(130);
 
 	var _api2 = _interopRequireDefault(_api);
 
-	var _model = __webpack_require__(129);
+	var _model = __webpack_require__(131);
 
 	var _model2 = _interopRequireDefault(_model);
 
@@ -4940,14 +4940,14 @@ webpackJsonp([0],[
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _Scene = __webpack_require__(141);
+	var _Scene = __webpack_require__(127);
 
 	var _Scene2 = _interopRequireDefault(_Scene);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Scene = function (_NJUScene) {
-	    (0, _inherits3.default)(Scene, _NJUScene);
+	var Scene = function (_SuperScene) {
+	    (0, _inherits3.default)(Scene, _SuperScene);
 
 	    function Scene() {
 	        (0, _classCallCheck3.default)(this, Scene);
@@ -5049,18 +5049,79 @@ webpackJsonp([0],[
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
+	var _get2 = __webpack_require__(101);
+
+	var _get3 = _interopRequireDefault(_get2);
+
 	var _inherits2 = __webpack_require__(109);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _SceneController = __webpack_require__(142);
+	var _View2 = __webpack_require__(119);
+
+	var _View3 = _interopRequireDefault(_View2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Scene = function (_View) {
+	    (0, _inherits3.default)(Scene, _View);
+
+	    function Scene() {
+	        (0, _classCallCheck3.default)(this, Scene);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(Scene).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(Scene, [{
+	        key: "init",
+	        value: function init() {
+	            (0, _get3.default)(Object.getPrototypeOf(Scene.prototype), "init", this).call(this);
+	            this.addStyleClass("nju-scene");
+	        }
+	    }, {
+	        key: "title",
+	        get: function get() {
+	            return "";
+	        }
+	    }]);
+	    return Scene;
+	}(_View3.default);
+
+	exports.default = Scene;
+
+/***/ },
+/* 128 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(76);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(77);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(81);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(109);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _SceneController = __webpack_require__(129);
 
 	var _SceneController2 = _interopRequireDefault(_SceneController);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var SceneController = function (_NJUSceneController) {
-	    (0, _inherits3.default)(SceneController, _NJUSceneController);
+	var SceneController = function (_SuperSceneController) {
+	    (0, _inherits3.default)(SceneController, _SuperSceneController);
 
 	    function SceneController() {
 	        (0, _classCallCheck3.default)(this, SceneController);
@@ -5119,7 +5180,68 @@ webpackJsonp([0],[
 	exports.default = SceneController;
 
 /***/ },
-/* 128 */
+/* 129 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(76);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(77);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(81);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(109);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewController2 = __webpack_require__(122);
+
+	var _ViewController3 = _interopRequireDefault(_ViewController2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SceneController = function (_ViewController) {
+	    (0, _inherits3.default)(SceneController, _ViewController);
+
+	    function SceneController() {
+	        (0, _classCallCheck3.default)(this, SceneController);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(SceneController).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(SceneController, [{
+	        key: "activate",
+	        value: function activate() {
+	            this.trigger("activated");
+	        }
+	    }, {
+	        key: "deactivate",
+	        value: function deactivate() {
+	            this.trigger("deactivated");
+	        }
+	    }, {
+	        key: "path",
+	        get: function get() {
+	            return null;
+	        }
+	    }]);
+	    return SceneController;
+	}(_ViewController3.default);
+
+	exports.default = SceneController;
+
+/***/ },
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {"use strict";
@@ -5333,7 +5455,7 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 129 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5370,7 +5492,7 @@ webpackJsonp([0],[
 
 	var _ManagedObject3 = _interopRequireDefault(_ManagedObject2);
 
-	var _api = __webpack_require__(128);
+	var _api = __webpack_require__(130);
 
 	var _api2 = _interopRequireDefault(_api);
 
@@ -5510,7 +5632,7 @@ webpackJsonp([0],[
 	exports.default = model;
 
 /***/ },
-/* 130 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5539,19 +5661,19 @@ webpackJsonp([0],[
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _MonitorScene = __webpack_require__(131);
+	var _MonitorScene = __webpack_require__(133);
 
 	var _MonitorScene2 = _interopRequireDefault(_MonitorScene);
 
-	var _SceneController2 = __webpack_require__(127);
+	var _SceneController2 = __webpack_require__(128);
 
 	var _SceneController3 = _interopRequireDefault(_SceneController2);
 
-	var _api = __webpack_require__(128);
+	var _api = __webpack_require__(130);
 
 	var _api2 = _interopRequireDefault(_api);
 
-	var _model = __webpack_require__(129);
+	var _model = __webpack_require__(131);
 
 	var _model2 = _interopRequireDefault(_model);
 
@@ -5608,7 +5730,7 @@ webpackJsonp([0],[
 	exports.default = MonitorSceneController;
 
 /***/ },
-/* 131 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {"use strict";
@@ -5641,7 +5763,7 @@ webpackJsonp([0],[
 
 	var _Scene3 = _interopRequireDefault(_Scene2);
 
-	var _smoothie = __webpack_require__(132);
+	var _smoothie = __webpack_require__(134);
 
 	var _smoothie2 = _interopRequireDefault(_smoothie);
 
@@ -5819,7 +5941,7 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 132 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// MIT License:
@@ -6608,7 +6730,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 133 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6633,15 +6755,15 @@ webpackJsonp([0],[
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _SysInfoScene = __webpack_require__(134);
+	var _SysInfoScene = __webpack_require__(136);
 
 	var _SysInfoScene2 = _interopRequireDefault(_SysInfoScene);
 
-	var _SceneController2 = __webpack_require__(127);
+	var _SceneController2 = __webpack_require__(128);
 
 	var _SceneController3 = _interopRequireDefault(_SceneController2);
 
-	var _model = __webpack_require__(129);
+	var _model = __webpack_require__(131);
 
 	var _model2 = _interopRequireDefault(_model);
 
@@ -6681,7 +6803,7 @@ webpackJsonp([0],[
 	exports.default = SysInfoSceneController;
 
 /***/ },
-/* 134 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {"use strict";
@@ -6798,137 +6920,10 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 135 */
+/* 137 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 136 */,
-/* 137 */,
-/* 138 */,
-/* 139 */,
-/* 140 */,
-/* 141 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _classCallCheck2 = __webpack_require__(76);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(77);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(81);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _get2 = __webpack_require__(101);
-
-	var _get3 = _interopRequireDefault(_get2);
-
-	var _inherits2 = __webpack_require__(109);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _View2 = __webpack_require__(119);
-
-	var _View3 = _interopRequireDefault(_View2);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Scene = function (_View) {
-	    (0, _inherits3.default)(Scene, _View);
-
-	    function Scene() {
-	        (0, _classCallCheck3.default)(this, Scene);
-	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(Scene).apply(this, arguments));
-	    }
-
-	    (0, _createClass3.default)(Scene, [{
-	        key: "init",
-	        value: function init() {
-	            (0, _get3.default)(Object.getPrototypeOf(Scene.prototype), "init", this).call(this);
-	            this.addStyleClass("nju-scene");
-	        }
-	    }, {
-	        key: "title",
-	        get: function get() {
-	            return "";
-	        }
-	    }]);
-	    return Scene;
-	}(_View3.default);
-
-	exports.default = Scene;
-
-/***/ },
-/* 142 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _classCallCheck2 = __webpack_require__(76);
-
-	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-	var _createClass2 = __webpack_require__(77);
-
-	var _createClass3 = _interopRequireDefault(_createClass2);
-
-	var _possibleConstructorReturn2 = __webpack_require__(81);
-
-	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-	var _inherits2 = __webpack_require__(109);
-
-	var _inherits3 = _interopRequireDefault(_inherits2);
-
-	var _ViewController2 = __webpack_require__(122);
-
-	var _ViewController3 = _interopRequireDefault(_ViewController2);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var SceneController = function (_ViewController) {
-	    (0, _inherits3.default)(SceneController, _ViewController);
-
-	    function SceneController() {
-	        (0, _classCallCheck3.default)(this, SceneController);
-	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(SceneController).apply(this, arguments));
-	    }
-
-	    (0, _createClass3.default)(SceneController, [{
-	        key: "activate",
-	        value: function activate() {
-	            this.trigger("activated");
-	        }
-	    }, {
-	        key: "deactivate",
-	        value: function deactivate() {
-	            this.trigger("deactivated");
-	        }
-	    }, {
-	        key: "path",
-	        get: function get() {
-	            return null;
-	        }
-	    }]);
-	    return SceneController;
-	}(_ViewController3.default);
-
-	exports.default = SceneController;
 
 /***/ }
 ]);

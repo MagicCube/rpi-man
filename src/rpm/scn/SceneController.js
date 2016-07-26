@@ -1,6 +1,6 @@
-import NJUSceneController from "nju/scn/SceneController";
+import SuperSceneController from "nju/scn/SceneController";
 
-export default class SceneController extends NJUSceneController
+export default class SceneController extends SuperSceneController
 {
     showMask(...args)
     {

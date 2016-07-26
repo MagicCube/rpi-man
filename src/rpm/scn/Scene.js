@@ -1,6 +1,6 @@
-import NJUScene from "nju/scn/Scene";
+import SuperScene from "nju/scn/Scene";
 
-export default class Scene extends NJUScene
+export default class Scene extends SuperScene
 {
     init()
     {
