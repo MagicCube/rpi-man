@@ -4620,11 +4620,11 @@ webpackJsonp([0],[
 	            this.view.on("powerActionClick", this._onPowerActionClick.bind(this));
 
 	            _model2.default.on("sysInfoChanged", function () {
-	                _this2.view.sysInfo = _model2.default.sysInfo;
+	                _this2.view.sysInfo = _model2.default.get("sysInfo");
 	            });
 
 	            _model2.default.on("servicesChanged", function () {
-	                _this2.view.services = _model2.default.services;
+	                _this2.view.services = _model2.default.get("services");
 	            });
 	        }
 	    }, {
@@ -4654,7 +4654,7 @@ webpackJsonp([0],[
 
 	                                console.error(_context.t0);
 	                                alert("Sorry, can not " + (e.service.status.active ? "start" : "stop") + " " + e.service.name + " service right now.");
-	                                _model2.default.services[e.service.id].active = !e.service.status.active;
+	                                _model2.default.get("services")[e.service.id].active = !e.service.status.active;
 	                                this.view.renderServices();
 	                                this.hideMask();
 
@@ -5622,7 +5622,7 @@ webpackJsonp([0],[
 	    return Model;
 	}(_Model2.default);
 
-	var modelProxy = _Model2.default.createProxy(Model);
+	var modelProxy = new Model();
 	exports.default = modelProxy;
 
 /***/ },
@@ -5856,10 +5856,10 @@ webpackJsonp([0],[
 	            var _this2 = this;
 
 	            _model2.default.on("sysInfoChanged", function () {
-	                _this2.view.sysInfo = _model2.default.sysInfo;
+	                _this2.view.sysInfo = _model2.default.get("sysInfo");
 	            });
 	            _model2.default.on("sysStatusChanged", function () {
-	                _this2.view.sysStatus = _model2.default.sysStatus;
+	                _this2.view.sysStatus = _model2.default.get("sysStatus");
 	            });
 	        }
 	    }, {
@@ -6946,7 +6946,7 @@ webpackJsonp([0],[
 	            var _this2 = this;
 
 	            _model2.default.on("sysInfoChanged", function () {
-	                _this2.view.sysInfo = _model2.default.sysInfo;
+	                _this2.view.sysInfo = _model2.default.get("sysInfo");
 	            });
 	        }
 	    }, {

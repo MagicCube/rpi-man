@@ -19,10 +19,10 @@ export default class MonitorSceneController extends SceneController
     initView()
     {
         model.on("sysInfoChanged", () => {
-            this.view.sysInfo = model.sysInfo;
+            this.view.sysInfo = model.get("sysInfo");
         });
         model.on("sysStatusChanged", () => {
-            this.view.sysStatus = model.sysStatus;
+            this.view.sysStatus = model.get("sysStatus");
         });
     }
 

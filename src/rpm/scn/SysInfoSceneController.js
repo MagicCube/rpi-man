@@ -18,7 +18,7 @@ export default class SysInfoSceneController extends SceneController
     initView()
     {
         model.on("sysInfoChanged", () => {
-            this.view.sysInfo = model.sysInfo;
+            this.view.sysInfo = model.get("sysInfo");
         });
     }
 }

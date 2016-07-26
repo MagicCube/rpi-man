@@ -24,11 +24,11 @@ export default class HomeSceneController extends SceneController
         this.view.on("powerActionClick", this._onPowerActionClick.bind(this));
 
         model.on("sysInfoChanged", () => {
-            this.view.sysInfo = model.sysInfo;
+            this.view.sysInfo = model.get("sysInfo");
         });
 
         model.on("servicesChanged", () => {
-            this.view.services = model.services;
+            this.view.services = model.get("services");
         });
     }
 
@@ -45,7 +45,7 @@ export default class HomeSceneController extends SceneController
         {
             console.error(err);
             alert(`Sorry, can not ${e.service.status.active ? "start" : "stop"} ${e.service.name} service right now.`);
-            model.services[e.service.id].active = !e.service.status.active;
+            model.get("services")[e.service.id].active = !e.service.status.active;
             this.view.renderServices();
             this.hideMask();
         }

@@ -46,5 +46,5 @@ class Model extends SuperModel
     }
 }
 
-const modelProxy = SuperModel.createProxy(Model);
+const modelProxy = new Model();
 export default modelProxy;
