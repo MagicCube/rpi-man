@@ -6,7 +6,7 @@ export default class ManagedObject
     {
         this._id = id;
         this._parent = null;
-        this._eventEmitter = new EventEmitter();
+        this._eventEmitter = null;
         this.init();
     }
 
@@ -31,6 +31,10 @@ export default class ManagedObject
 
     get eventEmitter()
     {
+        if (!this._eventEmitter)
+        {
+            this._eventEmitter = new EventEmitter();
+        }
         return this._eventEmitter;
     }
 

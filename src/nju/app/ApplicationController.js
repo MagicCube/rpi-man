@@ -27,11 +27,6 @@ export default class ApplicationController extends ViewController
         return ApplicationController._instance;
     }
 
-    get application()
-    {
-        return this.view;
-    }
-
     run()
     {
 

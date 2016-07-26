@@ -65,11 +65,11 @@ export default class ApplicationController extends NJUApplicationController
     {
         this.view.showLoading();
         model.load();
-        this.pushSceneController(this.homeSceneController, "/");
+        this.pushSceneController(this.homeSceneController);
         this.view.hideLoading();
     }
 
-    pushSceneController(sceneController, path)
+    pushSceneController(sceneController, path = sceneController.path)
     {
         if (this.getHashPath() === path && path === "/")
         {
@@ -92,14 +92,12 @@ export default class ApplicationController extends NJUApplicationController
         let viewToBeRemoved = null;
         if (this.activeSceneController)
         {
-            this.activeSceneController.trigger("deactivating");
             viewToBeRemoved = this.activeSceneController.view;
-            this.activeSceneController.trigger("deactivated");
+            this.activeSceneController.deactivate();
             this._activeSceneController = null;
         }
         this._activeSceneController = sceneController;
         sceneController.parent = this;
-        this.activeSceneController.trigger("activating");
         if (animation)
         {
             if (animation === "push")
@@ -110,6 +108,7 @@ export default class ApplicationController extends NJUApplicationController
                     opacity: 0
                 });
                 this.view.addSubview(sceneController.view);
+                this.activeSceneController.activate();
                 sceneController.view.$element.transition({
                     x: 0,
                     opacity: 1
@@ -136,8 +135,8 @@ export default class ApplicationController extends NJUApplicationController
                 y: 0
             });
             this.view.addSubview(sceneController.view);
+            this.activeSceneController.activate();
         }
-        this.activeSceneController.trigger("activated");
     }
 
 

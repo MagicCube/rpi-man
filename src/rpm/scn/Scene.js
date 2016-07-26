@@ -1,6 +1,6 @@
-import View from "nju/view/View";
+import NJUScene from "nju/scn/Scene";
 
-export default class Scene extends View
+export default class Scene extends NJUScene
 {
     init()
     {
@@ -15,13 +15,6 @@ export default class Scene extends View
             <header><h1>${this.title}</h1></header>
             <main></main>`);
         this.$container = this.$element.children("main");
-    }
-
-
-
-    get title()
-    {
-        return "";
     }
 
 

@@ -6,6 +6,11 @@ import model from "../model";
 
 export default class HomeSceneController extends SceneController
 {
+    get path()
+    {
+        return "/";
+    }
+
     createView()
     {
         return new HomeScene();
@@ -66,11 +71,11 @@ export default class HomeSceneController extends SceneController
 
     _onMachineClick(e)
     {
-        this.parent.pushSceneController(this.parent.sysInfoSceneController, "/sys/info");
+        this.parent.pushSceneController(this.parent.sysInfoSceneController);
     }
 
     _onMonitorClick(e)
     {
-        this.parent.pushSceneController(this.parent.monitorSceneController, "/monitor");
+        this.parent.pushSceneController(this.parent.monitorSceneController);
     }
 }

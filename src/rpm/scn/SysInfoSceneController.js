@@ -5,6 +5,11 @@ import model from "../model";
 
 export default class SysInfoSceneController extends SceneController
 {
+    get path()
+    {
+        return "/sys/info";
+    }
+
     createView()
     {
         return new SysInfoScene();

@@ -1,12 +1,7 @@
-import ViewController from "nju/view/ViewController";
+import NJUSceneController from "nju/scn/SceneController";
 
-export default class SceneController extends ViewController
+export default class SceneController extends NJUSceneController
 {
-    get title()
-    {
-        throw new Error("'title' property must be implemented in derived class.");
-    }
-
     showMask(...args)
     {
         if (this.view && this.view.parent)

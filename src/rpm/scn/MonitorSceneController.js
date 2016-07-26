@@ -6,6 +6,11 @@ import model from "../model";
 
 export default class MonitorSceneController extends SceneController
 {
+    get path()
+    {
+        return "/monitor";
+    }
+
     createView()
     {
         return new MonitorScene();
@@ -13,8 +18,6 @@ export default class MonitorSceneController extends SceneController
 
     initView()
     {
-        this.on("activated", this._onActivated.bind(this));
-        this.on("deactivated", this._onDeactivated.bind(this));
         model.on("sysInfoChanged", () => {
             this.view.sysInfo = model.sysInfo;
         });
@@ -23,14 +26,16 @@ export default class MonitorSceneController extends SceneController
         });
     }
 
-    _onActivated()
+    activate()
     {
+        super.activate();
         model.startMonitorStatus();
         this.view.startChart();
     }
 
-    _onDeactivated()
+    deactivate()
     {
+        super.deactivate();
         model.stopMonitorStatus();
         this.view.stopChart();
     }

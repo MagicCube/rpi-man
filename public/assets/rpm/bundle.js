@@ -133,7 +133,7 @@ webpackJsonp([0],[
 	                            case 0:
 	                                this.view.showLoading();
 	                                _model2.default.load();
-	                                this.pushSceneController(this.homeSceneController, "/");
+	                                this.pushSceneController(this.homeSceneController);
 	                                this.view.hideLoading();
 
 	                            case 4:
@@ -152,7 +152,9 @@ webpackJsonp([0],[
 	        }()
 	    }, {
 	        key: "pushSceneController",
-	        value: function pushSceneController(sceneController, path) {
+	        value: function pushSceneController(sceneController) {
+	            var path = arguments.length <= 1 || arguments[1] === undefined ? sceneController.path : arguments[1];
+
 	            if (this.getHashPath() === path && path === "/") {} else {
 	                this.setHashPath(path);
 	            }
@@ -172,14 +174,12 @@ webpackJsonp([0],[
 	            }
 	            var viewToBeRemoved = null;
 	            if (this.activeSceneController) {
-	                this.activeSceneController.trigger("deactivating");
 	                viewToBeRemoved = this.activeSceneController.view;
-	                this.activeSceneController.trigger("deactivated");
+	                this.activeSceneController.deactivate();
 	                this._activeSceneController = null;
 	            }
 	            this._activeSceneController = sceneController;
 	            sceneController.parent = this;
-	            this.activeSceneController.trigger("activating");
 	            if (animation) {
 	                if (animation === "push") {
 	                    sceneController.view.css({
@@ -188,6 +188,7 @@ webpackJsonp([0],[
 	                        opacity: 0
 	                    });
 	                    this.view.addSubview(sceneController.view);
+	                    this.activeSceneController.activate();
 	                    sceneController.view.$element.transition({
 	                        x: 0,
 	                        opacity: 1
@@ -209,8 +210,8 @@ webpackJsonp([0],[
 	                    y: 0
 	                });
 	                this.view.addSubview(sceneController.view);
+	                this.activeSceneController.activate();
 	            }
-	            this.activeSceneController.trigger("activated");
 	        }
 	    }, {
 	        key: "_initHash",
@@ -3504,11 +3505,6 @@ webpackJsonp([0],[
 	    (0, _createClass3.default)(ApplicationController, [{
 	        key: "run",
 	        value: function run() {}
-	    }, {
-	        key: "application",
-	        get: function get() {
-	            return this.view;
-	        }
 	    }], [{
 	        key: "getInstance",
 	        value: function getInstance() {
@@ -3813,7 +3809,7 @@ webpackJsonp([0],[
 
 	        this._id = id;
 	        this._parent = null;
-	        this._eventEmitter = new _wolfy87Eventemitter2.default();
+	        this._eventEmitter = null;
 	        this.init();
 	    }
 
@@ -3857,6 +3853,9 @@ webpackJsonp([0],[
 	    }, {
 	        key: "eventEmitter",
 	        get: function get() {
+	            if (!this._eventEmitter) {
+	                this._eventEmitter = new _wolfy87Eventemitter2.default();
+	            }
 	            return this._eventEmitter;
 	        }
 	    }]);
@@ -4726,12 +4725,17 @@ webpackJsonp([0],[
 	    }, {
 	        key: "_onMachineClick",
 	        value: function _onMachineClick(e) {
-	            this.parent.pushSceneController(this.parent.sysInfoSceneController, "/sys/info");
+	            this.parent.pushSceneController(this.parent.sysInfoSceneController);
 	        }
 	    }, {
 	        key: "_onMonitorClick",
 	        value: function _onMonitorClick(e) {
-	            this.parent.pushSceneController(this.parent.monitorSceneController, "/monitor");
+	            this.parent.pushSceneController(this.parent.monitorSceneController);
+	        }
+	    }, {
+	        key: "path",
+	        get: function get() {
+	            return "/";
 	        }
 	    }]);
 	    return HomeSceneController;
@@ -4936,14 +4940,14 @@ webpackJsonp([0],[
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _View2 = __webpack_require__(119);
+	var _Scene = __webpack_require__(141);
 
-	var _View3 = _interopRequireDefault(_View2);
+	var _Scene2 = _interopRequireDefault(_Scene);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Scene = function (_View) {
-	    (0, _inherits3.default)(Scene, _View);
+	var Scene = function (_NJUScene) {
+	    (0, _inherits3.default)(Scene, _NJUScene);
 
 	    function Scene() {
 	        (0, _classCallCheck3.default)(this, Scene);
@@ -5016,14 +5020,9 @@ webpackJsonp([0],[
 	            this.$element.append($area);
 	            return $button;
 	        }
-	    }, {
-	        key: "title",
-	        get: function get() {
-	            return "";
-	        }
 	    }]);
 	    return Scene;
-	}(_View3.default);
+	}(_Scene2.default);
 
 	exports.default = Scene;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
@@ -5054,14 +5053,14 @@ webpackJsonp([0],[
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _ViewController2 = __webpack_require__(122);
+	var _SceneController = __webpack_require__(142);
 
-	var _ViewController3 = _interopRequireDefault(_ViewController2);
+	var _SceneController2 = _interopRequireDefault(_SceneController);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var SceneController = function (_ViewController) {
-	    (0, _inherits3.default)(SceneController, _ViewController);
+	var SceneController = function (_NJUSceneController) {
+	    (0, _inherits3.default)(SceneController, _NJUSceneController);
 
 	    function SceneController() {
 	        (0, _classCallCheck3.default)(this, SceneController);
@@ -5113,14 +5112,9 @@ webpackJsonp([0],[
 	                (_view$parent5 = this.view.parent).showToast.apply(_view$parent5, arguments);
 	            }
 	        }
-	    }, {
-	        key: "title",
-	        get: function get() {
-	            throw new Error("'title' property must be implemented in derived class.");
-	        }
 	    }]);
 	    return SceneController;
-	}(_ViewController3.default);
+	}(_SceneController2.default);
 
 	exports.default = SceneController;
 
@@ -5537,6 +5531,10 @@ webpackJsonp([0],[
 
 	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
+	var _get2 = __webpack_require__(101);
+
+	var _get3 = _interopRequireDefault(_get2);
+
 	var _inherits2 = __webpack_require__(109);
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
@@ -5577,8 +5575,6 @@ webpackJsonp([0],[
 	        value: function initView() {
 	            var _this2 = this;
 
-	            this.on("activated", this._onActivated.bind(this));
-	            this.on("deactivated", this._onDeactivated.bind(this));
 	            _model2.default.on("sysInfoChanged", function () {
 	                _this2.view.sysInfo = _model2.default.sysInfo;
 	            });
@@ -5587,16 +5583,23 @@ webpackJsonp([0],[
 	            });
 	        }
 	    }, {
-	        key: "_onActivated",
-	        value: function _onActivated() {
+	        key: "activate",
+	        value: function activate() {
+	            (0, _get3.default)(Object.getPrototypeOf(MonitorSceneController.prototype), "activate", this).call(this);
 	            _model2.default.startMonitorStatus();
 	            this.view.startChart();
 	        }
 	    }, {
-	        key: "_onDeactivated",
-	        value: function _onDeactivated() {
+	        key: "deactivate",
+	        value: function deactivate() {
+	            (0, _get3.default)(Object.getPrototypeOf(MonitorSceneController.prototype), "deactivate", this).call(this);
 	            _model2.default.stopMonitorStatus();
 	            this.view.stopChart();
+	        }
+	    }, {
+	        key: "path",
+	        get: function get() {
+	            return "/monitor";
 	        }
 	    }]);
 	    return MonitorSceneController;
@@ -6666,6 +6669,11 @@ webpackJsonp([0],[
 	                _this2.view.sysInfo = _model2.default.sysInfo;
 	            });
 	        }
+	    }, {
+	        key: "path",
+	        get: function get() {
+	            return "/sys/info";
+	        }
 	    }]);
 	    return SysInfoSceneController;
 	}(_SceneController3.default);
@@ -6794,6 +6802,133 @@ webpackJsonp([0],[
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 136 */,
+/* 137 */,
+/* 138 */,
+/* 139 */,
+/* 140 */,
+/* 141 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(76);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(77);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(81);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(101);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(109);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _View2 = __webpack_require__(119);
+
+	var _View3 = _interopRequireDefault(_View2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Scene = function (_View) {
+	    (0, _inherits3.default)(Scene, _View);
+
+	    function Scene() {
+	        (0, _classCallCheck3.default)(this, Scene);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(Scene).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(Scene, [{
+	        key: "init",
+	        value: function init() {
+	            (0, _get3.default)(Object.getPrototypeOf(Scene.prototype), "init", this).call(this);
+	            this.addStyleClass("nju-scene");
+	        }
+	    }, {
+	        key: "title",
+	        get: function get() {
+	            return "";
+	        }
+	    }]);
+	    return Scene;
+	}(_View3.default);
+
+	exports.default = Scene;
+
+/***/ },
+/* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(76);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(77);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(81);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(109);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ViewController2 = __webpack_require__(122);
+
+	var _ViewController3 = _interopRequireDefault(_ViewController2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SceneController = function (_ViewController) {
+	    (0, _inherits3.default)(SceneController, _ViewController);
+
+	    function SceneController() {
+	        (0, _classCallCheck3.default)(this, SceneController);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(SceneController).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(SceneController, [{
+	        key: "activate",
+	        value: function activate() {
+	            this.trigger("activated");
+	        }
+	    }, {
+	        key: "deactivate",
+	        value: function deactivate() {
+	            this.trigger("deactivated");
+	        }
+	    }, {
+	        key: "path",
+	        get: function get() {
+	            return null;
+	        }
+	    }]);
+	    return SceneController;
+	}(_ViewController3.default);
+
+	exports.default = SceneController;
 
 /***/ }
 ]);
