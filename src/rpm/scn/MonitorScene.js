@@ -167,7 +167,7 @@ export default class MonitorScene extends Scene
 
     _formatTemperature(temp)
     {
-        return temp ? ((Math.round(temp / 1000 * 100) / 100) + " °C") : "N/A";
+        return temp ? (Math.round(temp / 1000) + " °C") : "N/A";
     }
 
     _formatByte(b)

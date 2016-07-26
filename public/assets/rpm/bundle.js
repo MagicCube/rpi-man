@@ -3,7 +3,7 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(3);
-	module.exports = __webpack_require__(133);
+	module.exports = __webpack_require__(135);
 
 
 /***/ },
@@ -85,6 +85,10 @@ webpackJsonp([0],[
 
 	var _MonitorSceneController2 = _interopRequireDefault(_MonitorSceneController);
 
+	var _SysInfoSceneController = __webpack_require__(133);
+
+	var _SysInfoSceneController2 = _interopRequireDefault(_SysInfoSceneController);
+
 	var _api = __webpack_require__(128);
 
 	var _api2 = _interopRequireDefault(_api);
@@ -110,6 +114,7 @@ webpackJsonp([0],[
 
 	            this._homeSceneController = new _HomeSceneController2.default();
 	            this._monitorSceneController = new _MonitorSceneController2.default();
+	            this._sysInfoSceneController = new _SysInfoSceneController2.default();
 
 	            this._initHash();
 	        }
@@ -260,6 +265,11 @@ webpackJsonp([0],[
 	        key: "monitorSceneController",
 	        get: function get() {
 	            return this._monitorSceneController;
+	        }
+	    }, {
+	        key: "sysInfoSceneController",
+	        get: function get() {
+	            return this._sysInfoSceneController;
 	        }
 	    }]);
 	    return ApplicationController;
@@ -4605,6 +4615,7 @@ webpackJsonp([0],[
 	        value: function initView() {
 	            var _this2 = this;
 
+	            this.view.on("machineClick", this._onMachineClick.bind(this));
 	            this.view.on("monitorClick", this._onMonitorClick.bind(this));
 	            this.view.on("serviceStatusChanging", this._onServiceStatusChanging.bind(this));
 	            this.view.on("powerActionClick", this._onPowerActionClick.bind(this));
@@ -4713,8 +4724,13 @@ webpackJsonp([0],[
 	            return _onPowerActionClick;
 	        }()
 	    }, {
+	        key: "_onMachineClick",
+	        value: function _onMachineClick(e) {
+	            this.parent.pushSceneController(this.parent.sysInfoSceneController, "/sys/info");
+	        }
+	    }, {
 	        key: "_onMonitorClick",
-	        value: function _onMonitorClick() {
+	        value: function _onMonitorClick(e) {
 	            this.parent.pushSceneController(this.parent.monitorSceneController, "/monitor");
 	        }
 	    }]);
@@ -4781,7 +4797,9 @@ webpackJsonp([0],[
 	        value: function _initInfoGroup() {
 	            var _this2 = this;
 
-	            this.$group("System", [this.$cell("Machine", $("<span id=\"hostname\" style=\"font-size:14px;\"></span>")), this.$cell("Monitor", "").on("click", function () {
+	            this.$group("System", [this.$cell("Machine", $("<span id=\"hostname\" style=\"font-size:14px;\"></span>")).on("click", function () {
+	                _this2.trigger("machineClick");
+	            }), this.$cell("Monitor", "").on("click", function () {
 	                _this2.trigger("monitorClick");
 	            })]).addClass("weui_cells_access");
 	        }
@@ -5580,11 +5598,6 @@ webpackJsonp([0],[
 	            _model2.default.stopMonitorStatus();
 	            this.view.stopChart();
 	        }
-	    }, {
-	        key: "title",
-	        get: function get() {
-	            return "Monitor";
-	        }
 	    }]);
 	    return MonitorSceneController;
 	}(_SceneController3.default);
@@ -5749,7 +5762,7 @@ webpackJsonp([0],[
 	    }, {
 	        key: "_formatTemperature",
 	        value: function _formatTemperature(temp) {
-	            return temp ? Math.round(temp / 1000 * 100) / 100 + " °C" : "N/A";
+	            return temp ? Math.round(temp / 1000) + " °C" : "N/A";
 	        }
 	    }, {
 	        key: "_formatByte",
@@ -6593,6 +6606,191 @@ webpackJsonp([0],[
 
 /***/ },
 /* 133 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(76);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(77);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(81);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(109);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _SysInfoScene = __webpack_require__(134);
+
+	var _SysInfoScene2 = _interopRequireDefault(_SysInfoScene);
+
+	var _SceneController2 = __webpack_require__(127);
+
+	var _SceneController3 = _interopRequireDefault(_SceneController2);
+
+	var _model = __webpack_require__(129);
+
+	var _model2 = _interopRequireDefault(_model);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SysInfoSceneController = function (_SceneController) {
+	    (0, _inherits3.default)(SysInfoSceneController, _SceneController);
+
+	    function SysInfoSceneController() {
+	        (0, _classCallCheck3.default)(this, SysInfoSceneController);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(SysInfoSceneController).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(SysInfoSceneController, [{
+	        key: "createView",
+	        value: function createView() {
+	            return new _SysInfoScene2.default();
+	        }
+	    }, {
+	        key: "initView",
+	        value: function initView() {
+	            var _this2 = this;
+
+	            _model2.default.on("sysInfoChanged", function () {
+	                _this2.view.sysInfo = _model2.default.sysInfo;
+	            });
+	        }
+	    }]);
+	    return SysInfoSceneController;
+	}(_SceneController3.default);
+
+	exports.default = SysInfoSceneController;
+
+/***/ },
+/* 134 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(76);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(77);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(81);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _get2 = __webpack_require__(101);
+
+	var _get3 = _interopRequireDefault(_get2);
+
+	var _inherits2 = __webpack_require__(109);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _Scene2 = __webpack_require__(126);
+
+	var _Scene3 = _interopRequireDefault(_Scene2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SysInfoScene = function (_Scene) {
+	    (0, _inherits3.default)(SysInfoScene, _Scene);
+
+	    function SysInfoScene() {
+	        (0, _classCallCheck3.default)(this, SysInfoScene);
+	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(SysInfoScene).apply(this, arguments));
+	    }
+
+	    (0, _createClass3.default)(SysInfoScene, [{
+	        key: "init",
+	        value: function init() {
+	            (0, _get3.default)(Object.getPrototypeOf(SysInfoScene.prototype), "init", this).call(this);
+	            this.addStyleClass("rpm-sys-info-scene");
+	            this._initGroups();
+	        }
+	    }, {
+	        key: "_initGroups",
+	        value: function _initGroups() {
+	            this.$group(null, [this.$cell("Host", $("<small id=\"host-name\"></small>"))]);
+	            this.$group("Basis", [this.$cell("CPU", $("<small id=\"cpu\"></small>")), this.$cell("CPU count", $("<span id=\"cpu-count\"></span>")), this.$cell("Memory size", $("<span id=\"mem-total\"></span>"))]);
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            var _this2 = this;
+
+	            this.$("#host-name").text(this.sysInfo.hostname);
+
+	            this.$("#cpu").text(this.sysInfo.machine.cpus.model);
+	            this.$("#cpu-count").text(this.sysInfo.machine.cpus.count);
+	            this.$("#mem-total").text(this._formatByte(this.sysInfo.machine.mem.total));
+
+	            if (this.sysInfo.machine.networks.length) {
+	                this.sysInfo.machine.networks.forEach(function (network) {
+	                    var $cells = [];
+	                    network.interfaces.forEach(function (i) {
+	                        if (i.family === "IPv4") {
+	                            $cells.push(_this2.$cell("MACv4", $("<span>" + i.mac + "</span>")));
+	                            $cells.push(_this2.$cell("IPv4", $("<span>" + i.address + "</span>")));
+	                        } else if (i.family === "IPv6") {
+	                            $cells.push(_this2.$cell("MACv6", $("<span>" + i.mac + "</span>")));
+	                            $cells.push(_this2.$cell("IPv6", $("<span>" + i.address + "</span>")));
+	                        }
+	                    });
+	                    if (network.name.startsWith("en")) {
+	                        _this2.$group("Enthernet", $cells);
+	                    } else if (network.name.startsWith("wlan") || network.name === "awdl0") {
+	                        _this2.$group("Wi-Fi", $cells);
+	                    } else {
+	                        _this2.$group(network.name, $cells);
+	                    }
+	                });
+	            }
+	        }
+	    }, {
+	        key: "_formatByte",
+	        value: function _formatByte(b) {
+	            var mb = Math.round(b / 1024 / 1024);
+	            return mb >= 1024 * 0.5 ? parseInt(mb / 1024 * 100) / 100 + " GB" : mb + " MB";
+	        }
+	    }, {
+	        key: "title",
+	        get: function get() {
+	            return "Machine";
+	        }
+	    }, {
+	        key: "sysInfo",
+	        get: function get() {
+	            return this._sysInfo;
+	        },
+	        set: function set(value) {
+	            this._sysInfo = value;
+	            this.render();
+	        }
+	    }]);
+	    return SysInfoScene;
+	}(_Scene3.default);
+
+	exports.default = SysInfoScene;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 135 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin

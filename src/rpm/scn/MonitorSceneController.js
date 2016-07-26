@@ -6,11 +6,6 @@ import model from "../model";
 
 export default class MonitorSceneController extends SceneController
 {
-    get title()
-    {
-        return "Monitor";
-    }
-
     createView()
     {
         return new MonitorScene();

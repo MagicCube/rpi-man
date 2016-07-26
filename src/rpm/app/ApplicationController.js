@@ -3,6 +3,7 @@ import NJUApplicationController from "nju/app/ApplicationController";
 import Application from "./Application";
 import HomeSceneController from "../scn/HomeSceneController";
 import MonitorSceneController from "../scn/MonitorSceneController";
+import SysInfoSceneController from "../scn/SysInfoSceneController";
 
 import api from "../api";
 import model from "../model";
@@ -15,9 +16,13 @@ export default class ApplicationController extends NJUApplicationController
 
         this._homeSceneController = new HomeSceneController();
         this._monitorSceneController = new MonitorSceneController();
+        this._sysInfoSceneController = new SysInfoSceneController();
 
         this._initHash();
     }
+
+
+
 
     get sceneControllers()
     {
@@ -42,6 +47,14 @@ export default class ApplicationController extends NJUApplicationController
     {
         return this._monitorSceneController;
     }
+
+    get sysInfoSceneController()
+    {
+        return this._sysInfoSceneController;
+    }
+
+
+
 
     createView(options)
     {

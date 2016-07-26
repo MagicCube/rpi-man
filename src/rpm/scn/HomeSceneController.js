@@ -13,6 +13,7 @@ export default class HomeSceneController extends SceneController
 
     initView()
     {
+        this.view.on("machineClick", this._onMachineClick.bind(this));
         this.view.on("monitorClick", this._onMonitorClick.bind(this));
         this.view.on("serviceStatusChanging", this._onServiceStatusChanging.bind(this));
         this.view.on("powerActionClick", this._onPowerActionClick.bind(this));
@@ -62,7 +63,13 @@ export default class HomeSceneController extends SceneController
         }
     }
 
-    _onMonitorClick()
+
+    _onMachineClick(e)
+    {
+        this.parent.pushSceneController(this.parent.sysInfoSceneController, "/sys/info");
+    }
+
+    _onMonitorClick(e)
     {
         this.parent.pushSceneController(this.parent.monitorSceneController, "/monitor");
     }
