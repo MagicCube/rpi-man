@@ -1,45 +1,21 @@
-import ManagedObject from "nju/base/ManagedObject";
+import SuperModel from "nju/model/Model";
 
 import api from "../api";
 
-class Model extends ManagedObject
+class Model extends SuperModel
 {
-    get sysInfo()
+    constructor(...args)
     {
-        return this._sysInfo;
+        super(...args);
+        this.define("sysInfo", Object);
+        this.define("sysStatus", Object);
+        this.define("services", Object);
     }
-    set sysInfo(value)
-    {
-        this._sysInfo = value;
-        document.title = this.sysInfo.hostname + " - Raspberry PI Manager";
-        this.trigger("sysInfoChanged");
-    }
-
-    get sysStatus()
-    {
-        return this._sysStatus;
-    }
-    set sysStatus(value)
-    {
-        this._sysStatus = value;
-        this.trigger("sysStatusChanged");
-    }
-
-    get services()
-    {
-        return this._services;
-    }
-    set services(value)
-    {
-        this._services = value;
-        this.trigger("servicesChanged");
-    }
-
 
     async load()
     {
-        this.sysInfo = await api.sys.info();
-        this.services = await api.service.all();
+        this.set("sysInfo", await api.sys.info());
+        this.set("services", await api.service.all());
     }
 
     startMonitorStatus()
@@ -57,7 +33,7 @@ class Model extends ManagedObject
     {
         if (!this._statusMonitoring) return;
 
-        this.sysStatus = await api.sys.status();
+        this.set("sysStatus", await api.sys.status());
         if (this._statusMonitoring)
         {
             window.setTimeout(() => {
@@ -70,5 +46,5 @@ class Model extends ManagedObject
     }
 }
 
-const model = new Model();
-export default model;
+const modelProxy = SuperModel.createProxy(Model);
+export default modelProxy;

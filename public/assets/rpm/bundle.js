@@ -3,7 +3,7 @@ webpackJsonp([0],[
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(3);
-	module.exports = __webpack_require__(137);
+	module.exports = __webpack_require__(138);
 
 
 /***/ },
@@ -81,11 +81,11 @@ webpackJsonp([0],[
 
 	var _HomeSceneController2 = _interopRequireDefault(_HomeSceneController);
 
-	var _MonitorSceneController = __webpack_require__(132);
+	var _MonitorSceneController = __webpack_require__(133);
 
 	var _MonitorSceneController2 = _interopRequireDefault(_MonitorSceneController);
 
-	var _SysInfoSceneController = __webpack_require__(135);
+	var _SysInfoSceneController = __webpack_require__(136);
 
 	var _SysInfoSceneController2 = _interopRequireDefault(_SysInfoSceneController);
 
@@ -5488,9 +5488,9 @@ webpackJsonp([0],[
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _ManagedObject2 = __webpack_require__(120);
+	var _Model = __webpack_require__(132);
 
-	var _ManagedObject3 = _interopRequireDefault(_ManagedObject2);
+	var _Model2 = _interopRequireDefault(_Model);
 
 	var _api = __webpack_require__(130);
 
@@ -5498,12 +5498,24 @@ webpackJsonp([0],[
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Model = function (_ManagedObject) {
-	    (0, _inherits3.default)(Model, _ManagedObject);
+	var Model = function (_SuperModel) {
+	    (0, _inherits3.default)(Model, _SuperModel);
 
 	    function Model() {
+	        var _Object$getPrototypeO;
+
 	        (0, _classCallCheck3.default)(this, Model);
-	        return (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(Model).apply(this, arguments));
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        var _this = (0, _possibleConstructorReturn3.default)(this, (_Object$getPrototypeO = Object.getPrototypeOf(Model)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+
+	        _this.define("sysInfo", Object);
+	        _this.define("sysStatus", Object);
+	        _this.define("services", Object);
+	        return _this;
 	    }
 
 	    (0, _createClass3.default)(Model, [{
@@ -5514,18 +5526,25 @@ webpackJsonp([0],[
 	                    while (1) {
 	                        switch (_context.prev = _context.next) {
 	                            case 0:
-	                                _context.next = 2;
+	                                _context.t0 = this;
+	                                _context.next = 3;
 	                                return _api2.default.sys.info();
 
-	                            case 2:
-	                                this.sysInfo = _context.sent;
-	                                _context.next = 5;
+	                            case 3:
+	                                _context.t1 = _context.sent;
+
+	                                _context.t0.set.call(_context.t0, "sysInfo", _context.t1);
+
+	                                _context.t2 = this;
+	                                _context.next = 8;
 	                                return _api2.default.service.all();
 
-	                            case 5:
-	                                this.services = _context.sent;
+	                            case 8:
+	                                _context.t3 = _context.sent;
 
-	                            case 6:
+	                                _context.t2.set.call(_context.t2, "services", _context.t3);
+
+	                            case 10:
 	                            case "end":
 	                                return _context.stop();
 	                        }
@@ -5568,11 +5587,14 @@ webpackJsonp([0],[
 	                                return _context2.abrupt("return");
 
 	                            case 2:
-	                                _context2.next = 4;
+	                                _context2.t0 = this;
+	                                _context2.next = 5;
 	                                return _api2.default.sys.status();
 
-	                            case 4:
-	                                this.sysStatus = _context2.sent;
+	                            case 5:
+	                                _context2.t1 = _context2.sent;
+
+	                                _context2.t0.set.call(_context2.t0, "sysStatus", _context2.t1);
 
 	                                if (this._statusMonitoring) {
 	                                    window.setTimeout(function () {
@@ -5582,7 +5604,7 @@ webpackJsonp([0],[
 	                                    }, 1000);
 	                                }
 
-	                            case 6:
+	                            case 8:
 	                            case "end":
 	                                return _context2.stop();
 	                        }
@@ -5596,43 +5618,179 @@ webpackJsonp([0],[
 
 	            return _monitorStatusLoop;
 	        }()
-	    }, {
-	        key: "sysInfo",
-	        get: function get() {
-	            return this._sysInfo;
-	        },
-	        set: function set(value) {
-	            this._sysInfo = value;
-	            document.title = this.sysInfo.hostname + " - Raspberry PI Manager";
-	            this.trigger("sysInfoChanged");
+	    }]);
+	    return Model;
+	}(_Model2.default);
+
+	var modelProxy = _Model2.default.createProxy(Model);
+	exports.default = modelProxy;
+
+/***/ },
+/* 132 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _classCallCheck2 = __webpack_require__(76);
+
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+	var _createClass2 = __webpack_require__(77);
+
+	var _createClass3 = _interopRequireDefault(_createClass2);
+
+	var _possibleConstructorReturn2 = __webpack_require__(81);
+
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+	var _inherits2 = __webpack_require__(109);
+
+	var _inherits3 = _interopRequireDefault(_inherits2);
+
+	var _ManagedObject2 = __webpack_require__(120);
+
+	var _ManagedObject3 = _interopRequireDefault(_ManagedObject2);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Model = function (_ManagedObject) {
+	    (0, _inherits3.default)(Model, _ManagedObject);
+
+	    function Model(id) {
+	        (0, _classCallCheck3.default)(this, Model);
+
+	        var _this = (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(Model).call(this, id));
+
+	        _this._properties = {};
+	        _this._data = {};
+	        return _this;
+	    }
+
+	    (0, _createClass3.default)(Model, [{
+	        key: "define",
+	        value: function define(key) {
+	            var type = arguments.length <= 1 || arguments[1] === undefined ? String : arguments[1];
+	            var defaultValue = arguments.length <= 2 || arguments[2] === undefined ? null : arguments[2];
+
+	            if (this.has(key)) {
+	                throw new Error("Property " + key + " has been already defined.");
+	            }
+	            this._properties[key] = {
+	                key: key,
+	                type: type,
+	                defaultValue: defaultValue
+	            };
 	        }
 	    }, {
-	        key: "sysStatus",
-	        get: function get() {
-	            return this._sysStatus;
-	        },
-	        set: function set(value) {
-	            this._sysStatus = value;
-	            this.trigger("sysStatusChanged");
+	        key: "get",
+	        value: function get(key) {
+	            if (this.has(key)) {
+	                if (key in this._data) {
+	                    return this._data[key];
+	                } else {
+	                    return this._properties[key].defaultValue;
+	                }
+	            } else {
+	                throw new Error("Property " + key + " is not defined.");
+	            }
 	        }
 	    }, {
-	        key: "services",
+	        key: "set",
+	        value: function set(key, value) {
+	            if (!this.has(key)) {
+	                throw new Error("Property " + key + " is not defined.");
+	            }
+
+	            if (this.isEqual(key, value, this.get(key))) {
+	                return;
+	            }
+
+	            this.validate(key, value);
+
+	            this._data[key] = value;
+	            this.trigger(key + "Changed");
+	        }
+	    }, {
+	        key: "has",
+	        value: function has(key) {
+	            return key in this._properties;
+	        }
+	    }, {
+	        key: "unset",
+	        value: function unset(key) {
+	            delete this._properties[key];
+	            delete this._data[key];
+	        }
+	    }, {
+	        key: "validate",
+	        value: function validate(key, value) {
+	            var def = this._properties[key];
+	            if (!(value instanceof def.type)) {
+	                throw new Error("Invalid type of value for property " + key + ".");
+	            }
+	        }
+	    }, {
+	        key: "isEqual",
+	        value: function isEqual(key, a, b) {
+	            return a === b;
+	        }
+	    }, {
+	        key: "properties",
 	        get: function get() {
-	            return this._services;
-	        },
-	        set: function set(value) {
-	            this._services = value;
-	            this.trigger("servicesChanged");
+	            return this._properties;
+	        }
+	    }, {
+	        key: "keys",
+	        get: function get() {
+	            return Object.keys(this._properties);
+	        }
+	    }, {
+	        key: "data",
+	        get: function get() {
+	            return this._data;
+	        }
+	    }], [{
+	        key: "createProxy",
+	        value: function createProxy() {
+	            var type = arguments.length <= 0 || arguments[0] === undefined ? Model : arguments[0];
+
+	            var model = new type();
+	            return Model.createProxyOfInstance(model);
+	        }
+	    }, {
+	        key: "createProxyOfInstance",
+	        value: function createProxyOfInstance(model) {
+	            var proxy = new Proxy(model, {
+	                get: function get(target, key) {
+	                    if (typeof target[key] === "function") {
+	                        return target[key].bind(target);
+	                    }
+	                    return target.get(key);
+	                },
+	                set: function set(target, key, value) {
+	                    target.set(key, value);
+	                },
+	                has: function has(target, key) {
+	                    return target.has(key);
+	                },
+	                deleteProperty: function deleteProperty(target, key) {
+	                    target.unset(key);
+	                }
+	            });
+	            return proxy;
 	        }
 	    }]);
 	    return Model;
 	}(_ManagedObject3.default);
 
-	var model = new Model();
-	exports.default = model;
+	exports.default = Model;
 
 /***/ },
-/* 132 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -5661,7 +5819,7 @@ webpackJsonp([0],[
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _MonitorScene = __webpack_require__(133);
+	var _MonitorScene = __webpack_require__(134);
 
 	var _MonitorScene2 = _interopRequireDefault(_MonitorScene);
 
@@ -5730,7 +5888,7 @@ webpackJsonp([0],[
 	exports.default = MonitorSceneController;
 
 /***/ },
-/* 133 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {"use strict";
@@ -5763,7 +5921,7 @@ webpackJsonp([0],[
 
 	var _Scene3 = _interopRequireDefault(_Scene2);
 
-	var _smoothie = __webpack_require__(134);
+	var _smoothie = __webpack_require__(135);
 
 	var _smoothie2 = _interopRequireDefault(_smoothie);
 
@@ -5941,7 +6099,7 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 134 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// MIT License:
@@ -6730,7 +6888,7 @@ webpackJsonp([0],[
 
 
 /***/ },
-/* 135 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -6755,7 +6913,7 @@ webpackJsonp([0],[
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	var _SysInfoScene = __webpack_require__(136);
+	var _SysInfoScene = __webpack_require__(137);
 
 	var _SysInfoScene2 = _interopRequireDefault(_SysInfoScene);
 
@@ -6803,7 +6961,7 @@ webpackJsonp([0],[
 	exports.default = SysInfoSceneController;
 
 /***/ },
-/* 136 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {"use strict";
@@ -6920,7 +7078,7 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 137 */
+/* 138 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
