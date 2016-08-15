@@ -172,9 +172,9 @@ webpackJsonp([0],[
 	            if (this.activeSceneController === sceneController) {
 	                return;
 	            }
-	            var viewToBeRemoved = null;
+	            var viewControllerToBeRemoved = null;
 	            if (this.activeSceneController) {
-	                viewToBeRemoved = this.activeSceneController.view;
+	                viewControllerToBeRemoved = this.activeSceneController;
 	                this.activeSceneController.deactivate();
 	                this._activeSceneController = null;
 	            }
@@ -187,14 +187,14 @@ webpackJsonp([0],[
 	                        y: 0,
 	                        opacity: 0
 	                    });
-	                    this.view.addSubview(sceneController.view);
+	                    this.addChildViewController(sceneController);
 	                    this.activeSceneController.activate();
 	                    sceneController.view.$element.transition({
 	                        x: 0,
 	                        opacity: 1
 	                    }, 300, function () {
-	                        if (viewToBeRemoved) {
-	                            viewToBeRemoved.removeFromParent();
+	                        if (viewControllerToBeRemoved) {
+	                            viewControllerToBeRemoved.removeFromParent();
 	                        }
 	                    });
 	                } else {
@@ -202,14 +202,14 @@ webpackJsonp([0],[
 	                }
 	            }
 	            if (!animation) {
-	                if (viewToBeRemoved) {
-	                    this.view.removeSubview(viewToBeRemoved);
+	                if (viewControllerToBeRemoved) {
+	                    viewControllerToBeRemoved.removeFromParent();
 	                }
 	                sceneController.view.css({
 	                    x: 0,
 	                    y: 0
 	                });
-	                this.view.addSubview(sceneController.view);
+	                this.addChildViewController(sceneController);
 	                this.activeSceneController.activate();
 	            }
 	        }
@@ -4401,6 +4401,7 @@ webpackJsonp([0],[
 
 	        var _this = (0, _possibleConstructorReturn3.default)(this, Object.getPrototypeOf(ViewController).call(this, id));
 
+	        _this._childViewControllers = [];
 	        _this._view = _this.createView(options);
 	        _this.initView(options);
 	        return _this;
@@ -4426,9 +4427,54 @@ webpackJsonp([0],[
 	            }
 	        }
 	    }, {
+	        key: "addChildViewController",
+	        value: function addChildViewController(viewController, $container) {
+	            if (viewController instanceof ViewController) {
+	                if (viewController.parent) {
+	                    viewController.removeFromParent();
+	                }
+	                viewController._parent = this;
+	                this.childViewControllers.push(viewController);
+	                this.view.addSubview(viewController.view, $container);
+	            }
+	        }
+	    }, {
+	        key: "removeChildViewController",
+	        value: function removeChildViewController(viewController) {
+	            var neverUseAgain = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
+	            var index = this.childViewControllers.indexOf(viewController);
+	            if (index !== -1) {
+	                viewController._parent = null;
+	                this.childViewControllers.splice(index, 1);
+	                this.view.removeSubview(viewController.view, neverUseAgain);
+	            }
+	        }
+	    }, {
+	        key: "removeAllChildViewControllers",
+	        value: function removeAllChildViewControllers() {
+	            var neverUseAgain = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+	            while (this.childViewControllers.length > 0) {
+	                this.removeChildViewController(this.childViewControllers[0], neverUseAgain);
+	            }
+	        }
+	    }, {
+	        key: "removeFromParent",
+	        value: function removeFromParent() {
+	            if (this.parent) {
+	                this.parent.removeChildViewController(this);
+	            }
+	        }
+	    }, {
 	        key: "view",
 	        get: function get() {
 	            return this._view;
+	        }
+	    }, {
+	        key: "childViewControllers",
+	        get: function get() {
+	            return this._childViewControllers;
 	        }
 	    }]);
 	    return ViewController;
@@ -4812,7 +4858,7 @@ webpackJsonp([0],[
 	        value: function _initServiceGroup() {
 	            var _this3 = this;
 
-	            this.$serviceGroup = this.$group("Services", [this.$checkBoxCell("Bluetooth", "bluetooth"), this.$checkBoxCell("VNC", "vnc"), this.$checkBoxCell("Xware", "xware")]).addClass("weui_cells_form");
+	            this.$serviceGroup = this.$group("Services", [this.$checkBoxCell("Bluetooth", "bluetooth"), this.$checkBoxCell("CoAP", "coap"), this.$checkBoxCell("VNC", "vnc"), this.$checkBoxCell("Xware", "xware")]).addClass("weui_cells_form");
 	            this.$serviceGroup.on("change", ".weui_switch", function (e) {
 	                var active = e.currentTarget.checked;
 	                _this3.trigger("serviceStatusChanging", {

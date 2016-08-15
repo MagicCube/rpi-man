@@ -89,10 +89,10 @@ export default class ApplicationController extends SuperApplicationController
         {
             return;
         }
-        let viewToBeRemoved = null;
+        let viewControllerToBeRemoved = null;
         if (this.activeSceneController)
         {
-            viewToBeRemoved = this.activeSceneController.view;
+            viewControllerToBeRemoved = this.activeSceneController;
             this.activeSceneController.deactivate();
             this._activeSceneController = null;
         }
@@ -107,15 +107,15 @@ export default class ApplicationController extends SuperApplicationController
                     y: 0,
                     opacity: 0
                 });
-                this.view.addSubview(sceneController.view);
+                this.addChildViewController(sceneController);
                 this.activeSceneController.activate();
                 sceneController.view.$element.transition({
                     x: 0,
                     opacity: 1
                 }, 300, () => {
-                    if (viewToBeRemoved)
+                    if (viewControllerToBeRemoved)
                     {
-                        viewToBeRemoved.removeFromParent();
+                        viewControllerToBeRemoved.removeFromParent();
                     }
                 });
             }
@@ -126,15 +126,15 @@ export default class ApplicationController extends SuperApplicationController
         }
         if (!animation)
         {
-            if (viewToBeRemoved)
+            if (viewControllerToBeRemoved)
             {
-                this.view.removeSubview(viewToBeRemoved);
+                viewControllerToBeRemoved.removeFromParent();
             }
             sceneController.view.css({
                 x: 0,
                 y: 0
             });
-            this.view.addSubview(sceneController.view);
+            this.addChildViewController(sceneController);
             this.activeSceneController.activate();
         }
     }
