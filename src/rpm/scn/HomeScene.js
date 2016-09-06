@@ -32,7 +32,6 @@ export default class HomeScene extends Scene
             "Services",
             [
                 this.$checkBoxCell("Bluetooth", "bluetooth"),
-                this.$checkBoxCell("CoAP", "coap"),
                 this.$checkBoxCell("VNC", "vnc"),
                 this.$checkBoxCell("Xware", "xware"),
             ]
