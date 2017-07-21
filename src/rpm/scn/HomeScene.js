@@ -33,7 +33,7 @@ export default class HomeScene extends Scene
             [
                 this.$checkBoxCell("Bluetooth", "bluetooth"),
                 this.$checkBoxCell("VNC", "vnc"),
-                this.$checkBoxCell("Xware", "xware"),
+                this.$checkBoxCell("Aria2", "aria2c"),
             ]
         ).addClass("weui_cells_form");
         this.$serviceGroup.on("change", ".weui_switch", e => {
